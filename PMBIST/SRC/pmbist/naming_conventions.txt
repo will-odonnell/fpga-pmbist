@@ -1,0 +1,19 @@
+This document is to help me maintain a consistent naming convention for modules and signals.
+
+Modules
+-------------------
+Definitions - Use the full name, all lower case, with underscore to separate words.
+
+Instantiations - Use an abbreviated name, all lower case, with underscore to separate words.
+
+Signals
+-------------------
+Module Definition - Use an abbreviated name, all lower case, with underscore to separate words.  In the definition, append the input signals with "_in" and the output signals with "_out".  This will help with the instantiation of the module.
+
+Module Instantiation - Use the convention for wires below.  The names of wires/signsl connecting modules should not have "_in" or "_out" in the names.
+
+Wires
+-------------------
+Connecting one module to one other module - Prepend the signal name with the "from" module and "to" module.  Ex: Instruction Register to Control Mux -> ircm_ops.
+
+Connection one module to two or more modules - Prepend the signal name with the "from" module only.  Ex: Cycle Counter to Comparator and Control Mux -> cc_cnt.

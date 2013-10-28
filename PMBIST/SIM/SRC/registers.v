@@ -1,0 +1,1 @@
+../../SRC/pmbist/registers.v

@@ -1,0 +1,45 @@
+# //  ModelSim SE 10.0c Jul 21 2011 Linux 2.6.18-348.16.1.el5PAE
+# //
+# //  Copyright 1991-2011 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  THIS WORK CONTAINS TRADE SECRET AND PROPRIETARY INFORMATION
+# //  WHICH IS THE PROPERTY OF MENTOR GRAPHICS CORPORATION OR ITS
+# //  LICENSORS AND IS SUBJECT TO LICENSE TERMS.
+# //
+#  
+# Modified modelsim.ini
+vlib work
+vlog -reportprogress 300 -work work /misc/scratch/wodonnell/mp/oct31/PMBIST/SIM/SRC/address_counter.v /misc/scratch/wodonnell/mp/oct31/PMBIST/SIM/SRC/auxillary_memory.v /misc/scratch/wodonnell/mp/oct31/PMBIST/SIM/SRC/cycle_controller.v /misc/scratch/wodonnell/mp/oct31/PMBIST/SIM/SRC/cycle_controller_submod.v /misc/scratch/wodonnell/mp/oct31/PMBIST/SIM/SRC/data_comparator.v /misc/scratch/wodonnell/mp/oct31/PMBIST/SIM/SRC/decode_logic.v /misc/scratch/wodonnell/mp/oct31/PMBIST/SIM/SRC/mbist_top.v /misc/scratch/wodonnell/mp/oct31/PMBIST/SIM/SRC/mem_ip_blk.v /misc/scratch/wodonnell/mp/oct31/PMBIST/SIM/SRC/memory.v /misc/scratch/wodonnell/mp/oct31/PMBIST/SIM/SRC/operation_formatting.v /misc/scratch/wodonnell/mp/oct31/PMBIST/SIM/SRC/pmbist_test.v /misc/scratch/wodonnell/mp/oct31/PMBIST/SIM/SRC/registers.v /misc/scratch/wodonnell/mp/oct31/PMBIST/SIM/SRC/defines.v /misc/scratch/wodonnell/mp/oct31/PMBIST/SIM/SRC/gates.v /misc/scratch/wodonnell/mp/oct31/PMBIST/SIM/SRC/logic.v
+# Model Technology ModelSim SE vlog 10.0c Compiler 2011.07 Jul 21 2011
+# -- Compiling module address_counter
+# -- Compiling module auxillary_memory
+# -- Compiling module cycle_controller
+# -- Compiling module control_mux
+# -- Compiling module cycle_counter
+# -- Compiling module comparator
+# -- Compiling module data_comparator
+# -- Compiling module decode_logic
+# -- Compiling module mbist_top
+# -- Compiling module memory_ip_block
+# -- Compiling module memory_under_test
+# -- Compiling module operation_formatting
+# -- Compiling module pmbist_test
+# -- Compiling module instruction_register
+# -- Compiling module operation_control_register
+# -- Compiling module data_register
+# -- Compiling module flipflop
+# -- Compiling module address_counter_up_down
+# -- Compiling module address_counter_hold
+# -- Compiling module instruction_register_hold
+# -- Compiling module data_polarity
+# 
+# Top level modules:
+# 	pmbist_test
+vsim work.pmbist_test
+# vsim work.pmbist_test 
+# ** Note: (vsim-3812) Design is being optimized...
+# ** Error: /misc/scratch/wodonnell/mp/oct31/PMBIST/SIM/SRC/memory.v(48): Module 'blk_mem_32k' is not defined.
+# ** Error: /misc/scratch/wodonnell/mp/oct31/PMBIST/SIM/SRC/auxillary_memory.v(44): Module 'blk_mem_8x256' is not defined.
+# Optimization failed
+# Error loading design
