@@ -1,0 +1,16 @@
+\section{Modifications to Programmable MBIST}
+\label{sect:bg-modifications}
+These modifications were made to the design.
+
+\subsection{Address Generator Expansion}
+The address generator originally supported linear and pseudo-random address counting methods.  Now it supports a wide range of counting methods.
+
+\subsection{Programmable Address Generator}
+Added ability to select which address generation pattern would be used.  The instruction register was expanded to add new fields for address generation.
+
+\subsection{Dynamic Background Pattern Generation}
+Replaced the auxiallary memory with an LFSR to generate the patterns instead to save memory.
+
+\subsection{3-D Memory Background Pattern Generation}
+The 2-D background pattern generation is expanded to support 3-D background patterns.
+

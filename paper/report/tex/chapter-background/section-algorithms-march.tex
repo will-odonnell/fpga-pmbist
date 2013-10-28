@@ -1,0 +1,8 @@
+\subsection{March Test}
+The March test has become the most popular testing algorithm for memory.  The March test algorithm is a finite sequence of March Elements (ME), each of which can be shared between other algorithms.  A ME specifies the sequence of March operations applied to each cell before proceeding to the next cell \cite{199799}.  A March operation (MO) is that action performed at the memory cell: write a 0 (w0), write a 1 (w1), read a zero (r0) and read a 1 (r1) \cite{199799}.
+
+The order in which the memory addrsses are tested is the address order (AO), and the actual sequence of addresses is the counting method (CM).  For example, for the range 1\ldots10, the sequence 1,2,3,\ldots,9,10 would have an ascending AO and linear CM.  Vice versly, 10,9,\ldots,3,2,1 would have a descending AO and a linear CM. The AO uses the symbols $\Uparrow$ (ascending),$\Downarrow$ (descending),$\Updownarrow$ (AO irrelevant) as abbreviations in the ME definition \cite{199799}.
+
+The ME ‘$\Updownarrow$(r0,w1)’, is interpreted at each memory address as read the memory with expected value of “0”, the write a value of “1” and continue to the next address in ascending order \cite{5491773}.    
+
+

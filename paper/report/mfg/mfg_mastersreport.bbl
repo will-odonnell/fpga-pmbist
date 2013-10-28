@@ -1,0 +1,125 @@
+\begin{thebibliography}{10}
+
+\bibitem{4541339}
+A.~Agnes, E.~Bonizzoni, and F.~Maloberti.
+\newblock Design of an ultra-low power {SA-ADC} with medium/high resolution and
+  speed.
+\newblock In {\em Circuits and Systems, 2008. ISCAS 2008. IEEE International
+  Symposium on}, pages 1 --4, may 2008.
+
+\bibitem{5731352}
+M.Y. Azizi, A.~Saeedfar, H.Z. Hoseini, and O.~Shoaei.
+\newblock Thermal noise analysis of multi-bit {SC} gain-stages for low-voltage
+  high-resolution pipeline {ADC} design.
+\newblock In {\em Signals, Circuits and Systems, 2003. SCS 2003. International
+  Symposium on}, volume~2, pages 581 --584 vol.2, 0-0 2003.
+
+\bibitem{1356143}
+Dong-Young Chang.
+\newblock Design techniques for a pipelined {ADC} without using a front-end
+  sample-and-hold amplifier.
+\newblock {\em Circuits and Systems I: Regular Papers, IEEE Transactions on},
+  51(11):2123 -- 2132, nov. 2004.
+
+\bibitem{1297341}
+C.H. Diaz.
+\newblock Cmos technology for {MS/RF SoC}.
+\newblock In {\em Microelectronics and Electron Devices, 2004 IEEE Workshop
+  on}, pages 24 -- 27, 2004.
+
+\bibitem{5595209}
+A.~Fazli~Yeknami, F.~Qazi, J.J. Dabrowski, and A.~Alvandpour.
+\newblock Design of {OTAs} for ultra-low-power sigma-delta {ADCs} in medical
+  applications.
+\newblock In {\em Signals and Electronic Systems (ICSES), 2010 International
+  Conference on}, pages 229 --232, sept. 2010.
+
+\bibitem{bok:gray}
+Paul~R. Gray, Paul~J. Hurst, Stephen~H. Lewis, and Robert~G. Meyer.
+\newblock {\em Analysis and design of analog integrated circuits}.
+\newblock Wiley, 4th edition, 2001.
+
+\bibitem{5937489}
+P.~Kamalinejad, S.~Mirabbasi, and V.C.M. Leung.
+\newblock An ultra-low-power {SAR ADC} with an area-efficient {DAC}
+  architecture.
+\newblock In {\em Circuits and Systems (ISCAS), 2011 IEEE International
+  Symposium on}, pages 13 --16, may 2011.
+
+\bibitem{simswitchcap}
+Ken Kundert.
+\newblock Simulating switched-capacitor filters with {Spectre RF}.
+\newblock Available at
+  \url{http://www.designers-guide.org/analysis/sc-filters.pdf}.
+
+\bibitem{4684625}
+Byung-Geun Lee, Byung-Moo Min, G.~Manganaro, and J.W. Valvano.
+\newblock A 14-b 100-ms/s pipelined {ADC} with a merged {SHA} and first {MDAC}.
+\newblock {\em Solid-State Circuits, IEEE Journal of}, 43(12):2613 --2619, dec.
+  2008.
+
+\bibitem{5714725}
+C.C. Lee and M.P. Flynn.
+\newblock A {SAR}-assisted two-stage pipeline {ADC}.
+\newblock {\em Solid-State Circuits, IEEE Journal of}, 46(4):859 --869, april
+  2011.
+
+\bibitem{121557}
+S.H. Lewis, H.S. Fetterman, Jr. Gross, G.F., R.~Ramachandran, and T.R.
+  Viswanathan.
+\newblock A 10-b 20-{Msample/s} analog-to-digital converter.
+\newblock {\em Solid-State Circuits, IEEE Journal of}, 27(3):351 --358, mar
+  1992.
+
+\bibitem{maximsaradc}
+Understanding {SAR ADC}s: Their architecture and comparison with other {ADC}s.
+\newblock {\em Maxim Integrated Products, Inc.}
+\newblock Available at
+  \url{http://www.maxim-ic.com/app-notes/index.mvp/id/1080}.
+
+\bibitem{murmannadcsurvey}
+B.~Murmann.
+\newblock {ADC} performance survey 1997-2012.
+\newblock Available at \url{http://www.stanford.edu/~murmann/adcsurvey.html}.
+
+\bibitem{315areader}
+Boris Murmann.
+\newblock {EE315A Reader}.
+
+\bibitem{315breader}
+Boris Murmann.
+\newblock {EE315B Reader}.
+
+\bibitem{1202575}
+A.J. Scholten, L.F. Tiemeijer, R.~van Langevelde, R.J. Havens, A.T.A.
+  Zegers-van Duijnhoven, and V.C. Venezia.
+\newblock Noise modeling for {RF CMOS} circuit simulation.
+\newblock {\em Electron Devices, IEEE Transactions on}, 50(3):618 -- 632, march
+  2003.
+
+\bibitem{535416}
+F.~Silveira, D.~Flandre, and P.G.A. Jespers.
+\newblock A {gm/ID} based methodology for the design of {CMOS} analog circuits
+  and its application to the synthesis of a silicon-on-insulator micropower
+  {OTA}.
+\newblock {\em Solid-State Circuits, IEEE Journal of}, 31(9):1314 --1319, sep
+  1996.
+
+\bibitem{advanalogch8}
+Nan Sun and Boris Murmann.
+\newblock Pipeline {ADC}s.
+\newblock Advanced Analog IC Design Course Material.
+
+\bibitem{advanalogch2}
+Nan Sun and Boris Murmann.
+\newblock Sampling, reconstruction, quantization.
+\newblock Advanced Analog IC Design Course Material.
+
+\bibitem{972143}
+W.~Yang, D.~Kelly, L.~Mehr, M.T. Sayuk, and L.~Singer.
+\newblock A 3-{V} 340-{mW} 14-b 75-{Msample/s CMOS ADC} with 85-{dB SFDR} at
+  {Nyquist} input.
+\newblock {\em Solid-State Circuits, IEEE Journal of}, 36(12):1931 --1936, dec
+  2001.
+
+\end{thebibliography}

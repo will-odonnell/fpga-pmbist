@@ -1,0 +1,38 @@
+#!/bin/sh
+#
+#	mydiss/zzclean
+#
+#
+rm -f	  \
+    *.aux \
+	*.bbl \
+	*.blg \
+	*.dvi \
+	*.idx \
+	*.ilg \
+	*.ind \
+	*.lof \
+	*.log \
+	*.lot \
+	*.ps  \
+	*.pdf \
+	*.toc   
+
+rm -f	  \
+    tex/*.aux \
+	tex/*.bbl \
+	tex/*.blg \
+	tex/*.dvi \
+	tex/*.idx \
+	tex/*.ilg \
+	tex/*.ind \
+	tex/*.lof \
+	tex/*.log \
+	tex/*.lot \
+	tex/*.ps  \
+	tex/*.pdf \
+	tex/*.toc   
+
+
+2>/dev/null
+

@@ -1,0 +1,16 @@
+\section{Challenges in Testing Embedded Memory}
+\label{sect:bg-challenges}
+
+\subsection{At-Speed}
+To effectively detect memory faults, the test must be run at least at the maximum operating clock frequency for the memory device.  At-speed testing is important because timing for the chip may only be closed at “limited” test corners or external testing at high speed may be difficult or even impossible.  Transition faults may not be detected if the chip is run below maximum operating frequency \cite{1583992}.  
+
+\subsection{Back-to-Back (BtB) Access}
+Back-to-Back (BtB) accesses are necessary to detect faults that may occur when an action is repeated on a memory cell.  BtB means the CPU uses the smallest number of clock cycles to access memory \cite{5491773}.  One fault that may only present during BtB testing is a cell suffering from read disturbance and losing its charge after 16 consecutive reads \cite{4079351}.  The faults are subtle enough that external testing may not be able to detect is the correct sequence or repetitions is not executed.  Detecting these types of faults requires augmenting existing March test algorithms to effectively screen parts.  
+
+\subsection{Area}
+The area cost of MBIST circuits is usually small compared to the memory under test, but for an SoC consisting of hundreds of memory cores \cite{4711617} or programmable memory BIST with a large amount of instruction memory \cite{5692281}, the area overhead for the BIST circuits will be very high.  To continue Moore’s law and maintain acceptable yields with the larger memory sizes, the BIST circuits will require innovation to reduce their footprint.
+
+\subsection{Power}
+Power dissipation during the MBIST is an important challenge because of the problems that may occur.  High power during test along with the high switching frequency can cause excessive noise that can change the state of a circuit and cause a good die to fail the test and reduce yield \cite{oldref-15}, or cause circuit damage and destroy the chip \cite{oldref-16}, again reducing yield.
+
+

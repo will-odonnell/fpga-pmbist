@@ -1,0 +1,23 @@
+\section{Memory Address Counting Methods}
+\label{sect:bg-counting}
+For any number \textit{N}, there are \textit{N}! ways to count to \textit{N}.  The memory address counting methods (CM) are important because they can directly affect a test's effectiveness at detecting faults.  Running the test with \textit{N}! CM's is not practical with today's memory sizes.  The address generator in this paper will focus on those that are common and important.  Each of the CM's included has its own fault detetion capabilty \cite{1347645}, \cite{990255}, \cite{1584048}, \cite{5359299}, \cite{1576336}.
+
+\subsection{Linear Sequence}
+The linear sequence CM is the standard numerical sequence.  Adjacent addresses differ by one numerical value.  The up `$\Uparrow$` sequence is 0, 1, 2, 3, \ldots, 2\textsuperscript{\textit{N}}-1 while the down `$\Downarrow$` sequence is 2\textsuperscript{\textit{N}}-1, \ldots, 3, 2, 1, 0.  Single-cell and coulpling faults can be detected with this CM \cite{5941430}.
+
+\subsection{Address Complement}
+Address complement counting method (ACCM) specifies an address sequence where pairs of addresses are formed using the address and its one's complement.  A four-bit address sequence would be: 0000, \textbf{1111}, 0001, \textbf{1110}, 0010, \textbf{1101}, etc \cite{VanDeGoor1991}.  In this series, the \textit{even steps} form a linear sequence while the \textit{odd steps} (in \textbf{bold}) are formed with the one's complement of its corresponding even pair.  This CM forces all bits to change in a transition between pairs and causes large amounts of noise, large power surges and maximum delay; it is ideal for detecting speed-related faults.
+
+\subsection{Gray Code}
+Gray code is a binary numbering system where successive values differ by only one bit \cite{VanDeGoor1991}.  In the context of memory addressing, the address transitions will differ only in one bit (i.e., they have a \textit{Hamming distance} of 1).  This CM produces minimal noise, power and delay and is used for the minimal stress tests \cite{5941430}.
+
+\subsection{Worst Case Gate Delay}
+Speed related faults can be detected with the worst case gate delay counting method (WCGDCM).  For every address, the WCGDCM creates \textit{N} address-triplets consisting of the original address, the original address with a single bit inverted, and the original address again.  The address-triplets in WCGDCM have a Hamming distance of 1 \cite{5359299}.
+
+\subsection{2\textsuperscript{i} Sequence}
+2\textsuperscript{i} counting method uses address pairs that differ in \textit{one} bit.  The \textit{i} specifies the numerical difference between two paris of numbers and also the bit that will be incremented or decremented.  For example, when \textit{i} = 3, 2\textsuperscript{3} = 8, so all address pairs in this sequence will vary by the bit 3, or by a value of 8.  This is a popular CM used to detect speed-related faults, especially in the MOVing Inverions (MOVI) test \cite{5941430}.
+
+\subsection{Pseudo-Random}
+A pseudo-random CM generates a sequence of addresses that appear to be random, but are deterministic and can be reproduced.  These sequences are commonly generated using LFSR's which implement at characteristic polynomial function \cite{VanDeGoor1991}.
+
+

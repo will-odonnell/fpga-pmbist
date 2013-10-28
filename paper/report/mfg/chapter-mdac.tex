@@ -1,0 +1,42 @@
+\chapter{MDAC Design}
+The MDAC is one of the most important blocks in a pipeline ADC design. The closed-loop gain of the MDAC sets the effective resolution for each pipeline stage. The op-amp specifications can limit the maximum achievable resolution of the second stage, since any error in the MDAC output will be absorbed into the second stage ADC. In addition, the op-amp parasitics limit the gains achieved from increasing the first stage resolution. From Equation \ref{eq:vres}, $G_m$ can be decreased in part because each 1-bit increase in first stage resolution decreases $C_{L,tot}$ by a factor of 2. This decrease in $C_{L,tot}$ no longer applies once the load capacitance becomes dominated by the self-parasitics of the MDAC op-amp. This implies that, for optimized power consumption, the first stage resolution should be increased to the point that output capacitance is dominated by the op-amp parasitics~\cite{5714725}. Since the op-amp performance and output parasitics help determine the optimum resolutions of both the first and second stage ADCs, it was the first block to be designed. 
+\section{MDAC Architectural Features}
+Before deciding on the specifications of the op-amp for the first-stage MDAC, some architectural decisions had to be made. The first was the usage of redundancy in the MDAC. Second, since power consumption is of primary concern for this design, a half-gain MDAC implementation was used. Last, since so many of the design variables depend on each other, some first pass design partitioning decisions needed to be made.
+\subsection{Redundancy}
+Despite these advantages, 1-bit redundancy suits this design better. First, the high stage resolution places stricter requirements on the comparator offset, so the additional offset headroom provided by 1-bit redundancy makes comparator implementation simpler. In addition, in order for the capacitor network to be completely shared between the charge-redistribution SAR and the MDAC, a full bit of redundancy will be required. In addition, using a full bit of redundancy means that the output of the MDAC will be bound by $\pm\sfrac{V_{ref}}{2}$, which limits the required output swing of the MDAC op-amp, which is beneficial for low voltage CMOS processes.
+\subsection{Half-Gain MDAC Architecture}
+In ~\cite{5714725}, an MDAC with a half-gain architecture is used to decrease power consumption. In general MDAC designs with 1-bit redundancy, the closed loop MDAC gain is $2^{N-1}$. In half-gain designs, this closed loop gain is reduced to $2^{N-2}$. Feedback factor in terms of closed loop gain is,
+\begin{equation}
+\label{eq:betacla}
+\beta = \dfrac{1}{A_{cl}+1}
+\end{equation}
+where $A_{cl}$ is the closed loop gain of the MDAC. From this equation, reducing the MDAC gain by a factor of two increases the feedback factor by approximately a factor of two. From \ref{eq:vres}, for the same $V_{err}$, this feedback factor reduction implies that op-amp $G_m$ can also be reduced by approximately a factor of two. In addition to reduced power consumption, reducing the feedback factor also decreases DNL due to finite op-amp gain, since
+\begin{equation}
+\label{eq:dnlfinitegain}
+|DNL_{max}|\propto \dfrac{2^{N-M}}{A_{OLDC}\beta}
+\end{equation}
+where N is the total ADC resolution, M is the number of bits resolved in the first stage, and $A_{OLDC}$ is the open loop op-amp gain~\cite{5714725}. One disadvantage to this design technique is that the usage of a half-gain architecture reduces the available output swing from $\sfrac{V_{ref}}{2}$ to $\sfrac{V_{ref}}{4}$. What this means for the downstream ADC is that to obtain the same resolution as a full-gain upstream MDAC, an additional bit of resolution is required. As long as the second-stage ADC is not thermal noise limited, adding an additional bit of resolution is achievable.
+\subsection{Design Partitioning}
+Many important MDAC design parameters, including $\beta$ and $C_{L,tot}$, depend on the resolutions of the first and second stage ADCs. Although the first-stage resolution is tweaked based on the output capacitance of the MDAC, in order to obtain first-pass design specifications for the MDAC op-amp, some initial assumptions about ADC resolutions had to be made. For the first-stage sub-ADC, sampling and conversion must be both done in the first clock phase so that the entire second clock phase can be used for amplification. Since the second stage sub-ADC does not require an amplification phase, it can break up its operations into separate sample and conversion phases, thus allowing for more conversion time in the second sub-ADC. Assuming that the first clock phase will be divided equally between sample and conversion, this means that the second stage ADC has twice as much conversion time as the first stage sub-ADC. In addition, the size of the second stage capacitor array can be reduced significantly from the first stage, so charge/discharge time during conversion should be reduced in the second stage. From these facts, the initial first and second stage resolutions were chosen to be 4 and 8 bits, respectively.  
+\section{Op-Amp Specifications}
+After making the initial architectural decisions, the specifications for the MDAC can be derived. The important design parameters for an op-amp are its loop gain, loop unity gain frequency, and its closed loop bandwidth. The loop gain of the op-amp determines the static amplifier error. From Equation \ref{eq:dnlfinitegain} and using the fact that the half-gain implementation approximately halves the feedback factor, the required op-amp gain can be obtained. To achieve a static gain error of less than 1/2 LSB for 12 bits of resolution, an $A_{OLDC}$ of at least 72 decibels (dB) is required. For accurate conversion, a dynamic settling error of less than $\sfrac{1}{8}$ LSB in $\sfrac{1}{2}$ clock cycle is required~\cite{315breader}. The initial assumption is made that the amplifier will spend the entire $\sfrac{1}{2}$ cycle in its linear settling region. This assumption is made since the maximum differential output, $V_{od,max}$, with 1-bit redundancy, half-gain implementation, and a maximum comparator offset of $\pm\sfrac{1}{2}$ LSB, is $V_{ref}$. For the op-amp to remain in the linear settling region,
+\begin{equation}
+\label{eq:gmidlinregion}
+\dfrac{g_m}{I_D} < \dfrac{2.8}{\dfrac{V_{od,max}}{A_{cl}}}
+\end{equation}
+which for a closed loop gain of 8 and reference of 1 volt results in a maximum $\sfrac{g_m}{I_D}$ of 22, which is likely above a value used in this design.~\cite{315areader} Given this assumption, the required loop crossover frequency, $f_{c}$, for a given sampling frequency, $f_{s}$ is
+\begin{equation}
+\label{eq:reqtimeconst}
+\dfrac{f_c}{f_s} > -\dfrac{1}{\pi}\ln(\epsilon_{d,tol})
+\end{equation}
+where $\epsilon_{d,tol}$ is the maximum dynamic settling error, which in this case is 1/8 LSB ~\cite{315areader}. Assuming an 8 bit second-stage ADC and a sampling frequency of 40 MHz yields a required loop crossover frequency of 98 MHz. The loop crossover frequency relates to op-amp parameters through this equation,
+\begin{equation}
+\label{eq:clbw}
+\omega_c = 2\pi f_{c} = \dfrac{\beta G_{m}}{C_{L,tot}}
+\end{equation}
+To obtain optimal settling, a phase margin of 72 degrees is designed for. Phase margin, $PM$ is,
+\begin{equation}
+\label{eq:pm}
+PM \approx \tan^{-1}\left(\dfrac{\omega_{p2}}{\omega_{c}}\right)
+\end{equation}
+where $\omega_{p2}$ is the non-dominant pole frequency. For 72 degree phase margin, the non-dominant pole frequency must be approximately 300 MHz. Both of these design goals should be achievable in 180 nanometer(nm) processes. 

@@ -1,0 +1,96 @@
+\contentsline {chapter}{Acknowledgments}{v}
+\contentsline {chapter}{Abstract}{vi}
+\contentsline {chapter}{List of Tables}{xi}
+\contentsline {chapter}{List of Figures}{xii}
+\contentsline {chapter}{Chapter 1.\hspace *{1em}Introduction}{1}
+\contentsline {section}{\numberline {1.1}ADC Terminology}{2}
+\contentsline {section}{\numberline {1.2}Pipeline ADC Basics}{5}
+\contentsline {subsection}{\numberline {1.2.1}Pipeline ADC Operation}{5}
+\contentsline {subsection}{\numberline {1.2.2}MDAC Operation}{7}
+\contentsline {subsection}{\numberline {1.2.3}Redundancy}{10}
+\contentsline {section}{\numberline {1.3}SAR ADC Basics}{11}
+\contentsline {subsection}{\numberline {1.3.1}SAR Operation}{11}
+\contentsline {subsection}{\numberline {1.3.2}SAR ADC Accuracy}{14}
+\contentsline {subsection}{\numberline {1.3.3}SAR ADC Conversion Time}{16}
+\contentsline {subsection}{\numberline {1.3.4}SAR ADC Power Consumption}{17}
+\contentsline {section}{\numberline {1.4}Advantages of Pipelining a SAR Topology}{18}
+\contentsline {subsection}{\numberline {1.4.1}Power and Area Advantages}{18}
+\contentsline {subsection}{\numberline {1.4.2}Conversion Time Improvements}{19}
+\contentsline {subsection}{\numberline {1.4.3}Accuracy Requirement Relaxation}{20}
+\contentsline {section}{\numberline {1.5}Pipelined SAR ADC vs. Pipelined Flash ADC}{20}
+\contentsline {subsection}{\numberline {1.5.1}High First Stage Resolution}{21}
+\contentsline {subsubsection}{\numberline {1.5.1.1}Effect on Noise Power}{21}
+\contentsline {subsubsection}{\numberline {1.5.1.2}Effect on Power Consumption}{21}
+\contentsline {subsubsection}{\numberline {1.5.1.3}Effect on ADC Linearity}{22}
+\contentsline {subsection}{\numberline {1.5.2}Removal of Front-End Sample-and-Hold Amplifier}{23}
+\contentsline {section}{\numberline {1.6}Transistor Level Design Methodology}{24}
+\contentsline {section}{\numberline {1.7}Organization of the Report}{26}
+\contentsline {chapter}{Chapter 2.\hspace *{1em}Architectural Features}{27}
+\contentsline {section}{\numberline {2.1}Architectural Decisions}{27}
+\contentsline {subsection}{\numberline {2.1.1}Number of Pipeline Stages}{27}
+\contentsline {subsection}{\numberline {2.1.2}Operation Partitioning}{28}
+\contentsline {subsection}{\numberline {2.1.3}Stage Resolution}{29}
+\contentsline {subsection}{\numberline {2.1.4}MDAC Redundancy Scheme}{30}
+\contentsline {section}{\numberline {2.2}Architectural Enhancements}{31}
+\contentsline {subsection}{\numberline {2.2.1}Half-Gain MDAC}{31}
+\contentsline {subsection}{\numberline {2.2.2}Achieving an Additional Bit of Resolution With the Dummy LSB Capacitor}{33}
+\contentsline {chapter}{Chapter 3.\hspace *{1em}ADC Design Using Ideal Circuit Blocks}{35}
+\contentsline {section}{\numberline {3.1}Ideal Circuit Blocks}{35}
+\contentsline {subsection}{\numberline {3.1.1}OTA}{36}
+\contentsline {subsection}{\numberline {3.1.2}Comparator}{37}
+\contentsline {subsection}{\numberline {3.1.3}Clock Generator}{38}
+\contentsline {subsection}{\numberline {3.1.4}Switch}{39}
+\contentsline {subsection}{\numberline {3.1.5}Single-to-Differential Converter}{39}
+\contentsline {section}{\numberline {3.2}Calculation of Design Parameters}{40}
+\contentsline {subsection}{\numberline {3.2.1}Calculation of Capacitor Size}{40}
+\contentsline {subsection}{\numberline {3.2.2}Calculation of OTA Model Parameters}{45}
+\contentsline {subsection}{\numberline {3.2.3}Switch Parameters}{52}
+\contentsline {subsection}{\numberline {3.2.4}Clock Generators}{53}
+\contentsline {section}{\numberline {3.3}Design of Single-Ended ADC}{55}
+\contentsline {subsection}{\numberline {3.3.1}Single-Ended SAR Control Logic}{56}
+\contentsline {subsection}{\numberline {3.3.2}Test Setups}{58}
+\contentsline {subsubsection}{\numberline {3.3.2.1}Transient Settling Test}{58}
+\contentsline {subsubsection}{\numberline {3.3.2.2}Transient DFT Test}{59}
+\contentsline {subsubsection}{\numberline {3.3.2.3}AC Noise Analysis}{60}
+\contentsline {subsubsection}{\numberline {3.3.2.4}AC Periodic Noise Analysis}{61}
+\contentsline {subsubsection}{\numberline {3.3.2.5}Power Consumption Test}{61}
+\contentsline {subsection}{\numberline {3.3.3}Simulation Using Ideal OTA Model Parameters}{62}
+\contentsline {subsection}{\numberline {3.3.4}Simulation with Calculated OTA Model Parameters}{67}
+\contentsline {section}{\numberline {3.4}Design of Fully Differential ADC With Ideal Components}{74}
+\contentsline {subsection}{\numberline {3.4.1}Expanding the SAR ADCs to Accept Differential Inputs}{75}
+\contentsline {subsection}{\numberline {3.4.2}Design of Differential Control Logic}{77}
+\contentsline {subsection}{\numberline {3.4.3}Simulation Using Ideal OTA Model Parameters}{79}
+\contentsline {subsection}{\numberline {3.4.4}Simulation with Calculated OTA Model Parameters}{79}
+\contentsline {chapter}{Chapter 4.\hspace *{1em}MDAC Design and Integration}{87}
+\contentsline {section}{\numberline {4.1}OTA Design}{88}
+\contentsline {subsection}{\numberline {4.1.1}Primary OTA Performance Goals}{91}
+\contentsline {subsubsection}{\numberline {4.1.1.1}OTA Loop Gain}{91}
+\contentsline {subsubsection}{\numberline {4.1.1.2}OTA Loop Crossover Frequency}{93}
+\contentsline {subsubsection}{\numberline {4.1.1.3}OTA Noise}{94}
+\contentsline {subsection}{\numberline {4.1.2}Secondary Design Goals}{95}
+\contentsline {subsubsection}{\numberline {4.1.2.1}Output Swing}{96}
+\contentsline {subsubsection}{\numberline {4.1.2.2}Phase Margin}{97}
+\contentsline {subsubsection}{\numberline {4.1.2.3}Power Consumption}{97}
+\contentsline {subsection}{\numberline {4.1.3}Initial Design Parameters}{98}
+\contentsline {section}{\numberline {4.2}Bias Network Design}{98}
+\contentsline {subsection}{\numberline {4.2.1}Biasing Cascoded Transistors}{99}
+\contentsline {subsection}{\numberline {4.2.2}Tail Current Source Design}{104}
+\contentsline {section}{\numberline {4.3}Common-Mode Feedback Design}{104}
+\contentsline {subsection}{\numberline {4.3.1}Ideal CMFB}{105}
+\contentsline {subsection}{\numberline {4.3.2}Real CMFB Design}{106}
+\contentsline {section}{\numberline {4.4}OTA Test Setup}{108}
+\contentsline {subsection}{\numberline {4.4.1}Loop Gain, Loop Crossover Frequency, Phase Margin, and Power Consumption Simulation}{109}
+\contentsline {subsection}{\numberline {4.4.2}Output Swing Simulation}{110}
+\contentsline {subsection}{\numberline {4.4.3}OTA Noise}{110}
+\contentsline {section}{\numberline {4.5}OTA Design Challenges}{111}
+\contentsline {section}{\numberline {4.6}OTA Simulation Results}{115}
+\contentsline {subsection}{\numberline {4.6.1}STB Results}{116}
+\contentsline {subsection}{\numberline {4.6.2}Output Swing}{116}
+\contentsline {subsection}{\numberline {4.6.3}OTA Noise}{118}
+\contentsline {subsection}{\numberline {4.6.4}Real CMFB Transient Simulation}{119}
+\contentsline {subsection}{\numberline {4.6.5}Summary of OTA Simulation Results}{119}
+\contentsline {section}{\numberline {4.7}ADC Simulation Results With Integrated OTA}{121}
+\contentsline {chapter}{Chapter 5.\hspace *{1em}Conclusion}{130}
+\contentsline {section}{\numberline {5.1}Discussion}{130}
+\contentsline {section}{\numberline {5.2}Future Work}{131}
+\contentsline {chapter}{Bibliography}{134}

@@ -1,0 +1,602 @@
+\chapter{Introduction}
+\label{chap:introduction}
+Pipeline analog-to-digital converters (ADCs) have become a very popular architecture for high-speed high-resolution circuits required in many applications, including communications circuits. The explosion in recent years of 
+portable, battery-powered, electronics has also driven interest in pipeline ADCs, since pipeline ADCs can provide significant area and power benefits. Generally, pipeline ADCs have employed flash sub-ADCs, since the flash 
+topology is the architecture capable of achieving the highest performance and pipelining this topology results in significant area savings. The downside to this architecture is the latency introduced by each stage in the 
+pipeline, which is not tolerable in some applications. For most communications circuits, however, a small latency is generally tolerable, especially considering that most back-end digital signal processing introduces 
+additional pipelined latencies. In an effort to increase the power efficiency of the pipeline architecture even further, this work used a successive approximation register (SAR) topology instead of the traditional flash topology for the pipeline sub-ADC. SAR ADCs are ideal for battery-powered applications due to their high energy efficiency, but the low sample rates allowed by this 
+topology limits their usage~\cite{maximsaradc}. By pipelining the SAR topology, sampling rates can be increased while maintaining the energy advantages of the SAR topology. 
+
+The goal of this work was to produce a 12 bit ADC with a medium sampling rate, $f_{samp}$, of 10 Msps while reducing the power to the minimum required. The ADC architecture was initially validated using ideal components. Afterwards a transistor-level design of the operational transconductance amplifier (OTA) in order to provide more realistic performance and power consumption data. The OTA design was integrated into the main ADC architecture and final performance metrics were obtained. 
+
+This chapter provides an introduction to the concepts discussed in the rest of the report. The first sections of this chapter will provide an overview of ADC terminologies, as well as a discussion of general pipeline ADC and SAR ADC operation. The following sections will be a more in-depth discussion of the benefits of pipelining a SAR topology, as well as a discussion of the advantages of using a SAR topology as the pipeline sub-ADC versus a flash topology. Next will be a discussion of the primary transistor level design methodology for this report. This chapter will conclude with an overview of the organization of the rest of the report.
+\section{ADC Terminology}
+This section defines terms and performance metrics that will be used throughout the rest of this report. An analog-to-digital converter takes an analog sample as an input, and converts this input to a digital code. Most ADC's 
+use an internal reference voltage for conversions. In the case of the ADC designed in this Master's Report, the expression for the voltage reference, $V_{ref}$, is:
+\begin{equation}
+\label{eq:vref}
+V_{ref} = \frac{V_{FS}}{2}
+\end{equation}
+where $V_{FS}$ is the full-scale input voltage range of the ADC. 
+For a standard ADC with a resolution of $N$ bits, the corresponding analog voltage difference between adjacent digital codes is known as the least significant bit (LSB) size. The expression for LSB size, $\Delta$, as a function 
+of $V_{FS}$, is:
+\begin{equation}
+\label{eq:lsbsize}
+\Delta = \dfrac{V_{FS}}{2^N}
+\end{equation}
+The transition level is defined as the analog input level at the transition between two digital codes~\cite{advanalogch2}. Assuming that the transition level lies halfway between each digital code, the magnitude of the maximum 
+error of an ideal ADC is: 
+\begin{equation}
+\label{eq:quanterror}
+|\epsilon_{q}| = \frac{\Delta}{2}
+\end{equation}
+Assuming a full-scale sinusoidal input and a uniform distribution of $\epsilon_{q}$, the signal-to-quantization-noise ratio of an $N$ bit ADC is~\cite{advanalogch2}: 
+\begin{align}
+\label{eq:sqnr}
+SQNR &= \dfrac{P_{sig}}{P_{qnoise}} \\[0.5em]
+\nonumber &=\dfrac{\dfrac{1}{2}\left(\dfrac{V_{FS}}{2}\right)^{2}}{\dfrac{\Delta^{2}}{12}}=6.02N + 1.76 \si{\decibel}
+\end{align}
+where $P_{sig}$ is the total signal power and $P_{qnoise}$ is the total quantization noise power. SQNR defines the signal-to-noise ratio (SNR) of an $N$ bit ADC with zero electronic noise and a perfectly linear transfer function. 
+Since all real electronic circuits generate some electronic noise and have non-linear transfer functions, a better measure of ADC performance is known as the signal-to-noise and distortion ratio (SNDR). The expression for SNDR 
+is:  
+\begin{equation}
+\label{eq:sndr}
+SNDR=\dfrac{P_{signal}}{P_{noise}+P_{distortion}}
+\end{equation}
+where $P_{noise}$ is the total noise power including quantization and electronic noise and $P_{distortion}$ is the distortion power. Substituting SNDR for SQNR in Equation \ref{eq:sqnr} and solving for $N$, the effective number of bits (ENOB) of an ADC can be expressed as:
+\begin{equation}
+\label{eq:enob}
+ENOB = \dfrac{SNDR-1.76}{6.02}\spc\si{\decibel}
+\end{equation}
+When performing design simulations, the quantization noise and distortion are simulated separately from the noise power. For this situation, another useful metric is the signal-to-quantization noise and distortion ratio (SQDR). SQDR can be expressed as:
+\begin{equation}
+\label{eq:sqdr}
+SQDR = \dfrac{P_{signal}}{P_{qnoise}+P_{distortion}}
+\end{equation}
+SNDR can be calculated from this metric by adding the simulated noise power into the denominator. In an effort to combine accuracy, speed, and power metrics into a single performance number, an expression for a very commonly used figure of merit (FOM) is:
+\begin{equation}
+\label{eq:fom}
+FOM = \dfrac{P}{F_{s}\cdot2^{ENOB}}\spc \left(\dfrac{\si{\joule}}{conversion-step}\right)
+\end{equation}
+where $P$ is the power consumption in watts, $F_{s}$ is the sampling frequency, and $ENOB$ is the effective number of bits from Equation \ref{eq:enob}. 
+\section{Pipeline ADC Basics}
+\label{sec:pipelineadcbasics}
+This section begins with an introduction to the operation of a simple pipeline ADC. After the introduction, the operation of the Multiplying DAC (MDAC), an important block in pipeline ADC design, is presented in detail. This 
+section concludes with a discussion of redundancy, a commonly used method in pipeline ADC designs for reducing the offset requirements of the sub-ADC comparators.
+\subsection{Pipeline ADC Operation}
+\label{sec:pipelineoperation}
+Figure \ref{fig:adcex} illustrates a general two stage pipelined ADC.
+\begin{figure}[htb]
+\centering
+\begin{tikzpicture}
+\node [input, name=input] {};
+\node [sum, right of=input, radius=3cm, node distance=6.7cm] (ressum) {$\Sigma$};
+\node [amp, right of=ressum, node distance=2.2cm] (g) {G};
+	\draw [->] (ressum) -- node [above, name=vres] {$V_{res}$} (g);
+\node [block, right of=g, node distance=3cm, text width=4.3em] (subadc2) {m bit \\ Sub-ADC};
+	\draw [->] (input) -- node [left of=input, node distance=3.5cm, name=inputarr] {$V_{in}$} (ressum);
+	\draw [->] (g) -- (subadc2);
+\node [coordinate, below of=input, node distance=2cm, name=secrow] {};
+\node [block, right of=secrow, node distance=1.8cm, text width=4.3em] (subadc1) {n bit \\ Sub-ADC};
+	\draw [->] (input) |- (subadc1);
+\node [block, right of=subadc1, node distance=3cm, text width=3em] (dac) {n bit DAC};
+	\draw  [->] (subadc1) -- node [above, name=dcoarse] {$D_{coarse}$} (dac);
+	\draw [->] (dac) -| node [left, pos=0.95] {$-$} (ressum);
+\node [coordinate, below of=g, node distance=2cm, name=diggainrow] {};
+\node [amp, below of=diggainrow, node distance=2cm, shape border rotate=180] (diggain) {$1/G_d$};
+	\draw [->] (subadc2) |- node [pos=0.85, above] {$D_{fine}$} (diggain);
+\node [sum, left of=diggain, node distance=5.48cm] (doutsum) {$\Sigma$};
+	\draw [->] (dcoarse) -- (doutsum);
+	\draw [->] (diggain) -- (doutsum);
+\node [output, left of=doutsum, name=dout, node distance=3cm] {};
+	\draw [->] (doutsum) -- node [pos=0.99, above] {$D_{out}$} (dout); 
+\end{tikzpicture}
+\caption{Example two-stage pipelined ADC}
+\label{fig:adcex}
+\end{figure}
+The first stage ADC operates in two phases, a sampling phase and an amplify/hold phase. In the first phase, an input voltage is sampled, generally using a capacitive array. Once the sampling is complete, the first stage moves 
+into the amplify/hold phase. The n bit sub-ADC converts the input voltage into a digital code, $D_{coarse}$. An n bit digital-
+to-analog converter (DAC) then transforms $D_{coarse}$ to an analog voltage. The analog output from the n bit DAC is then subtracted from the input voltage, producing an error residue voltage, $V_{res}$. The residue voltage is 
+bounded by:
+\begin{equation}
+\label{eq:vresbound}
+-\frac{V_{ref}}{2^{n}} \leq V_{res} \leq \frac{V_{ref}}{2^{n}}
+\end{equation}
+The residue voltage is then amplified with a gain of G. This amplifier is used to reduce the precision requirements of the downstream ADC. The precision requirements on the  m bit fine ADC without an amplification stage would be m+n bits. Without amplification, $V_{FS}$ of the second stage is given by Equation \ref{eq:vresbound}. Using this value in Equation \ref{eq:lsbsize} gives a second-stage $\Delta$ of: 
+\begin{equation}
+\Delta=\frac{V_{FS}}{2^{n+m}}
+\end{equation}
+which is equivalent to an m+n bit ADC.  With an amplification stage gain of $G=2^B$, $\Delta$ becomes:
+\begin{equation}
+\Delta=\frac{V_{FS}}{2^{n+m-B}}
+\end{equation}
+which reduces the precision requirement to $m+n-B$ bits. Since, in general, the full-scale voltage of the second stage is equivalent to the full-scale voltage of the first stage, the amplification factor G sets the 
+effective resolution of the input to the second stage. Generally, the subtraction and amplification stages are implemented as a single switched capacitor device, the MDAC. Section \ref{sec:mdacoperation} discusses this MDAC 
+operation in more depth. The second stage is sampling the output from the MDAC while the first stage is in its amplify/hold phase. At the end of the second stage sampling phase, the sampled voltage is quantized by an m bit 
+ADC, producing $D_{fine}$. $D_{fine}$ is then passed through a digital gain stage with ideal $G_d=G$  and combined with the coarse ADC output to produce the final $(m+B)$ bit digital output, $D_{out}$~\cite{advanalogch8}. 
+Although this example is only for two stages, this idea could be expanded to any number of arbitrary stages by adding an MDAC with its own amplify/hold phaseto the second stage and replicating more stages. A high resolution ADC can be constructed from a series of low resolution ADCs by partitioning the conversion in this manner. For a pipeline with $i$ stages, a latency of $\nicefrac{i}{2}$ cycles is introduced, but the cycle time is only limited by the longest stage sampling time. 
+\subsection{MDAC Operation}
+\label{sec:mdacoperation}
+Figure \ref{fig:mdacoperationnonflip} shows the first stage from Figure \ref{fig:adcex} with an n of one. The sum and gain stages are replaced with an ideal MDAC model. This particular MDAC topology is known as a non-fliparound architecture. A single-ended model is shown for simplicity.
+\begin{figure}[htb]
+\centering
+\newcommand{\xswitchright}{4}
+\newcommand{\xmdacin}{\xswitchright+2}
+\newcommand{\xmdacout}{\xmdacin+4}
+\newcommand{\rowone}{0}
+\newcommand{\rowtwo}{\rowone-1.5}
+\newcommand{\rowthree}{\rowtwo-1.25}
+\newcommand{\rowfour}{\rowthree-1}
+\begin{circuitikz} 
+\draw
+	(0,0) node[anchor=east]{$V_{in}$}
+		to [short, o-*] (0.5,0)
+	%sample switch 1
+		to [cspst, l=$\phi_{1}$] (\xswitchright,0)
+		to [short, -*] (\xswitchright, 0)
+	%cs1
+		to [C, l=$C_{s1}$] (\xmdacin, 0)
+		to [short, -*] (\xmdacin, 0)
+		node[anchor=south east] {X}
+		to [short, -*] (\xmdacin, 1)
+	%cf
+		to [C, l=$C_f$] (\xmdacout, 1) 
+		to [short, -*] (\xmdacout, 1)
+	%sample switch 2
+		(0.5, \rowtwo) to [cspst, l=$\phi_{1}$, *-*] (\xswitchright, \rowtwo)
+	%cs2
+		to [C, l=$C_{s2}$, -*] (\xmdacin, \rowtwo)
+		(\xmdacin, \rowtwo) -- (\xmdacin, \rowone)
+	%feedback switch
+		(\xmdacin, 1) -- (\xmdacin, 2.2) to [cspst, l=$\phi_{1}$] (\xmdacout, 2.2) -- (\xmdacout, 1)
+	%subadc
+		node[block, name=subadc] at (1.8, \rowfour) {1 bit ADC}
+		(0.5, 0) -- (0.5, \rowfour) -- (subadc)
+	%DAC out switch (phi2)
+		(\xswitchright, \rowtwo) to [cspst, l=$\phi_2$] ++(0, -1.25)
+		(\xswitchright, \rowfour) node[spdt, rotate=-90] (spdt) {}
+	%connection to bottom plate cs1
+		(\xswitchright, \rowtwo) -- (\xswitchright, \rowone)
+	%sub-adc to switch line
+		(subadc) -- node [above] {$d_0$} (spdt.center)
+		-- ++(0.15,0)
+		(spdt.out 1) node[anchor=north west] {$\dfrac{V_{ref}}{2}$}
+		(spdt.out 2) node[anchor=north east] {$\dfrac{-V_{ref}}{2}$}
+		(spdt.in) -- (\xswitchright, \rowthree)
+	%ota
+		(\xmdacin+1, \rowone) node[op amp, anchor=-] (ota) {}
+		(ota.+) -| ++(-0.25, -.25) node[ground] {}
+		(\xmdacin, \rowone) -- (ota.-)
+		(ota.center) ++(-0.1,0) node[anchor=center] {OTA}
+	%phi1e switch
+		(\xmdacin, \rowtwo) to [cspst, l=$\phi_{1e}$] (\xmdacin, \rowthree)
+		(\xmdacin, \rowthree) node[ground] {}
+		(ota.out) -| (\xmdacout, 1) 
+		(ota.out) ++(0.62,0) to [short, -*] ++(0, 0) to [cspst, l=$\overline{\phi_{2}}$] ++(0,-1)
+		node[ground] {}
+		(ota.out) --  ++(2, 0) node[above] {$V_{res,o}$}
+	%cl
+		to [C, l=$C_{L}$] ++(0, -1)
+		node[ground] {}
+;
+\end{circuitikz}
+\caption{Example one bit non-fliparound MDAC}
+\label{fig:mdacoperationnonflip}
+\end{figure}
+At the heart of the MDAC is an operational transconductance amplifier. For the purposes of this example, the OTA gain is assumed to be infinite, so that the voltage difference between the two OTA input terminals is zero. $\phi_1$ and $\phi_{2}$ are non-overlapping clock signals. $\phi_1$ corresponds to the sample/conversion stage and $\phi_2$ corresponds to the amplify/hold stage of the pipeline ADC. $C_{s1}$ and $C_{s2}$ are the sampling capacitors and $C_{f}$ is the feedback capacitor. For the purposes of this example, these capacitors all have a value of $C$. When $\phi_1$ is active, the input voltage, $V_{in}$, is sampled onto the sampling capacitors. The expression for the charge at node X at the end of $\phi_{1}$, $Q_{x,\phi_{1}}$ is:
+\begin{equation}
+\label{qxphi1}
+Q_{x,\phi_{1}}=-2CV_{in}
+\end{equation}
+At the end of $\phi_{1}$, the sub-ADC performs its conversion and connects the bottom plate of $C_{s2}$ to $\pm \dfrac{V_{ref}}{2}$. When $\phi_{2}$ is active, the charge at node X, $Q_{x,\phi_{2}}$ is:
+\begin{equation}
+\label{qxphi2}
+Q_{x,\phi_{2}}=
+	\begin{cases}
+		-CV_{res,o}-CV_{ref} & \mbox{if } V_{in} > 0 \\
+		-CV_{res,o}+CV_{ref} & \mbox{if } V_{in} \leq 0
+	\end{cases}
+\end{equation}
+where $V_{res,o}$ is the amplified residue voltage. From charge conservation, $Q_{x,\phi_{1}}$ and $Q_{x,\phi_{2}}$ must be equal. Setting these quantities equal to each other and solving for $V_{res,o}$ yields:
+\begin{equation}
+\label{eq:vreso} 
+V_{res,o}= 
+	\begin{cases} 
+		2V_{in}-V_{ref} = 2(V_{in}-\dfrac{V_{ref}}{2}) & \mbox{if } V_{in} > 0 \\[0.5em]
+		2V_{in}+V_{ref} = 2(V_{in}+\dfrac{V_{ref}}{2}) & \mbox{if } V_{in} \leq 0
+	\end{cases}
+\end{equation} 
+Putting Equation \ref{eq:vreso} in terms of $G$ and $V_{res}$ from Figure \ref{fig:adcex}, the voltage at the input of the m bit ADC is:
+\begin{equation}
+\label{eq:vresoadcex}
+V_{res,o}=2(V_{in}\pm\dfrac{V_{ref}}{2})=GV_{res}
+\end{equation}
+
+Another commonly used MDAC topology is known as the flip-around topology. Figure \ref{fig:mdacoperationflip} is the equivalent flip-around topology of Figure \ref{fig:mdacoperationnonflip}.
+\begin{figure}[htb]
+\centering
+\newcommand{\xswitchright}{4}
+\newcommand{\xmdacin}{\xswitchright+2}
+\newcommand{\xmdacout}{\xmdacin+4}
+\newcommand{\rowone}{0}
+\newcommand{\rowtwo}{\rowone-1.5}
+\newcommand{\rowthree}{\rowtwo-1.25}
+\newcommand{\rowfour}{\rowthree-1}
+\begin{circuitikz} 
+\draw
+	(0,0) node[anchor=east]{$V_{in}$}
+		to [short, o-*] (0.5,0)
+	%sample switch 1
+		to [cspst, l=$\phi_{1}$] (\xswitchright,0)
+		to [short, -*] (\xswitchright, 0)
+	%cf
+		to [C, l=$C_{f}$] (\xmdacin, 0)
+		to [short, -*] (\xmdacin, 0)
+		node[anchor=south east] {X}
+	%sample switch 2
+		(0.5, \rowtwo) to [cspst, l=$\phi_{1}$, *-*] (\xswitchright, \rowtwo)
+	%cs
+		to [C, l=$C_{s}$, -*] (\xmdacin, \rowtwo)
+		(\xmdacin, \rowtwo) -- (\xmdacin, \rowone)
+	%feedback switch
+		(\xswitchright, 0) -- (\xswitchright, 1.1) to [cspst, l=$\phi_{2}$] (\xmdacout, 1.1)
+	%subadc
+		node[block, name=subadc] at (1.8, \rowfour) {1 bit ADC}
+		(0.5, 0) -- (0.5, \rowfour) -- (subadc)
+	%DAC out switch (phi2)
+		(\xswitchright, \rowtwo) to [cspst, l=$\phi_2$] ++(0, -1.25)
+		(\xswitchright, \rowfour) node[spdt, rotate=-90] (spdt) {}
+	%sub-adc to switch line
+		(subadc) -- node [above] {$d_0$} (spdt.center)
+		-- ++(0.15,0)
+		(spdt.out 1) node[anchor=north west] {$V_{ref}$}
+		(spdt.out 2) node[anchor=north east] {$-V_{ref}$}
+		(spdt.in) -- (\xswitchright, \rowthree)
+	%ota
+		(\xmdacin+1, \rowone) node[op amp, anchor=-] (ota) {}
+		(ota.+) -| ++(-0.25, -.25) node[ground] {}
+		(\xmdacin, \rowone) -- (ota.-)
+		(ota.center) ++(-0.1,0) node[anchor=center] {OTA}
+	%phi1e switch
+		(\xmdacin, \rowtwo) to [cspst, l=$\phi_{1e}$] (\xmdacin, \rowthree)
+		(\xmdacin, \rowthree) node[ground] {}
+		(ota.out) -| (\xmdacout, 1.1) 
+		(ota.out) ++(0.62,0) to [short, -*] ++(0, 0) to [cspst, l=$\overline{\phi_{2}}$] ++(0,-1)
+		node[ground] {}
+		(ota.out) --  ++(2, 0) node[above] {$V_{res,o}$}
+	%cl
+		to [C, l=$C_{L}$] ++(0, -1)
+		node[ground] {}
+;
+\end{circuitikz}
+\caption{Example one bit flip-around MDAC}
+\label{fig:mdacoperationflip}
+\end{figure}
+A similar analysis as that for Figure \ref{fig:mdacoperationnonflip} shows that Equation \ref{eq:vreso} applies to this topology as well. The advantage to using this topology is the increased feedback factor, $\beta$, from $\nicefrac{1}{3}$ to $\nicefrac{1}{2}$. Increasing the feedback factor in this way increases the speed of the MDAC by 50\%~\cite{121557}.
+ \subsection{Redundancy}
+\label{sec:redundancy} 
+Redundancy is a technique often used in pipeline ADCs to relax comparator offset requirements. To illustrate this, Figure \ref{fig:mdacoperationnonflip} will be used. From Equations \ref{eq:vresbound} and \ref{eq:vreso}, the bound for the amplified residue output is:
+\begin{equation}
+\label{vresobound}
+|V_{res,o}| \leq V_{ref}
+\end{equation}
+From this equation, it can be seen that $V_{res,o}$ is bound by the full-scale input range of the next stage ADC. Comparator offsets affect the decision levels of the sub-ADC, causing some residue voltages to exceed Equation 
+\ref{eq:vresbound}. This will then cause $V_{res,o}$ to exceed the input range of the next stage ADC. The use of redundancy increases the resolution in the stage sub-ADC without increasing the interstage MDAC gain. In this 
+case, the effective stage resolution remains the same, but the maximum sub-ADC decision error decreases, thus allowing some additional headroom for comparator offsets. Most pipelined designs opt for either 1 bit or $\sfrac{1}{2
+}$ bit redundancy. Adding an additional bit to the stage ADC in Figure \ref{fig:mdacoperationnonflip} reduces the maximum input residue voltage by a factor of two, so the bound of $V_{res,o}$ becomes:
+\begin{equation}
+\label{vresoboundonebitredundancy}
+|V_{res,o}| \leq \dfrac{V_{ref}}{2}
+\end{equation}
+With 1 bit redundancy, the MDAC can accommodate comparator offsets of up to $\nicefrac{1}{2}$ LSB without overloading the next stage ADC. Adding 0.5 bit redundancy to Figure \ref{fig:mdacoperationnonflip} involves changing the 
+decision level for the ADC from $0$ to $\pm\dfrac{V_{ref}}{4}$. The output from the ADC would switch the bottom plate voltage to $\pm V_{ref}$ or $0$. In this example, adding 0.5 bit redundancy requires adding one less 
+decision level than the corresponding 1 bit redundancy. The new equation for $V_{res,o}$ becomes:
+\begin{equation}
+\label{vresohalfbitredundancy}
+V_{res,o}=	
+	\begin{cases}
+		2V_{in}-V_{ref} & \mbox{if } V_{in} > \dfrac{V_{ref}}{4} \\
+		2V_{in} 		& \mbox{if } -\dfrac{V_{ref}}{4} \leq V_{in} < \dfrac{V_{ref}}{4} \\
+		2V_{in}+V_{ref} & \mbox{if } V_{in} <  -\dfrac{V_{ref}}{4}
+	\end{cases}
+\end{equation} 
+Using 0.5 bit redundancy in the circuit in Figure \ref{fig:mdacoperationnonflip} allows for offsets of up to $\nicefrac{1}{4}$ LSB. The trade-off between using the two topologies lies in the allowable comparator offset versus the additional circuit complexity.
+\section{SAR ADC Basics}
+\label{sec:saradcbasics}
+This section discusses the basic characteristics of SAR ADCs, beginning with an explanation of SAR ADC operation. Next is a discussion of the major performance metrics for a SAR ADC, and their limiting factors. These metrics include accuracy, speed, and power consumption.
+\subsection{SAR Operation}
+\label{sec:saroperation}
+SAR ADCs use a binary search algorithm to successively approximate the input voltage by comparing the input sampled voltage, $V_{in}$ to a DAC output voltage, $V_{DAC}$. In many cases, the DAC is implemented using a capacitive charge redistribution method. Figure \ref{fig:saradcex} illustrates a two bit capacitive charge redistribution SAR ADC. A single-ended version of this design is shown for simplicity.
+\begin{figure}[htb]
+\centering
+\newcommand{\colspacing}{3.2}
+\newcommand{\colfourspacing}{2.5}
+\newcommand{\rowspacing}{-1}
+\newcommand{\digitalrel}{-0.5}
+\newcommand{\switchrelctl}{-0.1}
+\newcommand{\switchrelspace}{-1}
+\newcommand{\labelrelspace}{-1}
+\newcommand{\rowone}{0}
+\newcommand{\rowtwo}{\rowone+\rowspacing}
+\newcommand{\rowthree}{\rowtwo+\rowspacing}
+\newcommand{\rowfour}{\rowthree+\rowspacing}
+\newcommand{\rowfive}{\rowfour+\rowspacing}
+\newcommand{\rowsix}{\rowfive+\rowspacing}
+\newcommand{\colone}{-2}
+\newcommand{\coltwo}{\colone+\colspacing}
+\newcommand{\colthree}{\coltwo+\colspacing}
+\newcommand{\colfour}{\colthree+\colfourspacing}
+\newcommand{\colfive}{\colfour+\colfourspacing}
+\newcommand{\colsix}{\colfive+\colfourspacing}
+\begin{circuitikz} 
+\draw
+%in connection
+	(\colone, \rowone) node[anchor=south] {$V_{in}$} -- (\colfour, \rowone)
+%vcm connection
+	(\colone, \rowtwo) node[anchor=south]  {$0$} -- (\colfive+\switchrelspace, \rowtwo)
+%vref connection
+	(\colone, \rowthree) node[anchor=south]  {$V_{ref}$} -- (\colthree+2*\switchrelspace, \rowthree)
+%bit1 switch connections
+	%sample switch
+	(\coltwo, \rowfour)  to[cspst, l=$S$] (\coltwo, \rowfive)
+	(\coltwo, \rowfour) to [short, -*] (\coltwo, \rowone)
+	%vcm switch
+	(\coltwo, \rowfour) ++(\switchrelspace, 0) to [cspst, l=$\overline{d_{1}}$]  ++(0, \rowspacing)
+	(\coltwo, \rowfour) ++(\switchrelspace, 0) to [short, -*] ++(0, -2*\rowspacing)
+	%vref switch
+	(\coltwo, \rowfour) ++(2*\switchrelspace, 0) to [cspst, l=$d_{1}$, n=bit1cspst]  ++(0, \rowspacing)
+	(\coltwo, \rowfour) ++(2*\switchrelspace, 0) to [short, -*] ++(0, -1*\rowspacing)
+	(\coltwo, \rowfive) -- ++(2*\switchrelspace, 0)
+%bit1 cap
+	(\coltwo, \rowfive) ++(\switchrelspace, 0) to [C, l=2C] ++(0, \rowspacing)
+%bit0 switch connections
+	%sample switch
+	(\colthree, \rowfour)  to[cspst, l=$S$] (\colthree, \rowfive)
+	(\colthree, \rowfour) to [short, -*] (\colthree, \rowone)
+	%vcm switch
+	(\colthree, \rowfour) ++(\switchrelspace, 0) to [cspst, l=$\overline{d_{0}}$]  ++(0, \rowspacing)
+	(\colthree, \rowfour) ++(\switchrelspace, 0) to [short, -*] ++(0, -2*\rowspacing)
+	%vref switch
+	(\colthree, \rowfour) ++(2*\switchrelspace, 0) to [cspst, l=$d_{0}$]  ++(0, \rowspacing)
+	(\colthree, \rowfour) ++(2*\switchrelspace, 0) to [short, -*] ++(0, -1*\rowspacing)
+	(\colthree, \rowfive) -- ++(2*\switchrelspace, 0)
+%bit0 cap
+	(\colthree, \rowfive) ++(\switchrelspace, 0) to [C, l=C] ++(0, \rowspacing)
+%dummy LSB switch connections
+	%sample switch
+	(\colfour, \rowfour)  to[cspst, l=$S$] (\colfour, \rowfive)
+	(\colfour, \rowfour) to [short] (\colfour, \rowone)
+	%vcm switch
+	(\colfour, \rowfour) ++(\switchrelspace, 0) to [cspst, l=$\overline{S}$]  ++(0, \rowspacing)
+	(\colfour, \rowfour) ++(\switchrelspace, 0) to [short, -*] ++(0, -2*\rowspacing)
+%bit1 cap
+	(\colfour, \rowfive) ++(\switchrelspace, 0) to [C, l=C] ++(0, \rowspacing)
+	(\colfour, \rowfive) -- ++(\switchrelspace, 0)
+%comp input vcm switch
+	(\colfive, \rowfour) ++(\switchrelspace, 0) to [cspst, l=$S$]  ++(0, \rowspacing)
+	(\colfive, \rowfour) ++(\switchrelspace, 0) to [short] ++(0, -2*\rowspacing)
+	(\colfive, \rowfive) ++(\switchrelspace, 0) -- ++(0, \rowspacing)
+	(\coltwo+\switchrelspace, \rowsix) -- (\colfive, \rowsix)
+	node[op amp, anchor=-] (comp) {}
+	(comp.-) ++(-0.5, 0) node[anchor=south west] {X}
+	(comp.center) ++(-0.1,0) node[anchor=center] {Comp}
+	(comp.out) node[anchor=south] {$d_{n}$}
+	(comp.+) -| ++(-0.2, 0) node[ground] {}
+;
+\end{circuitikz}
+\caption{Example two bit SAR ADC}
+\label{fig:saradcex}
+\end{figure}
+In Figure \ref{fig:saradcex}, the capacitor of size $2C$ is known as the most significant bit (MSB) capacitor and the first $C$ is known as the least significant bit (LSB) capacitor. The second capacitor of size $C$ is known as a dummy LSB capacitor. The signals $d_{1}$ and $d_{0}$ correspond to the digital outputs from the first and second conversion steps, respectively. The digital outputs are obtained from the output of the comparator. From the figure, the total capacitance of this ADC is $4C$. A general expression for the total capacitance of an $N$ bit SAR ADC with a unit capacitance of $C$ is:
+\begin{equation}
+\label{eq:ctottemp}
+C_{T} = 2^N\cdot C
+\end{equation}
+To perform a conversion, the ADC first samples the input. During this phase, the bottom plates of all capacitors are connected to $V_{in}$ and the top plates are connected to $V_{cm}$. For simplicity, $V_{cm}$ is set to zero volts. In this configuration, the charge at node X is:
+\begin{equation}
+\label{eq:sarsamplingcharge}
+Q_{x,sample}=-V_{in}\cdot4C
+\end{equation}
+At the end of the sampling phase, the switch connecting the top plates to $V_{cm}$ opens. The bottom plate of the $2C$ capacitor is connected to $V_{ref}$ and all other capacitors are connected to $V_{cm}$. At this time, the charge on node X is:
+\begin{equation}
+\label{eq:sarmsbcharge}
+Q_{x,d_1}=4C\cdot V_{x}-2C\cdot V_{ref}
+\end{equation}
+From charge conservation, $Q_{x,sample}$ must be equal to $Q_{x,d_1}$. Solving for $V_{x}$ yields a voltage at the positive comparator input of:
+\begin{equation}
+\label{eq:sarmsbvoltage}
+V_{comp,in} = V_{x} = -V_{in}+\dfrac{V_{ref}}{2}
+\end{equation}
+The expression for the comparator output, $c_{out}$ is:
+\begin{equation}
+\label{sard1}
+c_{out} =	\begin{cases}
+				0 & \mbox{if } V_{in} > \dfrac{V_{ref}}{2} \\[0.5em]
+				1 & \mbox{if } V_{in} < \dfrac{V_{ref}}{2}
+			\end{cases}
+\end{equation}
+The digital output from the first conversion, $d_{1}$, is the logical not of $c_{out}$. Since $d_{1}$  controls the input switches on the $2C$ capacitor, at the end of the first conversion phase, the DAC output voltage, $V_{DAC,1}$ will be:
+\begin{equation}
+V_{DAC,1} = \begin{cases}
+				\dfrac{V_{ref}}{2} & \mbox{if } d_{1} = 1 \\[0.5em]
+				0 & \mbox{if } d_{1} = 0
+			\end{cases}
+\end{equation}
+Using a similar analysis, the expression for $V_{x}$ during the second conversion phase is:
+\begin{equation}
+V_{comp,in} = -V_{in}+V_{DAC,1}+\dfrac{V_{ref}}{4}
+\end{equation}
+The expression for the DAC output voltage at the end of the second conversion stage is:
+\begin{equation}
+V_{DAC,2} = \begin{cases}
+				V_{DAC,1} + \dfrac{V_{ref}}{4} & \mbox{if } d_{1} = 1 \\[0.5em]
+				V_{DAC,1} & \mbox{if } d_{1} = 0
+			\end{cases}
+\end{equation} 
+These expressions can be generalized to an $N$ bit SAR ADC. For the $n^{th}$ successive approximation conversion step, the positive input voltage to the comparator is:
+\begin{equation}
+\label{eq:generalvcompin}
+V_{comp,in} = -V_{in} + V_{DAC,N-(n-1)} + \dfrac{V_{ref}}{2^{n}}
+\end{equation}
+The general expression for the DAC output voltage at the end of the $n^{th}$ conversion step is:
+\begin{equation}
+V_{DAC,n} =	\begin{cases}
+			V_{DAC,n-1} + \dfrac{V_{ref}}{2^{n}} & \mbox{if } d_{1} = 1 \\[0.5em]
+			V_{DAC,n-1} & \mbox{if } d_{1} = 0
+			\end{cases}
+\end{equation}
+For an $N$ bit ADC, $N$ conversion steps are required to obtain the final digital output. This serialization of the conversion causes the limited sample 
+rates discussed at the beginning of this chapter~\cite{maximsaradc}. In general, the time taken to convert a sample as a function of the maximum single conversion step time, $T_{conv}$ is:
+\begin{equation}
+\label{eq:samptime}
+T_{samp} = NT_{conv}
+\end{equation}
+\subsection{SAR ADC Accuracy}
+\label{sec:saraccuracy}
+The main factors affecting the accuracy of the SAR ADC are the thermal noise from the capacitive array, the mismatch of the capacitive array, and the comparator accuracy. To achieve a desired resolution of $N$ bits, $C$ must be sized large enough so that the $\sfrac{kT}{C}$ thermal noise power is not greater than the quantization noise. From~\cite{4541339}, for a given resolution, $N$, the requirement on the total capacitance to obtain thermal noise power approximately equal to quantization noise power is:
+\begin{equation}
+\label{eq:totalcapsize}
+C_T > \dfrac{24\cdot kT\cdot 2^{2N}}{V_{ref}^2}
+\end{equation}
+
+Assuming $C$ is sized appropriately to meet thermal noise requirements, the main limiting factor for the accuracy of this topology becomes the capacitor matching. Appropriately size metal-insulator-metal (MIM) capacitors can achieve mismatch percentages of better than 0.1\%~\cite{1297341}. A statistical analysis of the effect of mismatch on differential non-linearity (DNL) and integral non-linearity (INL) of an ADC is the most logical, since mismatches will vary from device to device. The analysis of unit current source mismatch on the DNL and INL of a binary weighted DAC in \cite{315breader} can also be applied to a SAR ADC, with the unit capacitance in place of the unit current source. Assuming mismatch is a random variable with Gaussian distribution relative matching of a unit capacitance is:
+\begin{equation}
+\label{eq:caprelmatching}
+\sigma_{u} = \frac{\sigma}{\mu} = \textnormal{std}\left( \frac{\Delta C}{C}\right)
+\end{equation}
+where $\Delta C$ is the capacitor mismatch and $C$ is the unit capacitor size. The mismatch itself is a function of capacitor size. The relationship between the capacitor size and mismatch is generally provided by the foundry. For a given $\sigma_{u}$, the worst case $\sigma_{DNL}$ is:
+\begin{equation}
+\label{eq:sigmadnl}
+\sigma_{DNL} = \sigma_{u} \sqrt{2^N-1}
+\end{equation}
+The worst case $\sigma_{INL}$ is:
+\begin{equation}
+\label{eq:sigmainl}
+\sigma_{INL} = \dfrac{1}{2} \sigma_{u} \sqrt{2^{N}}
+\end{equation}
+Using these equations along with a maximum DNL and INL specification, the required mismatch percentage can be calculated. From this requirement, the minimum capacitor size to meet this mismatch percentage can be obtained from foundry data.
+
+The final factor determining overall SAR ADC accuracy is the accuracy of the comparator. For accurate operation, the comparator must be able to resolve differences down to $\Delta$. As discussed in Section \ref{sec:redundancy}, the comparator offset must be lower than the maximum allowed for in the chosen redundancy scheme. Additionally, the comparator input-referred offset noise also needs to be less than $\Delta$, so that the comparator noise does not adversely affect decision levels~\cite{maximsaradc}. 
+\subsection{SAR ADC Conversion Time}
+\label{sec:sarconversiontime}
+Two main factors control the speed of the SAR conversion, the settling time of the DAC and the comparator decision time. In general, the DAC settling time will be set by the settling time of the MSB 
+conversion, since this conversion represents the largest excursion of the DAC output~\cite{maximsaradc}. Comparators are generally designed to operate in two phases. The DAC should settle to its final voltage by the end of the first phase, so the minimum comparator decision time is given by: 
+\begin{equation}
+\label{eq:compdecisiontime}
+T_{comp,min} = 2T_{DAC}
+\end{equation}
+where $T_{DAC}$ is the worst case DAC settling time. Higher ADC resolutions require exponentially larger MSB capacitors, and thus the maximum sampling rate decreases significantly with increased resolution. In addition to the longer settling time due to the larger MSB capacitors, each additional bit of resolution requires an additional conversion step, further limiting the sampling rate. For an $N$ bit SAR ADC, the minimum conversion period is:
+\begin{equation}
+\label{eq:sarminconversiontime}
+T_{conv,min} = NT_{comp,min}
+\end{equation}
+Alternatively, for a given sampling rate, $T_{samp}$, the worst case comparator decision time is:
+\begin{equation}
+\label{eq:compdecisiontimegiventsamp}
+T_{comp} = \dfrac{T_{samp}}{2N}
+\end{equation}
+Where a factor of two assumes that half of the sampling clock period is used for sampling.
+\subsection{SAR ADC Power Consumption}
+\label{sec:sarpowerconsumption}
+The power consumed by the SAR ADC is related to the power consumed by the comparator and the charging/discharging of the capacitor array. In general, the power of the comparator is insignificant compared to the charging/
+discharging power. From~\cite{5937489}, to sample a full-scale sine wave at Nyquist frequency with a conversion period $T_s$, the capacitive array will consume an average of: 
+\begin{equation}
+\label{eq:samppower}
+P_{in} = \dfrac{C_TV_{ref}^2}{T_s}
+\end{equation}
+and the reference generator for charge redistribution will consume an average of:
+\begin{equation}
+\label{eq:refgenpower}
+P_{in} = \dfrac{C_TV_{ref}^2}{2T_s}
+\end{equation}
+From these equations, the exponential growth of power consumption with increasing ADC resolution, $N$, can be seen.
+\section{Advantages of Pipelining a SAR Topology}
+\label{sec:pipelinesaradv}
+Aside from the latency introduced by introducing pipelining to a SAR topology, pipelining a SAR topology offers potentially significant area, power, speed, and accuracy advantages. The area and power advantages relate mainly 
+to the reduction in total capacitance when pipelining the SAR design. Conversion speed is increased due to the reduction in the size of the MSB capacitor, as well as the reduction in conversion steps. Due to the reduction in 
+the stage resolutions of the pipelined SAR, accuracy requirements on each stage can also be reduced.  
+\subsection{Power and Area Advantages}
+\label{sec:powerareaadv}
+The size of the total capacitance is a major contributor to both the size of the SAR design and to the An $N$ bit SAR ADC pipelined by $i$ identical stages has a total capacitance of: 
+\begin{equation}
+\label{ctotpipeline}
+C_{T} = i\cdot 2^{N/i}C
+\end{equation}
+For sufficiently high $N$, pipelining can achieve a significant reduction in total capacitance. In reality, $C_T$ will be even lower than this estimate, as $C$ can be reduced in later stages due to the fact that the input referred thermal noise of later stages is reduced by a factor of the interstage gains. Even using this conservative estimate and applying this $C_T$ to Equation \ref{eq:samppower} and Equation \ref{eq:refgenpower}, one can see that for the same conversion period, 
+pipelining can significantly reduce power consumption. The trade-off here is the additional power consumption from the $i-1$ additional interstage amplifiers, which will need to be a consideration during the design of the 
+amplifiers. Similarly, this reduction in $C_T$ should represent a reduction in the total area of the design, assuming that the area from the $i-1$ additional amplifiers and comparators is kept below the $C_T$ area savings. 
+These requirements suggest that $N$ should be high, so that the reduction of capacitance is significant, and $i$ should be kept low, to reduce the additional circuit complexity introduced by pipelining. Another reason to keep $i$
+ low is the diminishing returns on $C_T$ as $i$ is increased. As an example, a 12 bit ADC will have a $C_T$ of $4096C$. Pipelining with $i=2$ reduces $C_T$ to $128C$, a reduction by a factor of 32. With $i=3$, $C_T$ goes down 
+to $48C$, an incremental reduction of less than a factor of 3.
+\subsection{Conversion Time Improvements}
+\label{sec:convtimeadv}
+As mentioned in section \ref{sec:sarconversiontime}, conversion speed is mainly limited by the settling time of the DAC and the decision time of the comparator. A similar analysis to section \ref{sec:powerareaadv} can be 
+applied to the size of the MSB capacitor that limits the settling time of the DAC. In addition to the reduction in DAC settling time, the number of conversion steps is reduced to $\sfrac{N}{i}$, which allows for either a 
+reduction of $T_{samp}$ by a factor of $i$, or the usage of a lower power comparator with longer decision time for an equivalent $T_{samp}$. 
+\subsection{Accuracy Requirement Relaxation}
+With pipelining, the resolution of each ADC is $\nicefrac{N}{i}$. Using this value in Equation \ref{eq:sigmainl} and  Equation \ref{eq:sigmadnl} shows that the capacitor matching requirements are exponentially reduced with 
+pipelining. This can be very useful to achieve higher resolutions than would be achievable from a given capacitor mismatch. Additionally, using the stage resolution in Equation \ref{eq:lsbsize}, allows for a large 
+reduction in the required accuracy of each stage comparator.
+\section{Pipelined SAR ADC vs. Pipelined Flash ADC}
+Flash ADCs are indisputably the sub-ADC of choice for pipelined applications requiring very high sampling rates. Flash ADCs are popular for high sampling rate applications because the critical path of a single stage 
+conversion is the sum of the decision time of a comparator and the settling time of the residue input on the MDAC, no matter how many bits are resolved in each pipeline stage. This creates an advantage for the flash topology 
+over the SAR topology, where sampling time is Equation \ref{eq:samptime}. For applications with lower sampling rate requirements, however, the usage of a SAR topology as the pipelined sub-ADC has many benefits.
+\subsection{High First Stage Resolution}
+\label{sec:highfirstres}
+Obtaining a high first stage resolution is much easier with a SAR ADC than with flash. Since $N$ bit flash ADCs require $2^N$ comparators, resolutions beyond a few bits incur significant area penalties~\cite{maximsaradc}. In 
+addition, from Equation \ref{eq:lsbsize}, increasing the stage resolution decreases the stage $\Delta$, which translates to stricter offset requirements on the comparators. Implementing a single low offset comparator, as in 
+the case of a SAR sub-ADC, is much less complex than guaranteeing the same offset requirements for the large number of comparators that a high resolution flash ADC would require~\cite{5714725}. Having a high first stage 
+resolution has been shown to be very advantageous in pipelined designs.
+\subsubsection{Effect on Noise Power}
+In~\cite{5731352}, an analysis on the effect of multi-bit stages on thermal noise in pipelined ADCs was performed. This work showed that higher stage resolution decreases the input-referred noise contribution of downstream stages due to the higher gain of the amplifier in the multi-bit stage. Having a high resolution in the first stage thus propagates this advantage to all other stages 
+in the design. The reduced noise power in later stages allows the later stage unit capacitor size to be scaled down, decreasing charging/discharging power in later stages. 
+\subsubsection{Effect on Power Consumption}
+\label{sec:firststagepower}
+Since the accuracy requirements in the first stages of a pipelined ADC are generally the highest, the power consumption of these stages usually dominates the overall ADC power consumption. In~\cite{5714725}, the effect of a 
+high resolution first stage on power consumption is discussed. At the end of the hold phase, the expression for $V_{res}$ including circuit non-idealities is:
+\begin{equation}
+\label{eq:vres}
+V_{res} = V_{ideal}+V_{err}\;\; and\;\; V_{err} = (V_{ideal}-V_{initial})e^{-\dfrac{T\beta G_m}{C_{L,tot}}}
+\end{equation}
+where $\beta$ is the feedback factor of the first-stage op-amp, $T$ is the time available for settling, $G_m$ is the amplifier transconductance, and $C_{L,tot}$ is the total output load on the op-amp. Each one bit increase in 
+first-stage resolution decreases $\beta$ by factor of approximately 2 and decreases $C_{L,tot}$ by a factor of approximately 2, implying that overall $V_{err}$ remains unaffected by an increase in first-bit resolution. Each one bit increase in first-stage resolution also decreases the required resolution of the downstream pipeline stages, however. This reduced resolution of later stages means that a larger $V_{err}$ is tolerable in the first-stage op-
+amp and that $G_m$ can be decreased to meet the larger $V_{err}$. Reducing $G_m$ implies reduced op-amp power consumption.
+\subsubsection{Effect on ADC Linearity}
+The benefits of a high first-stage resolution on the DNL of the ADC are shown in~\cite{4541339}. The expression for DNL due to capacitor mismatch in the first stage of the pipeline is:
+\begin{equation}
+\label{eq:dnlfirststagecapmismatch}
+DNL = \dfrac{k\cdot 2^{N-l/2}}{\sqrt{C_{T}}}
+\end{equation}
+where $l$ is the first stage resolution in bits and $k$ is a mismatch constant. This shows that each additional bit of resolution in the first stage of the pipeline reduces the DNL due to capacitor mismatch by a factor of $
+\sqrt2$. 
+\subsection{Removal of Front-End Sample-and-Hold Amplifier}
+Another less obvious advantage to using a SAR as the pipelined sub-ADC is the ability to remove the front-end sample-and-hold amplifier (SHA). The SHA can consume about 20\% to 30\% of the total ADC power and limit the 
+linearity and dynamic range of the ADC~\cite{4684625}. SHAs are generally required in pipelined circuits using flash sub-ADCs due to the different signal paths of the sub-ADC and sampling capacitors in Figure \ref{fig:mdacoperationnonflip}. In the general case, the sampling time of the sub-ADC is later than that of the sampling capacitors. Without a stable voltage on both inputs, large voltage difference 
+between the MDAC sampled input and the sub-ADC sampled input may be observed. This difference in voltage is known as aperture error and can cause serious signal-to-noise ratio (SNR) degradation at high input frequencies~\cite{1356143}. 
+
+Both~\cite{1356143} and \!~\cite{972143} suggest methods to reduce the aperture error, including matching the time constants of both signal paths and digital error correction. Both of these methods, however, increase design 
+complexity and power consumption. In the case of a SAR sub-ADC, the front-end SHA can be removed without any design penalty. Since both the SAR ADC and the MDAC rely on capacitive arrays, the array can be designed such that 
+the SAR and the MDAC share the same capacitive array. Since both circuits share the same signal path, aperture error is removed without any additional design complexity~\cite{5714725}.
+\section{Transistor Level Design Methodology}
+\label{sec:gmid}
+Generally, hand calculations for the design of analog circuits involve first-order approximations of the relationship between drain current, $I_{D}$, and the gate overdrive voltage: 
+\begin{equation}
+\label{eq:vov}
+V_{ov} = V_{gs}-V_{t}
+\end{equation}
+where $V_{gs}$ is the transistor gate-to-source voltage and $V_{t}$ is the transistor threshold voltage. These approximations generally ignore the effects of small devices on transistor operation. These effects include velocity saturation from the horizontal field and mobility degradation from the vertical field~\cite{bok:gray}. In older processes with larger channel lengths, ignoring these effects did not adversely affect the accuracy of hand calculations as long as the transistor was operated in the strong inversion region. With increased scaling, however, these first-order models can no longer be used to accurately predict device operation. In an effort to overcome these limitations, the \gmid\spc method was developed~\cite{535416}. This methodology relies on the ratio of transconductance ($g_{m}$) to drain current ($I_{d}$) as its main design control. 
+
+Most analog devices are characterized by their gain, bandwidth, and power consumption. A large \gmid\spc implies that a large transconductance can be achieved for a small amount of current, so it is also known as the current efficiency. Another useful figure of merit (FOM) is the intrinsic gain of the device, \gmgds, where $g_{ds}$ is the output conductance. \gmgds\spc usually defines the maximum gain achievable from a given transistor, so a higher \gmgds\spc implies higher gain. The final important metric is the transit frequency, given by:
+\begin{equation}
+\label{eq:transitfrequency}
+\omega_{T} = \dfrac{g_{m}}{C_{gg}}
+\end{equation}
+where $C_{gg}$ is the sum of the gate-to-source, gate-to-bulk, and gate-to-drain capacitances. For a given transconductance, a larger transit frequency implies small intrinsic capacitors. Since bandwidth is limited by 
+transconductance and intrinsic capacitor size, knowledge of \transit\spc gives valuable insight into the bandwidth of the circuit. If one knows the relationship between these three FOMs, a good approximation of overall device 
+performance can be hand calculated.
+
+Due to short channel effects, first order equations for the relationship between the three FOMs are not suitably accurate. To overcome this issue, a simple transistor test-bench can be designed and simulated. This testbench involves characterizing the output of a transistor by sweeping its overdrive voltage. From this testbench, graphs for the relationship between \gmid\spc and \gmgds, \gmid\spc and \transit, and \gmid\spc and transistor size can be obtained for a given channel length~\cite{315areader}. Since this data is obtained from simulations, they are based on models that are much more accurate than first order approximations. Generally, increasing \gmid\spc increases the \gmgds\spc and decreases \transit. From this relationship, the trade-off between increasing gain and increasing bandwidth is shown. The data gathered from these simulations can be used to develop lookup tables in tool such as Matlab or Excel. In the case of this design, lookup tables were created using Matlab. 
+
+Using the \gmid\spc methodology along with simulated technology data, a design can exhibit excellent agreement with simulated data and even a fabricated prototype~\cite{535416}. For this reason, all transistor level designs for this Master's Report leveraged this design methodology. 
+\section{Organization of the Report}
+The rest of the report will focus on the design details of this ADC. Chapter 2 discusses architectural decisions and improvements that were applied to the general circuits described in Chapter 1. Chapter 3 discusses the full design of the ADC using ideal components. Chapter 4 covers the design and integration of the OTA, as well as final ADC performance numbers with the integrated OTA. Chapter 5 provides closing remarks, as well as a discussion of improvements and possible future work. 

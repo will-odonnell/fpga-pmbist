@@ -1,0 +1,42 @@
+\section{Designs to Address Challenges}
+\label{sect:bg-designs}
+MBIST is a hot-topic due to its increased importance in the new memory-dense SoCs.  The challenges with the current MBIST topologies are well known.  New innovations and design methods have been introduced to overcome these obstacles.
+
+\subsection{Topologies}
+There are three types of BIST topologies commonly used: finite state-machine (FSM)-based designs, micro-programmable based designs and microcode-based designs.  Each has advantages and disadvantes that designers must consider to meet the requirements of their product. 
+
+\subsubsection{FSM-Based Designs}
+In FSM-based designs, the control signals for the BIST are defined as state machines and are usually hardwired, or non-programmable.  The FSM-based topology benefits from having a smaller area, but lacks flexibility to change its algorithm to support new fault models without redesign of the chip \cite{5692281}.  New FSM-based designs are beginning to incorporate some level of programmability, but at the cost of area \cite{4815717} or clock frequency and test time \cite{748806}.
+
+\subsubsection{Micro-Programmable-Based Designs}
+The micro-programmable-based designs use a microprocessor to generate the algorithm.  These designs have high flexibility with their algorithms, but in-turn require a high area overhead for the processor \cite{726568}.  Additionally, this type of design is not well suited for a stand-alone embedded RAM intellectual property (IP) core because of the processor requirement \cite{1584083}.
+
+\subsubsection{Microcode-Based Designs}
+Microcode-based topologies use written sets of instructions that are loaded into memory to execute memory test patterns.  The controllers for microcode-based topologies are designed as programmable MBIST with the flexibility to select any instructions from supported set of test instructions.  The test flexibility and ability to reprogram this design allows it to easily support new fault models should a test escape be discovered.  The flexibility comes at a cost though in the storage area for the microcode instructions \cite{5692281}, \cite{114099}.  The area overhead is a carefully evaluated intensively during the selection of the BIST design. 
+
+\subsection{Existing Designs}
+The following section examines some of the state-of-the-art design methods and innovations currently being explored to address the MBIST implementation challenges.  In general, at-speed challenges and to a lesser extent BtB have mostly been addressed by using MBIST to test memories, but area and power challenges still exist which and are being actively researched.  The following section focus on BtB accesses, area reduction and power reduction in MBIST as they are the leading topics of research for MBIST improvements.
+
+\subsubsection{Design Methods for At-Speed and BtB Access Challenges}
+Even with the use of MBIST, BtB testing presents a particularly difficult problem because the architecture of the CPU and its interactions with the memory controller must be well understood.  Memory failures are now more frequently caused by speed-related faults rather than static faults.  To screen for these faults, a test must be able to access memory as fast as the CPU.  The design proposed in \cite{5491773} addresses this issue by using the CPU’s assembly language and core to test the memory.
+
+In \cite{5491773}’s proposed solution, a small set of the assembly instructions for basic memory movement and logical functions are used to write March test algorithms.  Memory interleaving, or folding, is also addressed in the new algorithms.  The algorithms satisfy the BtB test requirements mainly by variations of loop-unrolling or by coding tight jump loops that still allow BtB memory access.     
+
+\subsubsection{Design Methods for Area Challenges}
+Area is generally a concern for chips with multiple memory cores or with microcode-based designs that offer high flexibility.  One potential solution \cite{4711617} to reducing the area used by multiple memory cores is a pipelined MBIST for homogeneous RAMs.  The paper identifies the test pattern generator as a significant portion of the BIST area proposes to use only one generator.  It accomplishes this sending the pattern to the first memory, then uses the output of the first memory as the input to the second memory effectively pipelining the BIST and reducing the area overhead.  The test controller still manages the memory selects, addressing and data verification, but only needs to control one pattern generator which also reducing wire routing area.
+
+Another approach to reduce the MBIST footprint is to optimize the microcode itself \cite{5692281}.  This design takes advantage of the fact ME repeat for various algorithms and furthermore, usually show up in repeated clusters.  These clusters are identified and defined as macros, and then the macros are encoded as new microcode instructions.  So effectively, a group ME instructions has now become one microcode instruction.  The solution is similar to creating a library function in software where it only physically resides in one memory location rather than at each invocation of the function.  
+
+\subsubsection{Design Methods for Power Challenges}
+MBIST power is a concern because it is generally higher than normal operating power and it can have negative effects on yield.  Novel techniques to optimize blocks of the MBIST help to reduce average and peak power usage.  One technique \cite{oldref-15} proposes a low power linear feedback shift register (LFSR) for the test pattern generator (TPG).  This paper targets switching activity in the LFSR as one culprit for higher power - in particular, the non-correlated patterns cause higher power dissipation.  The paper proposes using intermediate transitional vectors.  In between two successive vectors, half of the first pattern is changed and output, then the second half is changed and output, then a few logic gates are added to generate a third output before finally outputting the new pattern.  With this piecewise technique, five test patterns are generated while only using power equal to generating two vectors.
+
+The previous proposal showed how optimizing the pattern generation could reduce power.  The next paper discusses ways to optimize the address generation block used for March tests by reducing switching activity.  The following sequence is typically used for testing stuck-at faults:
+⇕(w0), ⇕(r0), ⇕(w1), ⇕(r1) 
+This sequence results in a large amount of switching activity in the address decoder.  The paper proposes to instead use this pattern to reduce the activity:
+
+⇕(w0, r0, w1, r1)
+
+The address decoder now only needs to change once per memory address while the stuck-at faults can still be detected.  The paper further suggests alternate LFSR designs which offer better correlation between bit patterns.  Patterns that are reduce the actual number of bits that change will reduce the switching activity.  The Bit-Swapping LFSR (BS-LFSR) swaps values between neighboring bits and reduces switching activity by about 25\% \cite{4472405} while the Bipartite LFSR reduces switching activity by combining the first and second halves of the current vector with the next vector to create intermediate vectors \cite{oldref-03}.    
+
+
+

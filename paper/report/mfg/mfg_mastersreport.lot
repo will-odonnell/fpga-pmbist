@@ -1,0 +1,32 @@
+\addvspace {10pt}
+\addvspace {10pt}
+\addvspace {10pt}
+\contentsline {table}{\numberline {3.1}{\ignorespaces OTA Ideal Model Pins}}{36}
+\contentsline {table}{\numberline {3.2}{\ignorespaces OTA Ideal Model Parameters}}{36}
+\contentsline {table}{\numberline {3.3}{\ignorespaces Comparator Ideal Model Pins}}{37}
+\contentsline {table}{\numberline {3.4}{\ignorespaces Ideal Clock Generator Pins}}{38}
+\contentsline {table}{\numberline {3.5}{\ignorespaces Ideal Clock Generator Parameters}}{38}
+\contentsline {table}{\numberline {3.6}{\ignorespaces Ideal Switch Pins}}{39}
+\contentsline {table}{\numberline {3.7}{\ignorespaces Ideal Switch Parameters}}{39}
+\contentsline {table}{\numberline {3.8}{\ignorespaces Ideal Single-Ended-to-Differential Converter Pins}}{40}
+\contentsline {table}{\numberline {3.9}{\ignorespaces Maximum Input Referred Noise}}{41}
+\contentsline {table}{\numberline {3.10}{\ignorespaces Maximum Output Referred Noise}}{42}
+\contentsline {table}{\numberline {3.11}{\ignorespaces Capacitor Mismatch Effect on ADC INL and DNL}}{45}
+\contentsline {table}{\numberline {3.12}{\ignorespaces Total Gate Capacitance for Given $g_{m}$/$I_{d}$}}{51}
+\contentsline {table}{\numberline {3.13}{\ignorespaces Parameter Settings for Ideal OTA Model}}{53}
+\contentsline {table}{\numberline {3.14}{\ignorespaces Design Clocks}}{54}
+\contentsline {table}{\numberline {3.15}{\ignorespaces Stage One SAR Control Logic State Machine}}{57}
+\contentsline {table}{\numberline {3.16}{\ignorespaces PNOISE Simulation Setup}}{61}
+\contentsline {table}{\numberline {3.17}{\ignorespaces Single-Ended AC Output Noise Power Summary}}{70}
+\contentsline {table}{\numberline {3.18}{\ignorespaces Single-Ended PNOISE Output Noise Summary}}{72}
+\contentsline {table}{\numberline {3.19}{\ignorespaces Differential ADC Digital Output State Machine}}{78}
+\contentsline {table}{\numberline {3.20}{\ignorespaces Common-Mode Switch Control Output State Machine}}{79}
+\contentsline {table}{\numberline {3.21}{\ignorespaces Differential AC Output Noise Summary}}{84}
+\contentsline {table}{\numberline {3.22}{\ignorespaces Differential PNOISE Output Noise Summary}}{85}
+\addvspace {10pt}
+\contentsline {table}{\numberline {4.1}{\ignorespaces Initial OTA Design Parameters}}{99}
+\contentsline {table}{\numberline {4.2}{\ignorespaces Final OTA Design Parameters and Results}}{121}
+\contentsline {table}{\numberline {4.3}{\ignorespaces AC Noise Summary With Real OTA}}{126}
+\contentsline {table}{\numberline {4.4}{\ignorespaces ADC With Real OTA PNOISE Output Noise Summary}}{126}
+\contentsline {table}{\numberline {4.5}{\ignorespaces ADC Power Consumption Summary}}{128}
+\addvspace {10pt}

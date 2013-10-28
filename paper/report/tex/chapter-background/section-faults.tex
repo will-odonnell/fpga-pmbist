@@ -1,0 +1,19 @@
+\section{Memory Faults}
+\label{sect:bg-faults}
+Precise fault modeling is the key to designing efficient fault tests.  Fault models reflect real, specific defects in memory so high defect coverage and detection is strongly dependent on the quality of the fault model \cite{1327984}.  The following sections offer a brief description about the four classic types of faults \cite{Adams2003} that models are designed to detect.  
+
+\subsection{Stuck-At Faults}
+The most common type of memory fault occurs when the memory cell is locked into one state, either a “0” or “1”.  A defect free cell can be written to either state and, when read, will still contain the information previously written.  The stuck-at fault occurs when a state is written to the cell, but the subsequent reads return the only one state regardless of the previously written value.  Fig. 2 shows the state diagram for a stuck-at fault \cite{oldref-03}.
+Another fault that can be classified as a stuck-at fault is the address decoder fault.  It is like the data stuck-at fault, but occurs on the address lines and leads to accessing wrong addresses, no addresses, or multiple addresses \cite{oldref-03}.
+
+\subsection{Transitional Faults}
+Similar to a stuck-at fault, the transition fault also locks into a single state, but has the characteristic of being in either state prior to the write.  The memory cell may contain “0” or “1” when powered on, but after a write, it cannot transition back.  The characteristic behavior of this fault is the memory can only written in one direction.  
+
+\subsection{Coupling Faults}
+There are numerous types of coupling faults, but they can be simply expressed as a cell affecting its neighboring cells and causing the neighbor to falsely transition or change state.  Coupling faults can be unidirectional or bi-directional.  In unidirectional coupling faults, one cell (aggressor cell) couples into another (victim cell), but the opposite does not occur.  A parasitic diode connection between the cells is a common cause of this behavior.  The bi-directional coupling fault occurs when pairs of cells can affect each other.  One way that this type of defect can occur is through bridging \cite{Adams2003}.  
+
+\subsection{Neighborhood Pattern-Sensitive Fault (NPSF)}
+This fault model is in the class of coupling faults, but it is caused by particular patterns in neighboring cells rather than one specific cell.  The neighborhoods are usually defined as five-cell or nine-cell neighborhoods as shown in Fig. 3 \cite{1047051}. 
+
+The “B” cell, or base cell, is the victim cell while all surrounding cells - N, E, S, W, NE, SE, SW, NW - form the deleted neighborhood (DN).  Together the base and DN form the neighborhood cells.  An NPSF occurs when the base cell is forced to a state due to a pattern in the DN, cannot change state due to a certain pattern in the DN, or is forced to change state when a transition occurs in a DN cell while other DN cells assume a certain pattern \cite{1047051}.  
+

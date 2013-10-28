@@ -1,0 +1,13 @@
+#!/bin/sh
+#
+#	mydiss/zzclean
+#
+#
+
+# Working command line replace
+# find . -type f -exec sed -i 's/\[1\]/\\cite{1327984}/g' {} \;
+
+find tex -type f -exec sed -i "s/\[$1\]/\\\\cite\{$2\}/g" {} \;
+
+2>/dev/null
+

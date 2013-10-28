@@ -1,0 +1,136 @@
+\chapter{Architectural Features}
+Using the pipeline and SAR architectures described in Chapter \ref{chap:introduction}, some high-level architectural decisions had to be made, mainly relating to the partitioning of the design. In addition, some enhancements were applied to the basic architectures in order to enhance overall performance. These decisions and enhancements are the subject of this chapter.
+\section{Architectural Decisions}
+Before any block-level specifications could be created, the partitioning of the pipeline stages had to be decided. First the total number of pipeline stages needed to be decided. Next, the resolutions for each stage needed to be decided. Finally, a suitable redundancy scheme for design had to be chosen.
+\subsection{Number of Pipeline Stages}
+The discussion in Section \ref{sec:pipelinesaradv} highlights the diminishing returns of increasing the number of pipeline stages. Beyond two pipeline stages, the effect on power consumption from the reduction in capacitance 
+would likely be outweighed by the power consumption of the additional MDAC OTA. Similarly, to realize the potential benefits of pipelining on the speed of the ADC, the speed of the comparator must be increased as well. At 
+some point, this will place a prohibitive constraint on the comparator speed. In addition, SAR converters show the most advantage over flash ADC's at higher resolutions. Using more than two pipeline stage for a 12 bit design 
+would require an average stage resolution of 3 or less bits. In addition, from the discussion in Section \ref{sec:highfirstres}, a high first stage resolution is desired to achieve maximum benefits. For these reasons, a two 
+stage design was chosen.
+\subsection{Operation Partitioning}
+After determining the number of stages, each stage's required operations must be partitioned between the two phases of the sampling clock. For the second stage ADC, which must only perform sampling and conversion, partitioning the operations between the two clock phases is straightforward. Due to the latency introduced by the first stage, the sampling will occur in the second clock phase, and the conversion will occur in the first clock phase of the next clock cycle. The first stage ADC must perform three operations: sampling, conversion, and amplification. Assuming that half of a clock phase is allotted for conversion, this means that either the sampling or the conversion time must be halved. To achieve the same sampling resolution in half the time, the input switch resistance must be halved. Similarly, to achieve the same static error from the MDAC in half the time, the MDAC bandwidth must be doubled. Another side effect to sharing a clock phase between conversion and amplification is that the available sampling time for the second stage would also be halved. In general, reducing switch resistance is simpler to implement than increasing the MDAC bandwidth. In addition, doubling the MDAC bandwidth would likely increase power consumption more than halving the switch resistance. For these reasons, as well as the lack of side effects on the second stage, the sampling and conversion phases were combined in this design.
+\subsection{Stage Resolution}
+Next, the resolutions for each stage had to be determined. From the above discussion, the conversion time for the first stage will be half that of the second stage. From Equation \ref{eq:compdecisiontimegiventsamp}, for equivalent comparator specifications in both stages, the ratio of second stage resolution to first stage resolution should be 2:1. In a 12 bit ADC, this would mean a 4 bit first stage and an 8 bit second stage. While one may assume that the eight bit second stage would require a much larger DAC settling time, this would likely not be the case. A first stage resolution of 4 bits would imply a high closed loop gain in the MDAC. The high closed loop MDAC gain means that the input-referred offset noise of the second stage capacitor array is significantly reduced. This reduction in input-referred noise means that the unit capacitor for the second stage ADC could be decreased, and thus the difference between the capacitance of the two stages would likely not be significant. Beyond simply striving for equivalent comparator specifications, the first stage resolution should be as high as possible in order to achieve all the benefits from Section \ref{sec:highfirstres}. A fundamental limit to the benefits of first stage resolution does exist, however. This limit is due to the output parasitics in the MDAC OTA. From Equation \ref{eq:vres}, $G_m$ can be decreased in part because each 1-bit increase in first stage resolution decreases $C_{L,tot}$ by a factor of 2. This decrease in $C_{L,tot}$ no longer applies once the load capacitance becomes dominated by the self-parasitics of the MDAC op-amp. This implies that, for optimized power consumption, the first stage resolution should be increased to the point that output capacitance is dominated by the op-amp parasitics~\cite{5714725}. The issue with using the parasitics of the op-amp as the deciding factor for stage resolution is that without knowledge of stage resolution, the requirements for MDAC bandwidth and loop gain cannot be known. These specifications are strongly linked to parasitic capacitance size, and thus a sort of chicken and egg problem is created. In~\cite{5714725}, a 5 bit first stage and a 7 bit second stage were used, so this was used as a starting point. This also seemed like a reasonable partition in terms of comparator specifications. The speed requirement for the second stage comparator is relaxed with this partitioning, but this can also mean that a lower power comparator can theoretically be used for the second stage.
+ \subsection{MDAC Redundancy Scheme}
+ Without MDAC redundancy, overloading of the second stage ADC is basically guaranteed. For the purposes of this design, it was decided that 1 bit redundancy was the preferred scheme. First, the high stage resolution places stricter requirements on the comparator offset, so the additional offset headroom provided by 1-bit redundancy makes comparator implementation simpler. Second, unlike in flash ADCs, the implementation of a half bit of redundancy in SAR ADCs is not very straightforward. For flash ADCs, a half bit of redundancy involves the addition of comparators and the modification of their reference voltages. Implementing half bit redundancy in a SAR ADC would require changing the fundamental binary search algorithm used, which is a much more significant design modification. Implementing an extra bit of redundancy for a SAR, on the other hand, requires the addition of a single capacitor and an increase in comparator speed requirements. For these reasons, 1 bit redundancy was used. 
+ \section{Architectural Enhancements}
+ Beyond the basic pipeline and SAR architectures discussed in Sections \ref{sec:pipelineadcbasics} and \ref{sec:saradcbasics}, respectively, some additional architectural enhancements were used. First, a half-gain MDAC architecture was used. Second, the dummy LSB in the SAR sub-ADCs was exploited to achieve an additional bit of resolution.
+ \subsection{Half-Gain MDAC}
+ In~\cite{5714725}, an MDAC with a half-gain architecture is used to decrease power consumption. In general MDAC designs with 1 bit redundancy, the closed loop MDAC gain is $2^{N-1}$. In half-gain designs, this closed loop gain is reduced to $2^{N-2}$. For this design, the closed loop gain is reduced from 32 to 16. Feedback factor in terms of closed loop gain is:
+\begin{equation}
+\label{eq:betacla}
+\beta = \dfrac{1}{A_{cl}+1}
+\end{equation}
+where $A_{cl}$ is the closed loop gain of the MDAC. From this equation, reducing the MDAC gain by a factor of two increases the feedback factor by approximately a factor of two, from $\nicefrac{1}{33}$ to $\nicefrac{1}{17}$. From \ref{eq:vres}, for the same $V_{err}$, this feedback factor reduction implies that op-amp $G_m$ can also be reduced by approximately a factor of two. In addition to reduced power consumption, reducing the feedback factor also decreases DNL due to finite op-amp gain, since
+\begin{equation}
+\label{eq:dnlfinitegain}
+|DNL_{max}|\propto \dfrac{2^{N-M}}{A_{OLDC}\beta}
+\end{equation}
+where $N$ is the total ADC resolution, M is the number of bits resolved in the first stage, and $A_{OLDC}$ is the open loop op-amp gain~\cite{5714725}. One disadvantage to this design technique is that the usage of a half-gain architecture reduces the available output swing from $\dfrac{V_{ref}}{2}$ to $\dfrac{V_{ref}}{4}$. Lowered output swing place stricter requirements on the downstream ADC. To obtain the same resolution as an ADC with a full-gain upstream MDAC, an additional bit of resolution is required. In this design, a reference voltage of $\dfrac{V_{ref}}{2}$ is used for the second stage pipeline ADC. As long as the second-stage ADC is not thermal noise limited, adding an additional bit of resolution is achievable.
+\subsection{Achieving an Additional Bit of Resolution With the Dummy LSB Capacitor}
+\label{sec:dummylsbarch}
+The dummy LSB capacitor in SAR ADCs can also be used to achieve an extra bit of resolution without increasing the total capacitance. Figure \ref{fig:saradcdummylsb} expands Figure \ref{fig:saradcex} to illustrate this concept.
+\begin{figure}[htb]
+\centering
+\newcommand{\colspacing}{3}
+\newcommand{\colfourspacing}{3}
+\newcommand{\rowspacing}{-1}
+\newcommand{\digitalrel}{-0.5}
+\newcommand{\switchrelctl}{-0.1}
+\newcommand{\switchrelspace}{-1}
+\newcommand{\labelrelspace}{-1}
+\newcommand{\rowone}{0}
+\newcommand{\rowtwo}{\rowone+\rowspacing}
+\newcommand{\rowthree}{\rowtwo+\rowspacing}
+\newcommand{\rowfour}{\rowthree+\rowspacing}
+\newcommand{\rowfive}{\rowfour+\rowspacing}
+\newcommand{\rowsix}{\rowfive+\rowspacing}
+\newcommand{\colone}{-2}
+\newcommand{\coltwo}{\colone+\colspacing}
+\newcommand{\colthree}{\coltwo+\colspacing}
+\newcommand{\colfour}{\colthree+\colfourspacing}
+\newcommand{\colfive}{\colfour+\colfourspacing}
+\newcommand{\colsix}{\colfive+\colfourspacing}
+\begin{circuitikz} 
+\draw
+%in connection
+	(\colone, \rowone) node[anchor=south] {$V_{in}$} -- (\colfour, \rowone)
+%vcm connection
+	(\colone, \rowtwo) node[anchor=south]  {$0$} -- (\colfive+\switchrelspace, \rowtwo)
+%vref connection
+	(\colone, \rowthree) node[anchor=south]  {$V_{ref}$} -- (\colthree+2*\switchrelspace, \rowthree)
+%bit2 switch connections
+	%sample switch
+	(\coltwo, \rowfour)  to[cspst, l=$S$] (\coltwo, \rowfive)
+	(\coltwo, \rowfour) to [short, -*] (\coltwo, \rowone)
+	%vcm switch
+	(\coltwo, \rowfour) ++(\switchrelspace, 0) to [cspst, l=$\overline{d_{2}}$]  ++(0, \rowspacing)  to [short, -*] ++(0, 0)
+	(\coltwo, \rowfour) ++(\switchrelspace, 0) to [short, -*] ++(0, -2*\rowspacing)
+	%vref switch
+	(\coltwo, \rowfour) ++(2*\switchrelspace, 0) to [cspst, l=$d_{2}$, n=bit1cspst]  ++(0, \rowspacing)
+	(\coltwo, \rowfour) ++(2*\switchrelspace, 0) to [short, -*] ++(0, -1*\rowspacing)
+	(\coltwo, \rowfive) -- ++(2*\switchrelspace, 0)
+%bit2 cap
+	(\coltwo, \rowfive) ++(\switchrelspace, 0) to [C, l=2C] ++(0, \rowspacing)
+%bit1 switch connections
+	%sample switch
+	(\colthree, \rowfour)  to[cspst, l=$S$] (\colthree, \rowfive)
+	(\colthree, \rowfour) to [short, -*] (\colthree, \rowone)
+	%vcm switch
+	(\colthree, \rowfour) ++(\switchrelspace, 0) to [cspst, l=$\overline{d_{1}}$]  ++(0, \rowspacing)  to [short, -*] ++(0, 0)
+	(\colthree, \rowfour) ++(\switchrelspace, 0) to [short, -*] ++(0, -2*\rowspacing)
+	%vref switch
+	(\colthree, \rowfour) ++(2*\switchrelspace, 0) to [cspst, l=$d_{1}$]  ++(0, \rowspacing)
+	(\colthree, \rowfour) ++(2*\switchrelspace, 0) to [short] ++(0, -1*\rowspacing)
+	(\colthree, \rowfive) -- ++(2*\switchrelspace, 0)
+%bit1 cap
+	(\colthree, \rowfive) ++(\switchrelspace, 0) to [C, l=C] ++(0, \rowspacing) to [short, -*] ++(0, 0)
+%dummy LSB switch connections
+	%sample switch
+	(\colfour, \rowfour)  to[cspst, l=$S$] (\colfour, \rowfive)
+	(\colfour, \rowfour) to [short] (\colfour, \rowone)
+	%vcm switch
+	(\colfour, \rowfour) ++(\switchrelspace, 0) to [cspst, l=$\overline{d_{0}}$]  ++(0, \rowspacing)  to [short, -*] ++(0, 0)
+	(\colfour, \rowfour) ++(\switchrelspace, 0) to [short, -*] ++(0, -2*\rowspacing)
+	%vref switch
+	(\colfour, \rowfour) ++(2*\switchrelspace, 0) to [cspst, l=$d_{0}$]  ++(0, \rowspacing)
+	(\colfour, \rowfour) ++(2*\switchrelspace, 0) to [short, -*] ++(0, -1*\rowspacing)
+	node[anchor=south] {$V_{ref}/2$}
+	(\colfour, \rowfive) -- ++(2*\switchrelspace, 0)
+%dummy lsb cap cap
+	(\colfour, \rowfive) ++(\switchrelspace, 0) to [C, l=$C_{dummy}$] ++(0, \rowspacing) to [short, -*] ++(0, 0)
+	(\colfour, \rowfive) -- ++(\switchrelspace, 0)
+%comp input vcm switch
+	(\colfive, \rowfour) ++(\switchrelspace, 0) to [cspst, l=$S$]  ++(0, \rowspacing)
+	(\colfive, \rowfour) ++(\switchrelspace, 0) to [short] ++(0, -2*\rowspacing)
+	(\colfive, \rowfive) ++(\switchrelspace, 0) -- ++(0, \rowspacing) to [short, -*] ++(0, 0)
+	(\coltwo+\switchrelspace, \rowsix) -- (\colfive, \rowsix)
+	node[op amp, anchor=-] (comp) {}
+	(comp.-) ++(-0.5, 0) node[anchor=south west] {X}
+	(comp.center) ++(-0.1,0) node[anchor=center] {Comp}
+	(comp.out) node[anchor=south] {$d_{n}$}
+	(comp.+) -| ++(-0.2, 0) node[ground] {}
+;
+\end{circuitikz}
+\caption{Example three bit SAR ADC using the dummy LSB capacitor}
+\label{fig:saradcdummylsb}
+\end{figure}
+In Figure \ref{fig:saradcdummylsb}, the dummy LSB capacitor has an additional switch connected to its top plate. This switch is connected to an additional voltage source of value $\dfrac{V_{ref}}{2}$. Unlike the ADC from Figure \ref{fig:saradcex}, this ADC has three conversion stages. The charge on node X after the third sampling phase is:
+\begin{equation}
+\label{eq:sardummylsbcharge}
+Q_{x,d_0}=4C\cdot V_{x}-C\cdot \dfrac{V_{ref}}{2}-2C\cdot V_{ref}\cdot d_{2}-C\cdot V_{ref}\cdot d_{1}
+\end{equation}
+The positive input voltage to the comparator is:
+\begin{equation}
+V_{comp,in} = -V_{in} + V_{DAC,2} + \dfrac{V_{ref}}{8}
+\end{equation}
+where $V_{DAC,2}$ is equivalent to:
+\begin{equation}
+V_{DAC,2} = \dfrac{V_{ref}\cdot d_{2}}{2} + \dfrac{V_{ref}\cdot d_{1}}{4}
+\end{equation}
+From Equation \ref{eq:generalvcompin}, this is the expression for $V_{comp,in}$ that one would expect for a standard 3 bit SAR ADC. Thus, without increasing the total capacitance, a two bit SAR ADC has been transformed into a three bit SAR ADC. The disadvantage to this scheme is that an additional reference voltage is required, but the significant reduction in total capacitance allowed by using this architecture in high resolution ADCs should make this trade-off worthwhile. Both the first and second stage SAR ADCs took advantage of this architectural feature. Modifying Equation \ref{eq:ctottemp}, the new expression for the total capacitance of an $N$ bit ADC with a unit capacitance of $C$ is:
+\begin{equation}
+\label{eq:ctot}
+C_{T} = 2^{N-1}\cdot C
+\end{equation}

@@ -1,0 +1,14 @@
+\chapter{Memory BIST Fundamentals}
+\label{chap:background}
+Memory testing has many components.  The basic concept is to confirm that a value written to a memory address is still present in that memory address at any point in the future.  Many factors can affect the ability of the memory to retain its proper value.  Those factors manifest as one of the four standard memory faults: Stuck-At Faults, Transitional Faults, Coupling Faults and Neighborhood Pattern-Sensitive Faults \cite{VanDeGoor1991}. All current BIST engines are able to detect these faults with varying degrees of effectiveness.
+
+The BIST engines use memory test algorithms to detect, and in some cases, repair these faults. The common tests used in industry ar  
+
+A major influence to the test algorithmThe address counting method and address order have major influences to a test algorithm's ability to detect these faults.   A BIST needs an address generator that can produce the correct sequence of addresses without omitting any addresses.  
+
+\input{tex/chapter-background/section-faults}
+\input{tex/chapter-background/section-algorithms}
+\input{tex/chapter-background/section-counting}
+\input{tex/chapter-background/section-challenges}
+\input{tex/chapter-background/section-designs}
+

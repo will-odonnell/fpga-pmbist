@@ -1,0 +1,12 @@
+#!/bin/sh
+#
+#	mydiss/zzclean
+#
+#
+./zzclean
+./zzbuild
+./zzread
+
+
+2>/dev/null
+

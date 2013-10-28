@@ -1,0 +1,12 @@
+#!/bin/sh
+#
+#	mydiss/zzclean
+#
+#
+pdflatex who_mastersreport.tex
+bibtex who_mastersreport.aux
+pdflatex who_mastersreport.tex
+pdflatex who_mastersreport.tex
+
+2>/dev/null
+
