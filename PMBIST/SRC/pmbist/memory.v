@@ -9,9 +9,6 @@ module memory_under_test(clk,rst,cmd_in,addr_in,data_in,data_out);
 //-----------------------------------------------
 // Parameters and Definitions
 //-----------------------------------------------
-parameter    DATA_WIDTH    =    8;
-parameter    ADDR_WIDTH    =    12;
-
 parameter    dw = `DATA_WIDTH;
 parameter    aw = `ADDR_WIDTH;
 parameter   sw          = `SCAN_WIDTH;

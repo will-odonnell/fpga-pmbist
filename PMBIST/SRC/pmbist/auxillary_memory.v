@@ -37,7 +37,7 @@ blk_mem_8x256
   mem_8x256 (
     .clka(clk),
     .rsta(rst),
-    .wea(cmd_in),
+    .wea(cmd_in[0]),
     .addra(addr_in),
     .dina(data_in),
     .douta(data_out)
