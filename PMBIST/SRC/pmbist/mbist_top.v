@@ -99,6 +99,7 @@ wire    [sw_updwn-1:0]  spir_updwn; // up down signal
 wire    [irw_op-1:0]    ircc_op;  // operation to Cycle Controller
 wire    [irw_pol-1:0]   ircc_pol; // polarity to Cycle Controller
 wire    [irw_no-1:0]    ircc_no;  // NO signal to Cycle Controller
+wire    [irw_admd-1:0]  irac_admd;// address mode to Address Counter
 wire    [irw_updwn-1:0] ir_updwn; // up/dwn signal to mulitple
 wire    [irw_data-1:0]  ir_data;  // data field to multiple
 wire    [irw_te-1:0]    xxir_te;  // te signal from TBD to IR 
@@ -169,7 +170,7 @@ instruction_register
     .no_out(ircc_no),
     .data_out(ir_data),
     .w_out(),
-    .admd_out(),
+    .admd_out(irac_admd),
     .te_out()
 );
 
@@ -191,6 +192,7 @@ address_counter
   addr_cntr(
     .clk(clk),
     .rst(rst),
+    .admd_in(irac_admd),
     .hold_in(ac_hold),
     .updwn_in(ir_updwn),
     .s_in(ac_s),

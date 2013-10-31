@@ -31,8 +31,8 @@
 `define TEST_CMD_0 (`IR_UPDWN(0) | \
                     `IR_OP3(0)   | `IR_OP2(1) | `IR_OP1(0) | `IR_OP0(0) | \
                     `IR_POL3(0)  | `IR_POL2(0)| `IR_POL1(0)| `IR_POL0(0)| \
-                    `IR_NO(3)    | `IR_DATA(8'hAA)         | `IR_W(0)   | \
-                    `IR_ADMD(0) )
+                    `IR_NO(3)    | `IR_DATA(8'hFA)         | `IR_W(0)   | \
+                    `IR_ADMD(1))
 
 
 module pmbist_test;

@@ -81,19 +81,29 @@
 
 
 // Instruction Register Generator
-`define IR_UPDWN(v) v << `IR_BFP_UPDWN
-`define IR_OP3(v)   v << `IR_BFP_OP + 12
-`define IR_OP2(v)   v << `IR_BFP_OP + 8
-`define IR_OP1(v)   v << `IR_BFP_OP + 4
-`define IR_OP0(v)   v << `IR_BFP_OP + 0
-`define IR_POL3(v)  v << `IR_BFP_POL + 3
-`define IR_POL2(v)  v << `IR_BFP_POL + 2
-`define IR_POL1(v)  v << `IR_BFP_POL + 1
-`define IR_POL0(v)  v << `IR_BFP_POL + 0
-`define IR_NO(v)    v << `IR_BFP_NO
-`define IR_DATA(v)  v << `IR_BFP_DATA
-`define IR_W(v)     v << `IR_BFP_W
-`define IR_ADMD(v)  v << `IR_BFP_ADMD
-`define IR_TE(v)    v << `IR_BFP_TE
+`define IR_UPDWN(v) v << `SCAN_BFP_UPDWN
+`define IR_OP3(v)   v << `SCAN_BFP_OP + 12
+`define IR_OP2(v)   v << `SCAN_BFP_OP + 8
+`define IR_OP1(v)   v << `SCAN_BFP_OP + 4
+`define IR_OP0(v)   v << `SCAN_BFP_OP + 0
+`define IR_POL3(v)  v << `SCAN_BFP_POL + 3
+`define IR_POL2(v)  v << `SCAN_BFP_POL + 2
+`define IR_POL1(v)  v << `SCAN_BFP_POL + 1
+`define IR_POL0(v)  v << `SCAN_BFP_POL + 0
+`define IR_NO(v)    v << `SCAN_BFP_NO
+`define IR_DATA(v)  v << `SCAN_BFP_DATA
+`define IR_W(v)     v << `SCAN_BFP_W
+`define IR_ADMD(v)  v << `SCAN_BFP_ADMD
+
+
+// Pseudo-random seed for address mode
+`define ADMD_PR_SEED    15  // Use a 4-bit number for all address sizes  
+
+`define ADMD_LIUD_FIRST 0           // First address to use
+`define ADMD_LIUD_LAST  16'hffff    // Last address to use
+
+// Address Modes
+`define ADMD_LIUD   0       // Linear Up/Down
+`define ADMD_PRUD   1       // Psuedo-random up/down
 
 `endif //_define_vh
