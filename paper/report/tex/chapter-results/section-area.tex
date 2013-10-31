@@ -1,3 +1,75 @@
 \section{Area Comparisons}
 \label{sect:cln-area}
-compared to other designs...
+The original base design only offered binary and LFSR up/down counters for address counting methods.  The proposed design improves on the base design by providing a more robust address counting method that industry uses to test memory during production.  Table \ref{table:area_compare} below shows the area increases by  2-2.5\%, depending on memory size, when adding the additional address counting logic.
+
+\begin{table}[ht]
+\caption{Chip Area Comparison (\textit{um\textsuperscript{2}})}
+\centering
+\begin{tabular}{c c c c}
+\hline\hline
+Component & Base Area & Proposed Design Area & Percentage Difference \\ [0.5ex]
+%heading
+\hline
+address counter       & 1000 & 1020 & 2\% \\
+address counter block & 2000 & 2040 & 2\% \\ [1ex]
+\hline\hline
+number of gates       & 500  & 600  & 2\% \\ [1ex] 
+\end{tabular}
+\label{table:area_compare}
+\end{table}
+
+Also of note is the area difference between the linear up/down address generatorand the new address generator in this design.  The comparison in memory area is shown in table
+
+\begin{table}[ht]
+\caption{Address Generator Area Comparison}
+\centering
+\begin{tabular}{c c c c}
+\hline\hline
+Memory Size & Address Bits & LiUD & Full Addr Gen \\ [0.5ex]
+
+\hline
+4Kx8      8  & 1\% & 1\%  \\
+8Kx8      12  & 1\% & 1\%  \\
+16Kx8     16   & 1\% & 1\%  \\
+32Kx8     20   & 1\% & 1\%  \\
+64Kx8     24   & 1\% & 1\%  \\
+128Kx8    28    & 1\% & 1\%  \\ [1ex]
+\end{tabular}
+\label{table:addr_gen_compare}
+\end{table}
+
+
+\begin{table}[ht]
+\caption{BIST Area as Percentage of Total Memory Area}
+\centering
+\begin{tabular}{c c c}
+\hline\hline
+Memory Size & Base & Address Programable \\ [0.5ex]
+
+\hline
+4Kx8        & 1\% & 1\%  \\
+8Kx8        & 1\% & 1\%  \\
+16Kx8        & 1\% & 1\%  \\
+32Kx8        & 1\% & 1\%  \\
+64Kx8        & 1\% & 1\%  \\
+128Kx8        & 1\% & 1\%  \\ [1ex]
+\end{tabular}
+\label{table:area_percentage}
+\end{table}
+
+\begin{table}[ht]
+\caption{BIST Area of Each Sub-block}
+\centering
+\begin{tabular}{c c c}
+\hline\hline
+Sub-Block  &  Area  & Gates \\ [0.5ex]
+
+\hline
+Address Counter  &  1  &  1 \\
+Address Decoder  &  1  &  1 \\
+more             &  1  &  1 \\ [1ex]
+\end{tabular}
+\label{table:sub_block_area}
+\end{table}
+
+  
