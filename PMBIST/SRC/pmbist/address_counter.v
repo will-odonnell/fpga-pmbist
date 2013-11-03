@@ -9,14 +9,14 @@ module address_counter(clk,rst,admd_in,hold_in,updwn_in,s_in,r_in,tas_out);
 //-----------------------------------------------
 // Parameters and Definitions
 //-----------------------------------------------
-parameter    tasw        = `ADDR_WIDTH;
-
+parameter   tasw        = `ADDR_WIDTH;
+parameter   admw        = `IR_BFW_ADMD;
 //-----------------------------------------------
 // Input/Output Signals
 //-----------------------------------------------
 input                   clk;
 input                   rst;
-input                   admd_in;
+input   [admw-1:0]      admd_in;
 input                   hold_in;
 input                   updwn_in;
 input                   s_in;
@@ -112,9 +112,9 @@ always @(posedge clk)
     `ADMD_AC: begin
         // Perform the counter next value as blocking statement
         if(updwn_in == `ADDR_UP) begin
-            count = count + 1;
+            count <= count + 1;
         end else begin
-            count = count - 1;
+            count <= count - 1;
         end
         
        // Only bit 7 is dependent on up/down
