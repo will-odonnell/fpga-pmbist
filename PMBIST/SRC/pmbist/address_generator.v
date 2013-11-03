@@ -30,10 +30,6 @@ output  [tasw-1:0]      tas_out;
 always @(admd_in or tas_in)
 begin
   case (admd_in)
-    `ADMD_LIUD: 
-        tas_out = tas_in;
-    `ADMD_PRUD:
-        tas_out = tas_in;
     `ADMD_AC: begin
         // Only bit 7 is dependent on up/down
         if (updwn_in == `ADDR_UP) begin
