@@ -73,30 +73,24 @@ always @(posedge clk)
   end else if (hold_in == 1) begin
     tas_out <= tas_out;
   
-  // Increment address for up direction counting
-  end else if (updwn_in == 0) begin 
-    if (admd_in == `ADMD_LIUD) begin
+  // Implement the different addressing schemes
+  end else if (admd_in == `ADMD_LIUD) begin
+    if (updwn_in == 0) begin
         tas_out <= tas_out + 1;
-    end else if (admd_in == `ADMD_PRUD) begin
-        // LFSR implementation
-        // P(x) = (x^8)+(x^6)+(x^5)+(x^4)+1
+    end else begin
+        tas_out <= tas_out - 1;    
+    end
+  end else if (admd_in == `ADMD_PRUD) begin
+    // LFSR implementation
+    // P(x) = (x^8)+(x^6)+(x^5)+(x^4)+1
+    if (updwn_in == 0) begin
         tas_out[7:1] <= tas_out[6:0];   
         tas_out[0] <= (((tas_out[7]^tas_out[5])^tas_out[4])^tas_out[3]);
-    end 
-  
-  // Decrement address for down direction counting
-  end else begin // (updwn_in == 1)
-    if (admd_in == `ADMD_LIUD) begin
-        tas_out <= tas_out - 1;
-    end else if (admd_in == `ADMD_PRUD) begin
-        // LFSR implementation in reverse
-        // P(x) = (x^8)+(x^6)+(x^5)+(x^4)+1
+    end else begin
         tas_out[6:0] <= tas_out[7:1];   
         tas_out[7] <= (((tas_out[0]^tas_out[5])^tas_out[4])^tas_out[3]);
-    end 
+    end
   end
-
-
 endmodule
 
  
