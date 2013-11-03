@@ -136,7 +136,9 @@ wire                dlirh_;
 // Memory compare signals
 wire	[tdsw-1:0]  mem;
 
+// Main signal wires
 wire    [tasw-1:0]  tas;    // TAS bus
+wire    [tasw-1:0]  acag_tas; // TAS between addr. counter and generator
 wire    [tcsw-1:0]  tcs;    // TCS bus
 wire    [tdsw-1:0]  tds;    // TDS bus
 
@@ -197,6 +199,14 @@ address_counter
     .updwn_in(ir_updwn),
     .s_in(ac_s),
     .r_in(ac_r),
+    .tas_out(acag_tas)
+);
+
+address_generator
+  addr_gen(
+    .admd_in(irac_admd),
+    .updwn_in(ir_updwn),
+    .tas_in(acag_tas),
     .tas_out(tas)
 );
 

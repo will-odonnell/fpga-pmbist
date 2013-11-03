@@ -102,8 +102,24 @@
 `define ADMD_LIUD_FIRST 0           // First address to use
 `define ADMD_LIUD_LAST  16'hffff    // Last address to use
 
+`define ADDR_UP     0       // Counting direction up
+`define ADDR_DOWN   1       // Counting direction down (reverse)
+
 // Address Modes
 `define ADMD_LIUD   0       // Linear Up/Down
 `define ADMD_PRUD   1       // Psuedo-random up/down
+`define ADMD_AC     2       // Address Complimenting
+`define ADMD_GC     3       // Gray coding 
+`define ADMD_WC     4       // Worst-case gate delay
+// 2^i addressing mode uses lower 3 bits to define i
+// bit[3] = Address Mode 2^i, bit[2:0] = i
+`define ADMD_2I0    8       // 2^i where i=0
+`define ADMD_2I1    9       // 2^i where i=1
+`define ADMD_2I2    10      // 2^i where i=2
+`define ADMD_2I3    11      // 2^i where i=3
+`define ADMD_2I4    12      // 2^i where i=4
+`define ADMD_2I5    13      // 2^i where i=5
+`define ADMD_2I6    14      // 2^i where i=6
+`define ADMD_2I7    15      // 2^i where i=7
 
 `endif //_define_vh
