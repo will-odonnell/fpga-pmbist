@@ -96,13 +96,29 @@ always @(posedge clk) begin
 end 
 
 
-assign tas_out[7] = (admd_in == `ADMD_AC) ? ((updwn_in == `ADDR_UP) ? count[0] : !count[0]) : count[7];
-assign tas_out[6] = (admd_in == `ADMD_AC) ? count[7]^count[0] : count[6];
-assign tas_out[5] = (admd_in == `ADMD_AC) ? count[6]^count[0] : count[5];
-assign tas_out[4] = (admd_in == `ADMD_AC) ? count[5]^count[0] : count[4];
-assign tas_out[3] = (admd_in == `ADMD_AC) ? count[4]^count[0] : count[3];
-assign tas_out[2] = (admd_in == `ADMD_AC) ? count[3]^count[0] : count[2];
-assign tas_out[1] = (admd_in == `ADMD_AC) ? count[2]^count[0] : count[1];
-assign tas_out[0] = (admd_in == `ADMD_AC) ? count[1]^count[0] : count[0];
+assign tas_out[7] = (admd_in == `ADMD_AC) ? ((updwn_in == `ADDR_UP) ? count[0] : !count[0]) : 
+                    (admd_in == `ADMD_GC) ? ((updwn_in == `ADDR_UP) ? count[7] : !count[7]) :
+                    count[7];
+assign tas_out[6] = (admd_in == `ADMD_AC) ? count[7]^count[0] : 
+                    (admd_in == `ADMD_GC) ? count[6]^count[7] :
+                    count[6];
+assign tas_out[5] = (admd_in == `ADMD_AC) ? count[6]^count[0] : 
+                    (admd_in == `ADMD_GC) ? count[5]^count[6] :
+                    count[5];
+assign tas_out[4] = (admd_in == `ADMD_AC) ? count[5]^count[0] : 
+                    (admd_in == `ADMD_GC) ? count[4]^count[5] :
+                    count[4];
+assign tas_out[3] = (admd_in == `ADMD_AC) ? count[4]^count[0] : 
+                    (admd_in == `ADMD_GC) ? count[3]^count[4] :
+                    count[3];
+assign tas_out[2] = (admd_in == `ADMD_AC) ? count[3]^count[0] : 
+                    (admd_in == `ADMD_GC) ? count[2]^count[3] :
+                    count[2];
+assign tas_out[1] = (admd_in == `ADMD_AC) ? count[2]^count[0] : 
+                    (admd_in == `ADMD_GC) ? count[1]^count[2] :
+                    count[1];
+assign tas_out[0] = (admd_in == `ADMD_AC) ? count[1]^count[0] : 
+                    (admd_in == `ADMD_GC) ? count[0]^count[1] :
+                    count[0];
 
 endmodule
