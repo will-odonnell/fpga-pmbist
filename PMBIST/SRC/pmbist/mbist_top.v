@@ -131,10 +131,14 @@ wire                ac_r;     // address counter r variable
 
 // Decode Logic to Instruction Register hold logic
 wire                dlirh_lu;
-wire                dlirh_;
+wire                dlirh_ld;
 
 // Memory compare signals
 wire	[tdsw-1:0]  mem;
+
+// Data transfer busses
+wire    [tdws-1:0]  drdm_data;  // data register to mux
+wire    [tdsw-1:0]  amdm_data;  // auxiliary memory to mux
 
 // Main signal wires
 wire    [tasw-1:0]  tas;    // TAS bus
@@ -213,7 +217,15 @@ data_register
     .clk(clk),
     .rst(rst),
     .data_in(dl_data),
-    .data_out(tds)
+    .data_out(drdm_data)
+);
+
+mux2x8
+  data_mux(
+    .a_in(drdm_data),
+    .b_in(amdm_data),
+    .s_in(ofdm_select),
+    .d_out(tds)
 );
 
 data_comparator
