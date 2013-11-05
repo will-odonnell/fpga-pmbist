@@ -25,6 +25,9 @@
 // Cycle counter size in bits
 `define CYCLE_COUNTER_SIZE  2
 
+// Gray counter in pattern generator
+`define GRAY_COUNTER_WIDTH  5
+
 ////////////////////////////////////////////////////////////////////////////////
 
 
