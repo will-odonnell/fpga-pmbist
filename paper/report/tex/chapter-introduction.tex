@@ -2,17 +2,18 @@
 \label{chap:introduction}
 The movement to smart mobile connected devices which consolidate functions of traditionally separate devices is driving innovation in System-on-chips (SoCs).  One of the innovations helping to meet the current needs of SoCs is the integration of larger memory with the processor.  As the need for memory has increased, SoCs have moved from logic dominant chips to memory dominant chips.  In fact, \cite{1327984} estimates 94\% of the SoC will be dedicated to memory by 2014.  
 
-Because embedded memories are designed with aggressive design rules to increase the density of transistors per area, they are more prone to manufacturing defects and negatively affect the overall chip yield.  Testing memory to identify faulty blocks is critical to increase and maintain acceptable yield \cite{1395663}. 
-A built-in self-test (BIST) has previously been used to test logical elemebts of the chips, but how now been adapted to test memory as well.  The density of memory and difficulty in accessing all signals has driven the growth of memory built-in self-test (MBIST) as the only practical and cost-effect solution for embedded SoC memories \cite{5875994}.  
+Because embedded memories are designed with aggressive design rules to increase the density of transistors per area, they are more prone to manufacturing defects that negatively affect the overall chip yield.  Testing memory to identify faulty blocks is critical to increase and maintain acceptable yield \cite{1395663}. 
+A built-in self-test (BIST) has previously been used to test logical elements of the chip, but now have been adapted to test memory as well.  The density of memory and difficulty in accessing all signals has driven the growth of memory built-in self-test (MBIST) as the only practical and cost-effect solution for embedded SoC memories \cite{5875994}.  
 
 As not all fault models can always be predicted for a new product, programmable MBIST (PMBIST) designs allow developers to address fault detection, create efficient algorithms, and overcome challenges presented by new technology.  The most common memory test today is the March test because its structured and repetive algorithms can be applied very easily to the symmetric nature of memory cells \cite{1675150}.  The design presented in \cite{1584083} primarily uses the March test to verify the integrity of the memory.  
 
-The PMBIST design \cite{1584083} is intended to provide an area efficient design with good flexibilty on algorithm and test data programming.  This paper proposes improvements to the design by allowing the address order and counting method to be programmable as well as expanding the detection of neighborhood pattern-sensitive faults to 3-D memories.  In addition, this paper will show a reduction of area can be achived by introducing a dynamic pattern generation block to replace the auxillary memory.  
+The PMBIST design presented in \cite{1584083} is intended to provide an area efficient design with good flexibilty on algorithm and test data programming.  This master's report proposes improvements to the design by providing programmability to the address order and counting method.  In addition, this paper will show a reduction of area can be achived by introducing a dynamic pattern generation block to replace the auxillary memory used to store neighborhood pattern-sensitve fault (NPSF) backgrounds.
 
 This paper is divided into five chapters.
 Chapter 1 offers motivation for this project and supplies definitions for common terminology.  Chapter 2 provides background information on the memory faults, current memory testing algorithms and designs to address some of the challenges of memory testing.  Chapter 3 presents details of the design proposed in this report and chapter 4 follows with testing results and comparisons to other designs.
 Finally, chapter 5 concludes the report.  
 
+\input{tex/chapter-introduction/section-motivation}
 \input{tex/chapter-introduction/section-terminology}
 
 
