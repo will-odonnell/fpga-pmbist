@@ -1,0 +1,95 @@
+Warning: Design 'mbist_top' has '3' unresolved references. For more detailed information, use the "link" command. (UID-341)
+ 
+****************************************
+Report : timing
+        -path end
+        -delay max
+        -max_paths 50
+Design : mbist_top
+Version: E-2010.12
+Date   : Tue Nov  5 21:54:47 2013
+****************************************
+
+Operating Conditions: typical   Library: typical
+Wire Load Model Mode: top
+
+Endpoint                         Path Delay     Path Required     Slack
+------------------------------------------------------------------------
+addr_cntr/count_reg[0]/D (DFFHQX1)     3.21 f         9.66         6.45
+addr_cntr/count_reg[1]/D (DFFHQX1)     3.21 f         9.66         6.45
+addr_cntr/count_reg[2]/D (DFFHQX1)     3.21 f         9.66         6.45
+addr_cntr/count_reg[3]/D (DFFHQX1)     3.21 f         9.66         6.45
+addr_cntr/count_reg[4]/D (DFFHQX1)     3.18 f         9.66         6.48
+addr_cntr/count_reg[5]/D (DFFHQX1)     3.18 f         9.66         6.48
+addr_cntr/count_reg[6]/D (DFFHQX1)     3.18 f         9.66         6.48
+addr_cntr/count_reg[7]/D (DFFHQX1)     3.18 f         9.66         6.48
+cyc_ctrl/cyc_cntr/cyc_cnt_out_reg[1]/D (DFFHQX1)     2.42 r     9.78     7.36
+cyc_ctrl/cyc_cntr/cyc_cnt_out_reg[0]/D (DFFHQX1)     2.20 f     9.67     7.47
+cyc_ctrl/cmpr_ff/q_out_reg/RN (DFFTRX1)     2.11 f     9.62        7.51
+udff/q_out_reg/RN (DFFTRX1)         2.11 f            9.62         7.51
+tas_out[0] (out)                    1.24 f            8.89         7.65
+tas_out[7] (out)                    1.21 r            8.89         7.68
+tas_out[5] (out)                    1.20 r            8.89         7.69
+tas_out[1] (out)                    1.20 r            8.89         7.69
+tas_out[6] (out)                    1.20 r            8.89         7.69
+tas_out[2] (out)                    1.15 f            8.89         7.74
+tas_out[3] (out)                    1.14 f            8.89         7.75
+tas_out[4] (out)                    1.12 f            8.89         7.77
+cyc_ctrl/cmpr_ff/q_out_reg/D (DFFTRX1)     0.51 f     9.64         9.12
+
+1
+Warning: Design 'mbist_top' has '3' unresolved references. For more detailed information, use the "link" command. (UID-341)
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : mbist_top
+Version: E-2010.12
+Date   : Tue Nov  5 21:54:47 2013
+****************************************
+
+Operating Conditions: typical   Library: typical
+Wire Load Model Mode: top
+
+  Startpoint: ts_in (input port clocked by clk)
+  Endpoint: addr_cntr/count_reg[0]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  input external delay                                    1.98       1.98 r
+  ts_in (in)                                              0.01       1.98 r
+  U2/Y (BUFX3)                                            0.08       2.06 r
+  logic_addr_updwn/ts_in (address_counter_up_down)        0.00       2.06 r
+  logic_addr_updwn/U1/Y (NOR2BX1)                         0.16       2.21 r
+  logic_addr_updwn/s_out (address_counter_up_down)        0.00       2.21 r
+  addr_cntr/s_in (address_counter)                        0.00       2.21 r
+  addr_cntr/U50/Y (NOR3X1)                                0.07       2.28 f
+  addr_cntr/U11/Y (NOR2BX1)                               0.14       2.42 f
+  addr_cntr/U52/Y (AND3X2)                                0.21       2.63 f
+  addr_cntr/U48/Y (NOR4BX1)                               0.25       2.88 r
+  addr_cntr/U53/Y (AOI2BB1X1)                             0.12       2.99 f
+  addr_cntr/U16/Y (AOI221X1)                              0.15       3.15 r
+  addr_cntr/U14/Y (OAI211X1)                              0.06       3.21 f
+  addr_cntr/count_reg[0]/D (DFFHQX1)                      0.00       3.21 f
+  data arrival time                                                  3.21
+
+  clock clk (rise edge)                                   9.88       9.88
+  clock network delay (ideal)                             0.00       9.88
+  addr_cntr/count_reg[0]/CK (DFFHQX1)                     0.00       9.88 r
+  library setup time                                     -0.21       9.66
+  data required time                                                 9.66
+  --------------------------------------------------------------------------
+  data required time                                                 9.66
+  data arrival time                                                 -3.21
+  --------------------------------------------------------------------------
+  slack (MET)                                                        6.45
+
+
+1

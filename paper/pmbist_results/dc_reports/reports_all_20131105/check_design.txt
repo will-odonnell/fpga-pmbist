@@ -1,0 +1,139 @@
+Warning: Design 'mbist_top' has '3' unresolved references. For more detailed information, use the "link" command. (UID-341)
+ 
+****************************************
+check_design summary:
+Version:     E-2010.12
+Date:        Tue Nov  5 21:54:43 2013
+****************************************
+
+                   Name                                            Total
+--------------------------------------------------------------------------------
+Inputs/Outputs                                                     76
+    Multiply driven inputs (LINT-6)                                38
+    Unconnected ports (LINT-28)                                    24
+    Feedthrough (LINT-29)                                          13
+    Shorted outputs (LINT-31)                                       1
+
+Cells                                                              16
+    Cells do not drive (LINT-1)                                     5
+    Leaf pins connected to undriven nets (LINT-58)                  2
+    Cells have undriven hier pins (LINT-59)                         2
+    Hier pins without driver and load (LINT-60)                     7
+
+Nets                                                               10
+    Unloaded nets (LINT-2)                                          1
+    Undriven nets (LINT-3)                                          9
+
+Tristate                                                            6
+    A tristate bus has a non tri-state driver (LINT-34)             6
+--------------------------------------------------------------------------------
+
+Warning: In design 'address_counter', cell 'B_22' does not drive any nets. (LINT-1)
+Warning: In design 'address_counter', cell 'C764' does not drive any nets. (LINT-1)
+Warning: In design 'pattern_generator', cell 'C478' does not drive any nets. (LINT-1)
+Warning: In design 'pattern_generator', cell 'C481' does not drive any nets. (LINT-1)
+Warning: In design 'cycle_counter', cell 'B_2' does not drive any nets. (LINT-1)
+Warning: In design 'mbist_top', net 'cc_cmp' driven by pin 'cyc_ctrl/cc_cmp_out' has no loads. (LINT-2)
+Warning: In design 'mbist_top', net 'cc_comp' has no drivers.  Logic 0 assumed. (LINT-3)
+Warning: In design 'mbist_top', net 'mem[0]' has no drivers.  Logic 0 assumed. (LINT-3)
+Warning: In design 'mbist_top', net 'mem[1]' has no drivers.  Logic 0 assumed. (LINT-3)
+Warning: In design 'mbist_top', net 'mem[2]' has no drivers.  Logic 0 assumed. (LINT-3)
+Warning: In design 'mbist_top', net 'mem[3]' has no drivers.  Logic 0 assumed. (LINT-3)
+Warning: In design 'mbist_top', net 'mem[4]' has no drivers.  Logic 0 assumed. (LINT-3)
+Warning: In design 'mbist_top', net 'mem[5]' has no drivers.  Logic 0 assumed. (LINT-3)
+Warning: In design 'mbist_top', net 'mem[6]' has no drivers.  Logic 0 assumed. (LINT-3)
+Warning: In design 'mbist_top', net 'mem[7]' has no drivers.  Logic 0 assumed. (LINT-3)
+Warning: In design 'mbist_top', input port 'clk' drives wired logic; the port direction may have been specified incorrectly. (LINT-6)
+Warning: In design 'mbist_top', input port 'rst' drives wired logic; the port direction may have been specified incorrectly. (LINT-6)
+Warning: In design 'mbist_top', input port 'scan_in[35]' drives wired logic; the port direction may have been specified incorrectly. (LINT-6)
+Warning: In design 'mbist_top', input port 'scan_in[34]' drives wired logic; the port direction may have been specified incorrectly. (LINT-6)
+Warning: In design 'mbist_top', input port 'scan_in[33]' drives wired logic; the port direction may have been specified incorrectly. (LINT-6)
+Warning: In design 'mbist_top', input port 'scan_in[32]' drives wired logic; the port direction may have been specified incorrectly. (LINT-6)
+Warning: In design 'mbist_top', input port 'scan_in[31]' drives wired logic; the port direction may have been specified incorrectly. (LINT-6)
+Warning: In design 'mbist_top', input port 'scan_in[30]' drives wired logic; the port direction may have been specified incorrectly. (LINT-6)
+Warning: In design 'mbist_top', input port 'scan_in[29]' drives wired logic; the port direction may have been specified incorrectly. (LINT-6)
+Warning: In design 'mbist_top', input port 'scan_in[28]' drives wired logic; the port direction may have been specified incorrectly. (LINT-6)
+Warning: In design 'mbist_top', input port 'scan_in[27]' drives wired logic; the port direction may have been specified incorrectly. (LINT-6)
+Warning: In design 'mbist_top', input port 'scan_in[26]' drives wired logic; the port direction may have been specified incorrectly. (LINT-6)
+Warning: In design 'mbist_top', input port 'scan_in[25]' drives wired logic; the port direction may have been specified incorrectly. (LINT-6)
+Warning: In design 'mbist_top', input port 'scan_in[24]' drives wired logic; the port direction may have been specified incorrectly. (LINT-6)
+Warning: In design 'mbist_top', input port 'scan_in[23]' drives wired logic; the port direction may have been specified incorrectly. (LINT-6)
+Warning: In design 'mbist_top', input port 'scan_in[22]' drives wired logic; the port direction may have been specified incorrectly. (LINT-6)
+Warning: In design 'mbist_top', input port 'scan_in[21]' drives wired logic; the port direction may have been specified incorrectly. (LINT-6)
+Warning: In design 'mbist_top', input port 'scan_in[20]' drives wired logic; the port direction may have been specified incorrectly. (LINT-6)
+Warning: In design 'mbist_top', input port 'scan_in[19]' drives wired logic; the port direction may have been specified incorrectly. (LINT-6)
+Warning: In design 'mbist_top', input port 'scan_in[18]' drives wired logic; the port direction may have been specified incorrectly. (LINT-6)
+Warning: In design 'mbist_top', input port 'scan_in[17]' drives wired logic; the port direction may have been specified incorrectly. (LINT-6)
+Warning: In design 'mbist_top', input port 'scan_in[16]' drives wired logic; the port direction may have been specified incorrectly. (LINT-6)
+Warning: In design 'mbist_top', input port 'scan_in[15]' drives wired logic; the port direction may have been specified incorrectly. (LINT-6)
+Warning: In design 'mbist_top', input port 'scan_in[14]' drives wired logic; the port direction may have been specified incorrectly. (LINT-6)
+Warning: In design 'mbist_top', input port 'scan_in[13]' drives wired logic; the port direction may have been specified incorrectly. (LINT-6)
+Warning: In design 'mbist_top', input port 'scan_in[12]' drives wired logic; the port direction may have been specified incorrectly. (LINT-6)
+Warning: In design 'mbist_top', input port 'scan_in[11]' drives wired logic; the port direction may have been specified incorrectly. (LINT-6)
+Warning: In design 'mbist_top', input port 'scan_in[10]' drives wired logic; the port direction may have been specified incorrectly. (LINT-6)
+Warning: In design 'mbist_top', input port 'scan_in[9]' drives wired logic; the port direction may have been specified incorrectly. (LINT-6)
+Warning: In design 'mbist_top', input port 'scan_in[8]' drives wired logic; the port direction may have been specified incorrectly. (LINT-6)
+Warning: In design 'mbist_top', input port 'scan_in[7]' drives wired logic; the port direction may have been specified incorrectly. (LINT-6)
+Warning: In design 'mbist_top', input port 'scan_in[6]' drives wired logic; the port direction may have been specified incorrectly. (LINT-6)
+Warning: In design 'mbist_top', input port 'scan_in[5]' drives wired logic; the port direction may have been specified incorrectly. (LINT-6)
+Warning: In design 'mbist_top', input port 'scan_in[4]' drives wired logic; the port direction may have been specified incorrectly. (LINT-6)
+Warning: In design 'mbist_top', input port 'scan_in[3]' drives wired logic; the port direction may have been specified incorrectly. (LINT-6)
+Warning: In design 'mbist_top', input port 'scan_in[2]' drives wired logic; the port direction may have been specified incorrectly. (LINT-6)
+Warning: In design 'mbist_top', input port 'scan_in[1]' drives wired logic; the port direction may have been specified incorrectly. (LINT-6)
+Warning: In design 'mbist_top', input port 'scan_in[0]' drives wired logic; the port direction may have been specified incorrectly. (LINT-6)
+Warning: In design 'mbist_top', port 'scan_in[36]' is not connected to any nets. (LINT-28)
+Warning: In design 'decode_logic', port 'tas_in[7]' is not connected to any nets. (LINT-28)
+Warning: In design 'decode_logic', port 'tas_in[6]' is not connected to any nets. (LINT-28)
+Warning: In design 'decode_logic', port 'tas_in[5]' is not connected to any nets. (LINT-28)
+Warning: In design 'decode_logic', port 'tas_in[4]' is not connected to any nets. (LINT-28)
+Warning: In design 'decode_logic', port 'tas_in[3]' is not connected to any nets. (LINT-28)
+Warning: In design 'decode_logic', port 'tas_in[2]' is not connected to any nets. (LINT-28)
+Warning: In design 'decode_logic', port 'tas_in[1]' is not connected to any nets. (LINT-28)
+Warning: In design 'pattern_generator', port 'clk' is not connected to any nets. (LINT-28)
+Warning: In design 'data_comparator', port 'bist_data_in[7]' is not connected to any nets. (LINT-28)
+Warning: In design 'data_comparator', port 'bist_data_in[6]' is not connected to any nets. (LINT-28)
+Warning: In design 'data_comparator', port 'bist_data_in[5]' is not connected to any nets. (LINT-28)
+Warning: In design 'data_comparator', port 'bist_data_in[4]' is not connected to any nets. (LINT-28)
+Warning: In design 'data_comparator', port 'bist_data_in[3]' is not connected to any nets. (LINT-28)
+Warning: In design 'data_comparator', port 'bist_data_in[2]' is not connected to any nets. (LINT-28)
+Warning: In design 'data_comparator', port 'bist_data_in[1]' is not connected to any nets. (LINT-28)
+Warning: In design 'data_comparator', port 'mem_data_in[7]' is not connected to any nets. (LINT-28)
+Warning: In design 'data_comparator', port 'mem_data_in[6]' is not connected to any nets. (LINT-28)
+Warning: In design 'data_comparator', port 'mem_data_in[5]' is not connected to any nets. (LINT-28)
+Warning: In design 'data_comparator', port 'mem_data_in[4]' is not connected to any nets. (LINT-28)
+Warning: In design 'data_comparator', port 'mem_data_in[3]' is not connected to any nets. (LINT-28)
+Warning: In design 'data_comparator', port 'mem_data_in[2]' is not connected to any nets. (LINT-28)
+Warning: In design 'data_comparator', port 'mem_data_in[1]' is not connected to any nets. (LINT-28)
+Warning: In design 'data_polarity', port 'pol_in' is not connected to any nets. (LINT-28)
+Warning: In design 'decode_logic', input port 'tas_in[0]' is connected directly to output port 'ld_out'. (LINT-29)
+Warning: In design 'decode_logic', input port 'tas_in[0]' is connected directly to output port 'lu_out'. (LINT-29)
+Warning: In design 'operation_formatting', input port 'op_in[3]' is connected directly to output port 'op_out[3]'. (LINT-29)
+Warning: In design 'operation_formatting', input port 'op_in[2]' is connected directly to output port 'op_out[2]'. (LINT-29)
+Warning: In design 'operation_formatting', input port 'op_in[1]' is connected directly to output port 'op_out[1]'. (LINT-29)
+Warning: In design 'operation_formatting', input port 'op_in[0]' is connected directly to output port 'op_out[0]'. (LINT-29)
+Warning: In design 'data_polarity', input port 'data_in[7]' is connected directly to output port 'data_out[7]'. (LINT-29)
+Warning: In design 'data_polarity', input port 'data_in[6]' is connected directly to output port 'data_out[6]'. (LINT-29)
+Warning: In design 'data_polarity', input port 'data_in[5]' is connected directly to output port 'data_out[5]'. (LINT-29)
+Warning: In design 'data_polarity', input port 'data_in[4]' is connected directly to output port 'data_out[4]'. (LINT-29)
+Warning: In design 'data_polarity', input port 'data_in[3]' is connected directly to output port 'data_out[3]'. (LINT-29)
+Warning: In design 'data_polarity', input port 'data_in[2]' is connected directly to output port 'data_out[2]'. (LINT-29)
+Warning: In design 'data_polarity', input port 'data_in[1]' is connected directly to output port 'data_out[1]'. (LINT-29)
+Warning: In design 'decode_logic', output port 'lu_out' is connected directly to output port 'ld_out'. (LINT-31)
+Warning: In design 'mbist_top', three-state bus 'fmocr_op[0]' has non three-state driver 'cyc_ctrl/ctrl_mux/C28/Z_0'. (LINT-34)
+Warning: In design 'mbist_top', three-state bus 'fmocr_op[1]' has non three-state driver 'cyc_ctrl/ctrl_mux/C28/Z_1'. (LINT-34)
+Warning: In design 'mbist_top', three-state bus 'fmocr_op[2]' has non three-state driver 'cyc_ctrl/ctrl_mux/C28/Z_2'. (LINT-34)
+Warning: In design 'mbist_top', three-state bus 'fmocr_op[3]' has non three-state driver 'cyc_ctrl/ctrl_mux/C28/Z_3'. (LINT-34)
+Warning: In design 'mbist_top', three-state bus 'dl_data[0]' has non three-state driver 'data_pol_logic/C7/Z'. (LINT-34)
+Warning: In design 'mbist_top', three-state bus 'ir_hold' has non three-state driver 'logic_ir_hold/I_1/Z'. (LINT-34)
+Warning: In design 'data_comparator', input pin 'B' of leaf cell 'C14' is connected to undriven net 'mem_data_in[0]'.  (LINT-58)
+Warning: In design 'instruction_register_hold', input pin 'B' of leaf cell 'C14' is connected to undriven net 'cc_comp_in'.  (LINT-58)
+Warning: In design 'mbist_top', input pin 'mem_data_in[0]' of hierarchical cell 'data_comp' has one or more internal loads, but is not connected to any nets. 'Logic 0' is assumed. (LINT-59)
+Warning: In design 'mbist_top', input pin 'cc_comp_in' of hierarchical cell 'logic_ir_hold' has one or more internal loads, but is not connected to any nets. 'Logic 0' is assumed. (LINT-59)
+Warning: In design 'mbist_top', input pin 'mem_data_in[7]' of hierarchical cell 'data_comp' has no internal loads and is not connected to any nets. (LINT-60)
+Warning: In design 'mbist_top', input pin 'mem_data_in[6]' of hierarchical cell 'data_comp' has no internal loads and is not connected to any nets. (LINT-60)
+Warning: In design 'mbist_top', input pin 'mem_data_in[5]' of hierarchical cell 'data_comp' has no internal loads and is not connected to any nets. (LINT-60)
+Warning: In design 'mbist_top', input pin 'mem_data_in[4]' of hierarchical cell 'data_comp' has no internal loads and is not connected to any nets. (LINT-60)
+Warning: In design 'mbist_top', input pin 'mem_data_in[3]' of hierarchical cell 'data_comp' has no internal loads and is not connected to any nets. (LINT-60)
+Warning: In design 'mbist_top', input pin 'mem_data_in[2]' of hierarchical cell 'data_comp' has no internal loads and is not connected to any nets. (LINT-60)
+Warning: In design 'mbist_top', input pin 'mem_data_in[1]' of hierarchical cell 'data_comp' has no internal loads and is not connected to any nets. (LINT-60)
+1

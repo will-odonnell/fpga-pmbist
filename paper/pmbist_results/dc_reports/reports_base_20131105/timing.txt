@@ -1,0 +1,119 @@
+ 
+****************************************
+Report : timing
+        -path end
+        -delay max
+        -max_paths 50
+Design : mbist_top
+Version: E-2010.12
+Date   : Tue Nov  5 22:04:41 2013
+****************************************
+
+Operating Conditions: typical   Library: typical
+Wire Load Model Mode: top
+
+Endpoint                         Path Delay     Path Required     Slack
+------------------------------------------------------------------------
+inst_reg/admd_out_reg[0]/D (DFFHQX1)     4.42 f       9.67         5.25
+inst_reg/admd_out_reg[1]/D (DFFHQX1)     4.42 f       9.67         5.25
+inst_reg/admd_out_reg[2]/D (DFFHQX1)     4.42 f       9.67         5.25
+inst_reg/admd_out_reg[3]/D (DFFHQX1)     4.42 f       9.67         5.25
+inst_reg/data_out_reg[0]/D (DFFHQX1)     4.42 f       9.67         5.25
+inst_reg/data_out_reg[1]/D (DFFHQX1)     4.42 f       9.67         5.25
+inst_reg/data_out_reg[2]/D (DFFHQX1)     4.42 f       9.67         5.25
+inst_reg/data_out_reg[3]/D (DFFHQX1)     4.42 f       9.67         5.25
+inst_reg/data_out_reg[4]/D (DFFHQX1)     4.42 f       9.67         5.25
+inst_reg/data_out_reg[5]/D (DFFHQX1)     4.42 f       9.67         5.25
+inst_reg/data_out_reg[6]/D (DFFHQX1)     4.42 f       9.67         5.25
+inst_reg/data_out_reg[7]/D (DFFHQX1)     4.42 f       9.67         5.25
+inst_reg/no_out_reg[0]/D (DFFHQX1)     4.42 f         9.67         5.25
+inst_reg/no_out_reg[1]/D (DFFHQX1)     4.42 f         9.67         5.25
+inst_reg/op_out_reg[0]/D (DFFHQX1)     4.42 f         9.67         5.25
+inst_reg/op_out_reg[1]/D (DFFHQX1)     4.42 f         9.67         5.25
+inst_reg/op_out_reg[2]/D (DFFHQX1)     4.42 f         9.67         5.25
+inst_reg/op_out_reg[3]/D (DFFHQX1)     4.42 f         9.67         5.25
+inst_reg/op_out_reg[4]/D (DFFHQX1)     4.42 f         9.67         5.25
+inst_reg/op_out_reg[5]/D (DFFHQX1)     4.42 f         9.67         5.25
+inst_reg/op_out_reg[6]/D (DFFHQX1)     4.42 f         9.67         5.25
+inst_reg/op_out_reg[7]/D (DFFHQX1)     4.42 f         9.67         5.25
+inst_reg/op_out_reg[8]/D (DFFHQX1)     4.42 f         9.67         5.25
+inst_reg/op_out_reg[9]/D (DFFHQX1)     4.42 f         9.67         5.25
+inst_reg/op_out_reg[10]/D (DFFHQX1)     4.42 f        9.67         5.25
+inst_reg/op_out_reg[11]/D (DFFHQX1)     4.42 f        9.67         5.25
+inst_reg/op_out_reg[12]/D (DFFHQX1)     4.42 f        9.67         5.25
+inst_reg/op_out_reg[13]/D (DFFHQX1)     4.42 f        9.67         5.25
+inst_reg/op_out_reg[14]/D (DFFHQX1)     4.42 f        9.67         5.25
+inst_reg/op_out_reg[15]/D (DFFHQX1)     4.42 f        9.67         5.25
+inst_reg/pol_out_reg[0]/D (DFFHQX1)     4.42 f        9.67         5.25
+inst_reg/pol_out_reg[1]/D (DFFHQX1)     4.42 f        9.67         5.25
+inst_reg/pol_out_reg[2]/D (DFFHQX1)     4.42 f        9.67         5.25
+inst_reg/pol_out_reg[3]/D (DFFHQX1)     4.42 f        9.67         5.25
+inst_reg/updwn_out_reg[0]/D (DFFHQX1)     4.42 f      9.67         5.25
+inst_reg/w_out_reg[0]/D (DFFHQX1)     4.42 f          9.67         5.25
+cyc_ctrl/cyc_cntr/cyc_cnt_out_reg[1]/D (DFFHQX1)     2.42 r     9.78     7.36
+cyc_ctrl/cyc_cntr/cyc_cnt_out_reg[0]/D (DFFHQX1)     2.20 f     9.67     7.47
+data_reg/data_reg[0]/RN (DFFTRX1)     2.13 f          9.61         7.48
+data_reg/data_reg[1]/RN (DFFTRX1)     2.13 f          9.61         7.48
+data_reg/data_reg[2]/RN (DFFTRX1)     2.13 f          9.61         7.48
+data_reg/data_reg[3]/RN (DFFTRX1)     2.13 f          9.61         7.48
+data_reg/data_reg[4]/RN (DFFTRX1)     2.13 f          9.61         7.48
+data_reg/data_reg[5]/RN (DFFTRX1)     2.13 f          9.61         7.48
+data_reg/data_reg[6]/RN (DFFTRX1)     2.13 f          9.61         7.48
+data_reg/data_reg[7]/RN (DFFTRX1)     2.13 f          9.61         7.48
+op_ctrl_reg/op_out_reg[0]/RN (DFFTRX1)     2.11 f     9.62         7.51
+op_ctrl_reg/op_out_reg[1]/RN (DFFTRX1)     2.11 f     9.62         7.51
+op_ctrl_reg/op_out_reg[2]/RN (DFFTRX1)     2.11 f     9.62         7.51
+op_ctrl_reg/op_out_reg[3]/RN (DFFTRX1)     2.11 f     9.62         7.51
+
+1
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : mbist_top
+Version: E-2010.12
+Date   : Tue Nov  5 22:04:41 2013
+****************************************
+
+Operating Conditions: typical   Library: typical
+Wire Load Model Mode: top
+
+  Startpoint: ts_in (input port clocked by clk)
+  Endpoint: inst_reg/admd_out_reg[0]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  input external delay                                    1.98       1.98 r
+  ts_in (in)                                              0.01       1.98 r
+  U38/Y (BUFX3)                                           0.08       2.06 r
+  logic_ir_hold/ts_in (instruction_register_hold)         0.00       2.06 r
+  logic_ir_hold/U1/Y (NOR2BX1)                            0.04       2.09 f
+  logic_ir_hold/hold_out (instruction_register_hold)      0.00       2.09 f
+  inst_reg/hold_in (instruction_register)                 0.00       2.09 f
+  inst_reg/U4/Y (NOR2X1)                                  1.25       3.34 r
+  inst_reg/U3/Y (NOR2X1)                                  0.76       4.11 f
+  inst_reg/U6/Y (AOI22X1)                                 0.29       4.40 r
+  inst_reg/U5/Y (INVX1)                                   0.02       4.42 f
+  inst_reg/admd_out_reg[0]/D (DFFHQX1)                    0.00       4.42 f
+  data arrival time                                                  4.42
+
+  clock clk (rise edge)                                   9.88       9.88
+  clock network delay (ideal)                             0.00       9.88
+  inst_reg/admd_out_reg[0]/CK (DFFHQX1)                   0.00       9.88 r
+  library setup time                                     -0.20       9.67
+  data required time                                                 9.67
+  --------------------------------------------------------------------------
+  data required time                                                 9.67
+  data arrival time                                                 -4.42
+  --------------------------------------------------------------------------
+  slack (MET)                                                        5.25
+
+
+1

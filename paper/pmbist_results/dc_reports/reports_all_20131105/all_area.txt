@@ -1,0 +1,63 @@
+Warning: Design 'mbist_top' has '3' unresolved references. For more detailed information, use the "link" command. (UID-341)
+ 
+****************************************
+Report : area
+Design : mbist_top
+Version: E-2010.12
+Date   : Tue Nov  5 21:54:47 2013
+****************************************
+
+Library(s) Used:
+
+    typical (File: /scratch/wodonnell/mp/Artisan/synopsys/typical.db)
+
+Number of ports:                           61
+Number of nets:                           171
+Number of cells:                           38
+Number of combinational cells:             26
+Number of sequential cells:                 0
+Number of macros:                           0
+Number of buf/inv:                         23
+Number of references:                      16
+
+Combinational area:       4753.425642
+Noncombinational area:    1413.720016
+Net Interconnect area:      undefined  (No wire load specified)
+
+Total cell area:          6167.145658
+Total area:                 undefined
+
+Information: This design contains black box (unknown) components. (RPT-8)
+
+The above information was reported from the logical library. The following are from the physical library:
+
+Hierarchical area distribution
+------------------------------
+
+                                  Global cell area          Local cell area
+                                  ------------------  ---------------------------- 
+Hierarchical cell                 Absolute   Percent  Combi-     Noncombi-  Black
+                                  Total      Total    national   national   boxes   Design
+--------------------------------  ---------  -------  ---------  ---------  ------  --------------------------
+mbist_top                         6167.1445    100.0   306.0288     0.0000  0.0000  mbist_top
+addr_cntr                         2883.9880     46.8  2205.4028   425.7792  0.0000  address_counter
+addr_cntr/add_78                   252.8064      4.1   252.8064     0.0000  0.0000  address_counter_DW01_inc_0
+addr_cntr_hold                      36.5904      0.6    36.5904     0.0000  0.0000  address_counter_hold
+cyc_ctrl                           568.8142      9.2    13.3056     0.0000  0.0000  cycle_controller
+cyc_ctrl/cmpr                       63.2016      1.0    63.2016     0.0000  0.0000  comparator
+cyc_ctrl/cmpr_ff                    63.2016      1.0     6.6528    56.5488  0.0000  flipflop_1
+cyc_ctrl/ctrl_mux                  269.4384      4.4   269.4384     0.0000  0.0000  control_mux
+cyc_ctrl/cyc_cntr                  159.6672      2.6    53.2224   106.4448  0.0000  cycle_counter
+data_comp                           26.6112      0.4    26.6112     0.0000  0.0000  data_comparator
+data_gen                          2012.4713     32.6  1244.0732   768.3983  0.0000  pattern_generator
+data_mux                           192.9312      3.1   192.9312     0.0000  0.0000  mux2x8
+data_pol_logic                       6.6528      0.1     6.6528     0.0000  0.0000  data_polarity
+dec_lgc                              0.0000      0.0     0.0000     0.0000  0.0000  decode_logic
+logic_addr_updwn                    26.6112      0.4    26.6112     0.0000  0.0000  address_counter_up_down
+logic_ir_hold                       43.2432      0.7    43.2432     0.0000  0.0000  instruction_register_hold
+op_fmt                               0.0000      0.0     0.0000     0.0000  0.0000  operation_formatting
+udff                                63.2016      1.0     6.6528    56.5488  0.0000  flipflop_0
+--------------------------------  ---------  -------  ---------  ---------  ------  --------------------------
+Total                                                 4753.4253  1413.7200  0.0000
+
+1

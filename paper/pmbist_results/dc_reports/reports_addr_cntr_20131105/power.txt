@@ -1,0 +1,39 @@
+Information: Propagating switching activity (low effort zero delay simulation). (PWR-6)
+Warning: Design has unannotated primary inputs. (PWR-414)
+Warning: Design has unannotated sequential cell outputs. (PWR-415)
+ 
+****************************************
+Report : power
+        -analysis_effort low
+Design : mbist_top
+Version: E-2010.12
+Date   : Tue Nov  5 21:57:56 2013
+****************************************
+
+
+Library(s) Used:
+
+    typical (File: /scratch/wodonnell/mp/Artisan/synopsys/typical.db)
+
+
+Operating Conditions: typical   Library: typical
+Wire Load Model Mode: top
+
+
+Global Operating Voltage = 1.8  
+Power-specific unit information :
+    Voltage Units = 1V
+    Capacitance Units = 1.000000pf
+    Time Units = 1ns
+    Dynamic Power Units = 1mW    (derived from V,C,T units)
+    Leakage Power Units = 1pW
+
+
+  Cell Internal Power  = 465.2449 uW   (91%)
+  Net Switching Power  =  46.6222 uW    (9%)
+                         ---------
+Total Dynamic Power    = 511.8671 uW  (100%)
+
+Cell Leakage Power     =  36.6547 nW
+
+1

@@ -1,0 +1,97 @@
+ 
+****************************************
+Report : cell
+Design : mbist_top
+Version: E-2010.12
+Date   : Tue Nov  5 22:04:41 2013
+****************************************
+
+Attributes:
+    b - black box (unknown)
+    h - hierarchical
+    n - noncombinational
+    r - removable
+   so - sizing only
+    u - contains unmapped logic
+
+Cell                      Reference       Library             Area  Attributes
+--------------------------------------------------------------------------------
+U1                        BUFX3           typical         13.305600 so
+U2                        BUFX3           typical         13.305600 
+U3                        BUFX3           typical         13.305600 
+U4                        BUFX3           typical         13.305600 
+U5                        BUFX3           typical         13.305600 
+U6                        BUFX3           typical         13.305600 
+U7                        BUFX3           typical         13.305600 
+U8                        BUFX3           typical         13.305600 
+U9                        BUFX3           typical         13.305600 
+U10                       BUFX3           typical         13.305600 
+U11                       BUFX3           typical         13.305600 
+U12                       BUFX3           typical         13.305600 
+U13                       BUFX3           typical         13.305600 
+U14                       BUFX3           typical         13.305600 
+U15                       BUFX3           typical         13.305600 
+U16                       BUFX3           typical         13.305600 
+U17                       BUFX3           typical         13.305600 
+U18                       BUFX3           typical         13.305600 
+U19                       BUFX3           typical         13.305600 
+U20                       BUFX3           typical         13.305600 
+U21                       BUFX3           typical         13.305600 
+U22                       BUFX3           typical         13.305600 
+U23                       BUFX3           typical         13.305600 
+U24                       BUFX3           typical         13.305600 
+U25                       BUFX3           typical         13.305600 
+U26                       BUFX3           typical         13.305600 
+U27                       BUFX3           typical         13.305600 
+U28                       BUFX3           typical         13.305600 
+U29                       BUFX3           typical         13.305600 
+U30                       BUFX3           typical         13.305600 
+U31                       BUFX3           typical         13.305600 
+U32                       BUFX3           typical         13.305600 
+U33                       BUFX3           typical         13.305600 
+U34                       BUFX3           typical         13.305600 
+U35                       BUFX3           typical         13.305600 
+U36                       BUFX3           typical         13.305600 
+U37                       BUFX3           typical         13.305600 
+U38                       BUFX3           typical         13.305600 
+U39                       BUFX3           typical         13.305600 
+U40                       BUFX3           typical         13.305600 
+U41                       BUFX3           typical         13.305600 
+U42                       BUFX3           typical         13.305600 
+U43                       BUFX3           typical         13.305600 
+U44                       BUFX3           typical         13.305600 
+U45                       BUFX3           typical         13.305600 
+U46                       BUFX3           typical         13.305600 
+U47                       BUFX3           typical         13.305600 
+U48                       BUFX3           typical         13.305600 
+U49                       BUFX3           typical         13.305600 
+U50                       BUFX3           typical         13.305600 
+U51                       BUFX3           typical         13.305600 
+U52                       BUFX3           typical         13.305600 
+U53                       BUFX3           typical         13.305600 
+U54                       BUFX3           typical         13.305600 
+U55                       BUFX3           typical         13.305600 
+U56                       BUFX3           typical         13.305600 
+U57                       BUFX3           typical         13.305600 
+U58                       BUFX3           typical         13.305600 
+U59                       BUFX3           typical         13.305600 
+addr_cntr                 address_counter                 0.000000  b
+addr_cntr_hold            address_counter_hold            36.590401 h
+cyc_ctrl                  cycle_controller                568.814407
+                                                                    h, n
+data_comp                 data_comparator                 26.611200 h
+data_pol_logic            data_polarity                   6.652800  h
+data_reg                  data_register                   459.043211
+                                                                    h, n
+dec_lgc                   decode_logic                    0.000000  h
+inst_reg                  instruction_register            2774.217627
+                                                                    h, n
+logic_addr_updwn          address_counter_up_down         26.611200 h
+logic_ir_hold             instruction_register_hold       43.243200 h
+op_ctrl_reg               operation_control_register      232.848006
+                                                                    h, n
+op_fmt                    operation_formatting            0.000000  h
+udff                      flipflop_0                      63.201602 h, n
+--------------------------------------------------------------------------------
+Total 72 cells                                            5022.864063
+1
