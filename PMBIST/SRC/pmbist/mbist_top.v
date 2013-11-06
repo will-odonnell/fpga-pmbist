@@ -133,8 +133,15 @@ wire                ac_r;     // address counter r variable
 wire                dlirh_lu;
 wire                dlirh_;
 
-// Memory compare signals
+// Operation Control Register signals
+wire                ocrdm_select;   // OCR select to data mux
+wire                ocrdg_shift;    // OCR shift to pattern generator
+wire                ocrdg_submit;   // OCR submit to pattern generator
+
+// Memory data signals
 wire	[tdsw-1:0]  mem;
+wire    [tdsw-1:0]  drdm_data;  // data register to data mux
+wire    [tdsw-1:0]  dgdm_data;  // data generator to data mux
 
 // Main signal wires
 wire    [tasw-1:0]  tas;    // TAS bus
@@ -213,7 +220,24 @@ data_register
     .clk(clk),
     .rst(rst),
     .data_in(dl_data),
-    .data_out(tds)
+    .data_out(drdm_data)
+);
+
+pattern_generator
+  data_gen(
+    .clk(clk),
+    .rst(rst),
+    .sbmt_in(ocrdg_submit),
+    .shft_in(ocrdg_shift),
+    .ptrn_out(dgdm_data)
+);
+
+mux2x8
+  data_mux(
+    .a_in(drdm_data),
+    .b_in(dgdm_data),
+    .s_in(ocrdm_select),
+    .d_out(tds)
 );
 
 data_comparator
@@ -234,7 +258,10 @@ operation_control_register
     .clk(clk),
     .rst(rst),
     .op_in(fmocr_op),
-    .op_out(tcs)
+    .op_out(tcs),
+    .sbmt_out(ocrdg_submit),
+    .shft_out(ocrdg_shift),
+    .dmux_out(ocrdm_select)
 );
 
 flipflop

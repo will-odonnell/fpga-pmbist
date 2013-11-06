@@ -124,7 +124,7 @@ endmodule
 //***********************************************
 // Operation Control Register
 //*********************************************** 
-module operation_control_register(clk,rst,op_in,op_out);
+module operation_control_register(clk,rst,op_in,op_out,sbmt_out,shft_out,dmux_out);
 `include "defines.v"
 //-----------------------------------------------
 // Parameters and Definitions
@@ -138,9 +138,17 @@ input                   clk;
 input                   rst;
 input   [opw-1:0]       op_in;
 output  [opw-1:0]       op_out;
+output                  sbmt_out;   // data gen submit signal
+output                  shft_out;   // data gen shift signal
+output                  dmux_out;   // data mux select signal
 
 reg     [opw-1:0]       op_out;
+reg                     sbmt_out;
+reg                     shft_out;
+reg                     dmux_out;
 
+reg     [5:0]           sbmtcnt;
+reg     [5:0]           shftcnt;
 
 //-----------------------------------------------
 // Module Definition
@@ -148,8 +156,37 @@ reg     [opw-1:0]       op_out;
 always @(posedge clk)
   if (rst) begin
     op_out <= 1'b0;
+    sbmt_out <= 1'b0;
+    shft_out <= 1'b0;
+    sbmtcnt  <= 0;
+    shftcnt  <= 0;
+    dmux_out <= 0;
   end else begin
     op_out <= op_in;
+    dmux_out <= op_in[2];
+    
+    // Have submit and shift output some values that change over time
+    // These need to be fine tuned for the system.  This is just 
+    // an example.
+    if (sbmtcnt < 32) begin
+        // Pulse submit out on every 32 clock
+        sbmtcnt <= sbmtcnt + 1;
+        if (sbmtcnt == 0) begin
+            sbmt_out <= 1;
+        end else begin
+            sbmt_out <= 0;
+        end
+        
+        // Pulse shift out on every clock
+        shft_out = ~shft_out;
+        
+    end else begin
+        // Reset everything after 32 clocks
+        sbmtcnt <= 0;
+        shftcnt <= 0;
+        sbmt_out <= 0;
+        shft_out <= 0;
+    end
   end
 
 endmodule
