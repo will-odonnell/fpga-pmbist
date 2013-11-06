@@ -82,45 +82,6 @@ always @(posedge clk) begin
   end
 end 
 
-
-assign tas_out[7] = (admd_in == `ADMD_AC)  ? ((updwn_in == `ADDR_UP) ? count[0] : !count[0]) :
-                    (admd_in == `ADMD_GC)  ? ((updwn_in == `ADDR_UP) ? count[7] : !count[7]) :
-                    (admd_in == `ADMD_2I7) ? ((updwn_in == `ADDR_UP) ? count[0] : !count[0]) :
-                    count[7];
-assign tas_out[6] = (admd_in == `ADMD_AC)  ? count[7]^count[0] : 
-                    (admd_in == `ADMD_GC)  ? count[6]^count[7] :
-                    (admd_in == `ADMD_2I6) ? ((updwn_in == `ADDR_UP) ? count[0] : !count[0]) :
-                    count[6];
-assign tas_out[5] = (admd_in == `ADMD_AC)  ? count[6]^count[0] : 
-                    (admd_in == `ADMD_GC)  ? count[5]^count[6] :
-                    (admd_in == `ADMD_2I5) ? ((updwn_in == `ADDR_UP) ? count[0] : !count[0]) :
-                    count[5];
-assign tas_out[4] = (admd_in == `ADMD_AC)  ? count[5]^count[0] : 
-                    (admd_in == `ADMD_GC)  ? count[4]^count[5] :
-                    (admd_in == `ADMD_2I4) ? ((updwn_in == `ADDR_UP) ? count[0] : !count[0]) :
-                    count[4];
-assign tas_out[3] = (admd_in == `ADMD_AC)  ? count[4]^count[0] : 
-                    (admd_in == `ADMD_GC)  ? count[3]^count[4] :
-                    (admd_in == `ADMD_2I3) ? ((updwn_in == `ADDR_UP) ? count[0] : !count[0]) :
-                    count[3];
-assign tas_out[2] = (admd_in == `ADMD_AC)  ? count[3]^count[0] : 
-                    (admd_in == `ADMD_GC)  ? count[2]^count[3] :
-                    (admd_in == `ADMD_2I2) ? ((updwn_in == `ADDR_UP) ? count[0] : !count[0]) :
-                    count[2];
-assign tas_out[1] = (admd_in == `ADMD_AC)  ? count[2]^count[0] : 
-                    (admd_in == `ADMD_GC)  ? count[1]^count[2] :
-                    (admd_in == `ADMD_2I1) ? ((updwn_in == `ADDR_UP) ? count[0] : !count[0]) :
-                    count[1];
-assign tas_out[0] = (admd_in == `ADMD_AC)  ? count[1]^count[0] : 
-                    (admd_in == `ADMD_GC)  ? count[0]^count[1] :
-                    (admd_in == `ADMD_2I0) ? ((updwn_in == `ADDR_UP) ? count[0] : !count[0]) :
-                    (admd_in == `ADMD_2I1) ? ((updwn_in == `ADDR_UP) ? count[1] : !count[1]) :
-                    (admd_in == `ADMD_2I2) ? ((updwn_in == `ADDR_UP) ? count[2] : !count[2]) :
-                    (admd_in == `ADMD_2I3) ? ((updwn_in == `ADDR_UP) ? count[3] : !count[3]) :
-                    (admd_in == `ADMD_2I4) ? ((updwn_in == `ADDR_UP) ? count[4] : !count[4]) :
-                    (admd_in == `ADMD_2I5) ? ((updwn_in == `ADDR_UP) ? count[5] : !count[5]) :
-                    (admd_in == `ADMD_2I6) ? ((updwn_in == `ADDR_UP) ? count[6] : !count[6]) :
-                    (admd_in == `ADMD_2I7) ? ((updwn_in == `ADDR_UP) ? count[7] : !count[7]) :
-                    count[0];
+assign tas_out = count;
 
 endmodule
