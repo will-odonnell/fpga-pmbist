@@ -50,4 +50,21 @@ always @(posedge clk)
 
 endmodule
 
+//-----------------------------------------------
+// 8-bit 2-way mux
+//-----------------------------------------------
+module mux2x8 (a_in,b_in,s_in,d_out);
+
+parameter   dw      = `DATA_WIDTH;
+
+input   [dw-1:0]    a_in;
+input   [dw-1:0]    b_in;
+input               s_in;
+output  [dw-1:0]    d_out;
+
+assign d_out = (s_in) ? a_in : b_in;
+
+endmodule
+
+
 

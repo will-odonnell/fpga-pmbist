@@ -18,13 +18,12 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module pattern_generator(clk,rst,sbmt_in,shft_in,addr_in,ptrn_out);
+module pattern_generator(clk,rst,sbmt_in,shft_in,ptrn_out);
 
 //-----------------------------------------------
 // Parameters and Definitions
 //-----------------------------------------------
 parameter   gw      = `GRAY_COUNTER_WIDTH;
-parameter   aw      = `ADDR_WIDTH;
 parameter   dw      = `DATA_WIDTH;
 
 //-----------------------------------------------
@@ -34,7 +33,6 @@ input               clk;
 input               rst;
 input               sbmt_in;
 input               shft_in;
-input   [aw-1:0]    addr_in;
 output  [dw-1:0]    ptrn_out;
 
 //-----------------------------------------------
