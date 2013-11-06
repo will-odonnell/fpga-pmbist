@@ -1,4 +1,4 @@
-`timescale 1ns / 1ps
+`timescale 1ns / 100ps
 
 ////////////////////////////////////////////////////////////////////////////////
 // Company: 
@@ -31,6 +31,10 @@ module pattern_generator_testbench;
 	reg shft_in;
 	reg [7:0] addr_in;
 
+    reg [7:0]   i;
+    reg [7:0]   j;
+    reg [7:0]   l;
+    
 	// Outputs
 	wire [7:0] ptrn_out;
 
@@ -52,23 +56,23 @@ module pattern_generator_testbench;
 		shft_in = 0;
 		addr_in = 0;
 
-		// Wait 100 ns for global reset to finish
-		#100;
+		// Wait 5 ns for global reset to finish
+		#5;
         rst = 0;
 
-        #105;
-        sbmt_in = 1;
-        #110;
-        sbmt_in = 0;
-
-        #305;
-        sbmt_in = 1;
-        #310;
-        sbmt_in = 0;
+        for(l=0;l<5;l=l+1) begin
+            for(i=0;i<32;i=i+1) begin
+                #5 sbmt_in = 1;
+                #5 sbmt_in = 0;
+                
+                for(j=0;j<5;j=j+1) begin
+                    #5 shft_in = 1;
+                    #5 shft_in = 0;
+                end
+            end
+        end
 	end
 
-    always
-        #5 shft_in = ~shft_in;
       
 endmodule
 
