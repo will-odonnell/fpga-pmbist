@@ -13,6 +13,7 @@ Similar to a stuck-at fault, the transition fault also locks into a single state
 There are numerous types of coupling faults, but they can be simply expressed as a cell affecting its neighboring cells and causing the neighbor to falsely transition or change state.  Coupling faults can be unidirectional or bi-directional.  In unidirectional coupling faults, one cell (aggressor cell) couples into another (victim cell), but the opposite does not occur.  A parasitic diode connection between the cells is a common cause of this behavior.  The bi-directional coupling fault occurs when pairs of cells can affect each other.  One way that this type of defect can occur is through bridging \cite{Adams2003}.  
 
 \subsection{Neighborhood Pattern-Sensitive Fault (NPSF)}
+\label{sec:npsf}
 This fault model is in the class of coupling faults, but it is caused by particular patterns in neighboring cells rather than one specific cell.  The neighborhoods are usually defined as Type-1 or Type-2 neighborhoods \cite{1047051} as shown in \ref{fig:npsftypes}.  Type-1 neighborhoods consist of five cells: one cell in center and four cells physically adjecent to the center cell.  In this configuration, the center cell is the base cell and the four adjecent cells are called the deleted neighborhood.  Type-2 neighborhoods consist of multiple cells where the base cell is in the center and deleted neighborhood is comprised of the cells adjecent rows and columns forming a square around the base cell.  This report will focus on Type-1 neighborhoods.
 
 \begin{figure}[h]
