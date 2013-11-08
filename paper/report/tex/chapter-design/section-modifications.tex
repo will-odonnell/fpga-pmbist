@@ -3,14 +3,28 @@
 These modifications were made to the design.
 
 \subsection{Address Generator Expansion}
-The address generator originally supported linear and pseudo-random address counting methods.  Now it supports a wide range of counting methods.
+The address generator originally supported linear and pseudo-random address counting methods.  The design in this report will add Gray code, address complement and 2\textsuperscript{i} counting methods.
 
 \subsection{Programmable Address Generator}
-Added ability to select which address generation pattern would be used.  The instruction register was expanded to add new fields for address generation.
+The original design did not make use of the address mode field and left it to the designer to decide on whether to implement the psuedo-random or linear counting methods.  The only programmability for address was the direction which was set using the up/down field.  This report adds the ability to select which address generation pattern to use.  The instruction register was expanded with new fields for address generation modes to allow programmability, and the instruction field is decoded within the BIST to select the address counting method.
+
+\begin{table}[h]
+  \caption{PMBIST Address Modes}
+  \centering
+  \begin{tabular}{c c c}
+  \hline\hline
+  Name & Op Code (binary) & Description \\ [0.5ex]
+  \hline
+  Linear              & 0000 & Standard numerical sequence  \\
+  Pseudo-Random       & 0001 & Repeatable random sequence \\
+  Address Complement  & 0010 & Invert all bits of address line \\
+  Gray Coding         & 0011 & Changes only one bit per address transistion \\
+  2\textsuperscript{i}& 1[j] & Generates all address pairs with a \textitalic{Hamming} distance of 1.  j = the address bit number to pivot around. \\
+  \hline\hline
+  \end{tabular}
+\label{tab:addrmode}
+\end{table}
 
 \subsection{Dynamic Background Pattern Generation}
-Replaced the auxiallary memory with an LFSR to generate the patterns instead to save memory.
-
-\subsection{3-D Memory Background Pattern Generation}
-The 2-D background pattern generation is expanded to support 3-D background patterns.
+The auxiliary memory is used to store NPSF background patterns in the base design.  To reduce the area required by this design, the auxiliary memory is replaced by a dynamic background pattern generator.  The generator creates the Type-1 neighborhood pattern and translates it to an 8-bit value that can be written sequentially to memory to create the background pattern.
 
