@@ -8,20 +8,26 @@ The address generator originally supported linear and pseudo-random address coun
 \subsection{Programmable Address Generator}
 The original design did not make use of the address mode field and left it to the designer to decide on whether to implement the psuedo-random or linear counting methods.  The only programmability for address was the direction which was set using the up/down field.  This report adds the ability to select which address generation pattern to use.  The instruction register was expanded with new fields for address generation modes to allow programmability, and the instruction field is decoded within the BIST to select the address counting method.
 
-\begin{table}[h]
+\begin{table}[hbt]
   \caption{PMBIST Address Modes}
   \centering
-  \begin{tabular}{c c c}
-  \hline\hline
-  Name & Op Code (binary) & Description \\ [0.5ex]
+ \begin{tabular}{|p{1in}|p{0.75in}|p{3in}|}
   \hline
-  Linear              & 0000 & Standard numerical sequence  \\
-  Pseudo-Random       & 0001 & Repeatable random sequence \\
-  Address Complement  & 0010 & Invert all bits of address line \\
-  Gray Coding         & 0011 & Changes only one bit per address transistion \\
-  2\textsuperscript{i}& 1[j] & Generates all address pairs with a \textit{Hamming} distance of 1.  j = the address bit number to pivot around. \\
+  Name & Op Code (binary) & Description \\ [0.5ex]
   \hline\hline
-  \end{tabular}
+  Linear              & 0000 & Standard numerical sequence  \\ 
+  \hline
+  Pseudo-Random       & 0001 & Repeatable random sequence \\ 
+  \hline
+  Address \ Complement  & 0010 & Progresses linearly on even steps and inverts all bits on odd steps.\\ 
+  \hline
+  \textit{Reserved}            & 01XX & Available for additional addressing modes \\ 
+  \hline
+  Gray Coding         & 0011 & Changes only one bit per address transistion \\ 
+  \hline
+  2\textsuperscript{\textit{i}}& 1[j\textsubscript{2:0}] & Generates all address pairs with a \textit{Hamming} distance of 1.  2\textsuperscript{\textit{i}} = \textit{j}\textsubscript{2:0} where \textit{i} is the address bit that determines address-pair for \textit{Hamming} distance. \\ 
+  \hline
+ \end{tabular}
 \label{tab:addrmode}
 \end{table}
 
