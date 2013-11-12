@@ -14,7 +14,7 @@ There are numerous types of coupling faults, but they can be simply expressed as
 
 \subsection{Neighborhood Pattern-Sensitive Fault (NPSF)}
 \label{sec:npsf}
-This fault model is in the class of coupling faults, but it is caused by particular patterns in neighboring cells rather than one specific cell.  The neighborhoods are usually defined as Type-1 or Type-2 neighborhoods \cite{1047051} as shown in Figure \ref{fig:npsftypes}.  Type-1 neighborhoods consist of five cells: one cell in center and four cells physically adjecent to the center cell.  In this configuration, the center cell is the base cell and the four adjecent cells are called the deleted neighborhood.  Type-2 neighborhoods consist of multiple cells where the base cell is in the center and deleted neighborhood is comprised of the cells within $m_1$ columns to the left, $m_2$ rows above, $m_3$ columns to the right and $m_4$ rows below the base cell.  This report will focus on Type-1 neighborhoods.
+This fault model is in the class of coupling faults, but it is caused by particular patterns in neighboring cells rather than one specific cell.  The neighborhoods are usually defined as Type-1 or Type-2 neighborhoods \cite{1047051} as shown in Figure \ref{fig:npsftypes}.  Type-1 neighborhoods consist of five cells: one cell in center and four cells physically adjacent to the center cell.  In this configuration, the center cell is the base cell and the four adjacent cells are called the deleted neighborhood.  Type-2 neighborhoods consist of multiple cells where the base cell is in the center and deleted neighborhood is comprised of the cells within $m_1$ columns to the left, $m_2$ rows above, $m_3$ columns to the right and $m_4$ rows below the base cell.  This report will focus on Type-1 neighborhoods.
 
 \begin{figure}[h!]
   \centering
@@ -42,9 +42,9 @@ Three classes of NPSF faults exist:
   \item Static NPSF (SNPSF): the base cell's contents are forced to a specific value because of the contents of the deleted neighborhood
 \end{enumerate}
 
-To test for all three classes of NPSF faults, all the combinations of values in the deleted cells and their transistions must be performed against the base cell.  To do this, a Eulerian Sequence is employed to generate the appropriate sequence of values in the neighborhood.  \cite{1675556} offers a proof of the Eulerian Sequence as a testing mechanism.  A 5-bit Eulerian Sequence is used as the Type-1 pattern.
+To test for all three classes of NPSF faults, all the combinations of values in the deleted cells and their transitions must be performed against the base cell.  To do this, a Eulerian Sequence is employed to generate the appropriate sequence of values in the neighborhood.  \cite{1675556} offers a proof of the Eulerian Sequence as a testing mechanism.  A 5-bit Eulerian Sequence is used as the Type-1 pattern.
 
-To reudce the number of write operations to memory, multiple patterns can be written to memory simultaneously using either the tiling or two-group methods as shown in Figure \ref{fig:type1methods}.
+To reduce the number of write operations to memory, multiple patterns can be written to memory simultaneously using either the tiling or two-group methods as shown in Figure \ref{fig:type1methods}.
 
 \begin{figure}[h]
   \centering

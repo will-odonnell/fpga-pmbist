@@ -2,7 +2,7 @@
 This report shows how a robust address and pattern generation scheme can be implemented with very little increase in area.  The implementation does require some additional area over the base design.  For large memory blocks, the address generator only requires 0.6\% more area overhead than the base design.  Similarly, the pattern generator adds 1.0\% more area within the memory block.  For designs using an auxiliary memory, the pattern generator reduces the overall memory area by 50\%.  
 
 \label{sect:cln-area}
-\subsection{Address Geneator Area}
+\subsection{Address Generator Area}
 The original base design only offered binary and LFSR up/down counters for address counting methods.  The proposed design improves on the base design by providing a more robust address counting method that industry uses to test memory during production.  Table \ref{table:ac_area_compare} below shows the area increases by  59.3\% for the address counter block and 17.7\% for the overall PMBIST area.  
 
 \begin{table}[ht]
@@ -19,7 +19,7 @@ pmbist area     & 6057   & 7132   & 17.7\% \\
 \label{table:ac_area_compare}
 \end{table}
 
-It is important to note the overall area diffence with respect to the full memory block.  This can be interpreted as the area cost for the additional address counting methods that ease manufacturing tests and add more robustness to the PMBIST.  Table \ref{table:ac_area_overhead} shows the percentage of the total memory block used by the original and proposed address counter designs.  As the memory sizes increase, the area increase due to the address generator becomes insignificant when the benefits of the new addressing schemes are considered.   
+It is important to note the overall area difference with respect to the full memory block.  This can be interpreted as the area cost for the additional address counting methods that ease manufacturing tests and add more robustness to the PMBIST.  Table \ref{table:ac_area_overhead} shows the percentage of the total memory block used by the original and proposed address counter designs.  As the memory sizes increase, the area increase due to the address generator becomes insignificant when the benefits of the new addressing schemes are considered.   
 
 \begin{table}[ht]
 \caption{Address Counter Area within Memory Block}
@@ -90,7 +90,7 @@ Memory Size & Base Design & with Aux. Mem & with PG & Area Reduction \\
 \end{table}
 
 \subsection{Address and Pattern Generator within Memory Block}
-Combining the address and pattern generator will provide the most flexibility with the memory test algorithm while also minimizing the increase in the memory area to accomodate the new features.  While the address generator adds to the total area, combining it with the pattern generator's area reduction actually achieves a better area than the original base design with a simple address counter and auxiliary memory.  Figure \ref{fig:all_compare} shows the area reduction achieved by combining both the address and pattern generator.
+Combining the address and pattern generator will provide the most flexibility with the memory test algorithm while also minimizing the increase in the memory area to accommodate the new features.  While the address generator adds to the total area, combining it with the pattern generator's area reduction actually achieves a better area than the original base design with a simple address counter and auxiliary memory.  Figure \ref{fig:all_compare} shows the area reduction achieved by combining both the address and pattern generator.
 
 \begin{figure}[h]
   \centering
@@ -99,7 +99,7 @@ Combining the address and pattern generator will provide the most flexibility wi
   \label{fig:all_compare}
 \end{figure}
 
-Compared to the original base design, the design implemented in this report achieves a more robust address generation scheme while using less area than the orignal design thanks to the use of a pattern generator in place of an auxiliary memory.  As a final comparison the memory overheads for the various PMBIST designs discussed in this report are presented in Table \ref{tab:all_overhead}.  This table shows the percentage of the total memory IP block used by each of the PMBIST designs.  The design with combined address and pattern generation only increases the memory overhead by 1.8-9.6\% depending on memory size.  By comparison, the designs using auxiliary memory add an additional 6.3-26.5\% area overhead to the design.  
+Compared to the original base design, the design implemented in this report achieves a more robust address generation scheme while using less area than the original design thanks to the use of a pattern generator in place of an auxiliary memory.  As a final comparison the memory overheads for the various PMBIST designs discussed in this report are presented in Table \ref{tab:all_overhead}.  This table shows the percentage of the total memory IP block used by each of the PMBIST designs.  The design with combined address and pattern generation only increases the memory overhead by 1.8-9.6\% depending on memory size.  By comparison, the designs using auxiliary memory add an additional 6.3-26.5\% area overhead to the design.  
 
 \begin{table}[h]
 \caption{Area Overhead Added by PMBIST Designs}

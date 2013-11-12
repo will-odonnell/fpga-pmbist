@@ -6,7 +6,7 @@ These modifications were made to the design.
 The address generator originally supported linear and pseudo-random address counting methods.  The design in this report will add Gray code, address complement and 2\textsuperscript{i} counting methods.
 
 \subsection{Programmable Address Generator}
-The original design did not make use of the address mode field and left it to the designer to decide on whether to implement the psuedo-random or linear counting methods.  The only programmability for address was the direction which was set using the up/down field.  This report adds the ability to select which address generation pattern to use.  The instruction register was expanded with new fields for address generation modes to allow programmability, and the instruction field is decoded within the BIST to select the address counting method.
+The original design did not make use of the address mode field and left it to the designer to decide on whether to implement the pseudo-random or linear counting methods.  The only programmability for address was the direction which was set using the up/down field.  This report adds the ability to select which address generation pattern to use.  The instruction register was expanded with new fields for address generation modes to allow programmability, and the instruction field is decoded within the BIST to select the address counting method.
 
 \begin{table}[hbt]
   \caption{PMBIST Address Modes}
@@ -23,7 +23,7 @@ The original design did not make use of the address mode field and left it to th
   \hline
   \textit{Reserved}            & 01XX & Available for additional addressing modes \\ 
   \hline
-  Gray Coding         & 0011 & Changes only one bit per address transistion \\ 
+  Gray Coding         & 0011 & Changes only one bit per address transition \\ 
   \hline
   2\textsuperscript{\textit{i}}& 1[j\textsubscript{2:0}] & Generates all address pairs with a \textit{Hamming} distance of 1.  2\textsuperscript{\textit{i}} = \textit{j}\textsubscript{2:0} where \textit{i} is the address bit that determines address-pair for \textit{Hamming} distance. \\ 
   \hline
