@@ -6,7 +6,7 @@ This report shows how a robust address and pattern generation scheme can be impl
 The original base design only offered binary and LFSR up/down counters for address counting methods.  The proposed design improves on the base design by providing a more robust address counting method that industry uses to test memory during production.  Table \ref{table:ac_area_compare} below shows the area increases by  59.3\% for the address counter block and 17.7\% for the overall PMBIST area.  
 
 \begin{table}[ht]
-\caption{Address Counter Area (\textit{um\textsuperscript{2}})}
+\caption[Address Counter Area Comparison]{Address Counter Area Comparison(\textit{um\textsuperscript{2}})}
 \centering
 \begin{tabular}{| l | l | l | l |}
 \hline
@@ -102,7 +102,7 @@ Combining the address and pattern generator will provide the most flexibility wi
 Compared to the original base design, the design implemented in this report achieves a more robust address generation scheme while using less area than the original design thanks to the use of a pattern generator in place of an auxiliary memory.  As a final comparison the memory overheads for the various PMBIST designs discussed in this report are presented in Table \ref{tab:all_overhead}.  This table shows the percentage of the total memory IP block used by each of the PMBIST designs.  The design with combined address and pattern generation only increases the memory overhead by 1.8-9.6\% depending on memory size.  By comparison, the designs using auxiliary memory add an additional 6.3-26.5\% area overhead to the design.  
 
 \begin{table}[h]
-\caption{Area Overhead Added by PMBIST Designs}
+\caption{Area Overhead for each PMBIST Configuration}
 \centering
 \begin{tabular}{|p{0.75in}| p{0.6in}| p{0.9in}| p{0.9in}| p{0.6in}|}
 \hline
