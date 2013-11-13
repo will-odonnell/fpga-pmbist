@@ -1,3 +1,35 @@
 \subsection{Scan and Instruction Register}
 \label{sect:bg-blocks-scan-and-instruction-register}
-Scan and the instruction register are the input mechanisms to the PMBIST.  
+Scan and the instruction register are the input mechanisms to the PMBIST.  In this design, the scan path is part of the chip-wide scan-chain that allows a tester to move data into BIST block.  The instruction register uses the data from the scan-chain to initiate a memory test.
+
+\subsubsection{Instruction Register}
+The instruction register contains all the fields required to initiate a memory test.  The four operation fields specify the March operation(s) to perform in the current March sequence while the number of operations (NO) field specifies how many March operations are in the current sequence.  The data field allows an 8-bit pattern to be written by the scan mechanism for a particular test, and the data polarity fields specify whether or not the data should be inverted for a particular March operation.  The address mode and up/down fields together determine the memory address counting method and direction.  Table \ref{tab:instreg} shows the fields and their corresponding bit positions within the register.
+
+\begin{table}[H]
+  \caption{Instruction Register Bit Fields}
+  \centering
+  \begin{tabular}{|p{1in}|c|p{3in}|}
+  \hline
+  %heading
+  Name & Bit Position & Description \\
+  \hline\hline
+  Test End & [00:00] & Indicates end of test when all operations and addresses have been tested. \\ \hline
+  Address Mode & [04:01] & Address counting method for address generator. \\ \hline
+  Wait & [05:05] & Adds a wait state into the March test sequence. \\ \hline
+  Data Field & [13:06] & 8-bit data for the March test. \\ \hline
+  Number of Operations & [14:14] & Specifies the number of March operations in the current March test. \\ \hline
+  Polarity 3 & [15:15] & Polarity of data for March operation 3. \\ \hline
+  Polarity 2 & [16:16] & Polarity of data for March operation 2. \\ \hline
+  Polarity 1 & [17:17] & Polarity of data for March operation 1. \\ \hline
+  Polarity 0 & [18:18] & Polarity of data for March operation 0. \\ \hline
+  Operation 3 & [22:19] & March operation for cycle 3. \\ \hline
+  Operation 2 & [26:23] & March operation for cycle 2. \\ \hline
+  Operation 1 & [30:27] & March operation for cycle 1. \\ \hline
+  Operation 0 & [34:31] & March operation for cycle 0. \\ \hline
+  Up/Down & [35:35] & Specifies the address counting direction. \\ \hline
+  \end{tabular}
+  \label{tab:instreg}
+\end{table}
+
+\subsubsection{Scan Path} 
+The scan path is a test mechanism to serially transfer data from an external source into the PMBIST instruction register.  A separate scan clock will move data through a scan-chain until it aligns with the instruction register fields.  The test start (TS) signal will latch the scan data into the instruction register and begin the MBIST sequence.
