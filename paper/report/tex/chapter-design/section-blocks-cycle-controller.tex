@@ -1,0 +1,14 @@
+\subsection{Cycle Controller}
+\label{sect:bg-blocks-cycle-controller}
+The cycle controller determines which march operation should execute on the current address.  When all march operations have completed on the current address, the cycle controller generates a signal that allows the address counter to move to the next test address.  The cycle controller then resets the march operation pointer to the first operation for the next address.   
+
+\subsubsection{Control Mux}
+The control mux receives all the operation and polarity signals from the instruction register.  Using the cycle counter's output as the mux control signal, the control mux selects the operation and polarity signal corresponding to the current cycle and outputs them to the operation formatting block and control register.  
+
+\subsubsection{Cycle Counter}
+The cycle counter increments the count for the march operation to execute.  The output of the cycle counter corresponds to the active march operation.  The cycle counter is incremented by the clock signal and can be reset by a TS signal or when the current march sequence has completed for the current memory address. 
+
+\subsubsection{Cycle Comparison}
+The cycle comparison unit compares the current cycle to the NO field of the instruction register.  When the cycle counter matches the NO field, the comparison block generates an active high signal that is stored in the cycle controller's local flip-flop.  The signal is also sent to the instruction register hold logic block.  
+
+
