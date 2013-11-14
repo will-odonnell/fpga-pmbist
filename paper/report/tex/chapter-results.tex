@@ -1,6 +1,8 @@
 \chapter{Results}
 \label{chap:results}
-The design results are presented in this section.  The design was compiled using Synopsys Design Compiler with the Artisan 45nm typical libraries.  The area measurements are taken from Design Compiler's built-in area report generator.  The memory size information is obtained for Artisan Memory Compiler tools using the 180nm library.  To show a more accurate comparison, the area from the Memory Compiler tool has been scaled to a more comparable size.  This does not affect the analysis as the memory area is only used as a value to reference the original BIST and proposed BIST designs.  
+The design results are presented in this section.  This report proposed enhancements to the base design \cite{1584083} by augmenting the address generator and replacing the auxiliary memory with a data pattern generator.  The results will show the enhancements can be achieved with only a 1.8 to 9.6\% increase in the BIST memory overhead depending on the memory size.
+
+The design was compiled using Synopsys Design Compiler with the Artisan 45nm typical libraries.  The area measurements are taken from Design Compiler's built-in area report generator.  The memory size information is obtained for Artisan Memory Compiler tools using the 180nm library.  To show a more accurate comparison between the designs, the area from the Memory Compiler tool has been scaled proportionally.  This does not affect the analysis as the memory area is only used as a value to reference the original BIST and proposed BIST designs, and to illustrate trends in the change of area.
 
 \input{tex/chapter-results/section-area}
 
