@@ -3,7 +3,7 @@
 In some designs, the memory algorithm operation signals from the instruction register do not necessarily need to match the memory's control signals.  The operation formatting block can be used to translate the instruction register's operation code to the memory controller's signals such as write/read, enable and reset.
 
 \subsubsection{Operation Formatting}
-The Operation Formatting block converts the memory algorithm operation signal to explicit memory control signals such as read/write, enable and reset.  The output of this block passes to the control register.
+The operation formatting block converts the memory algorithm operation signal to explicit memory control signals such as read/write, enable and reset.  The output of this block passes to the control register.
 
 \subsubsection{Operation Control Register}
 The control register interprets the operation formatted instruction and sends any internal control signal to other blocks of the PMBIST.  In particular, this block sends the data mux select signal and controls the sequencing of the data generator.  It also writes the memory control signals to the TCS bus.  

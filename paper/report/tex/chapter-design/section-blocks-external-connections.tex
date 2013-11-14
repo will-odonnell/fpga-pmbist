@@ -9,12 +9,12 @@ The scan-path receives data serially for the memory BIST.  The scan-path signals
 The MUT connects to the MBIST through the test buses.  The connections provides the data, control signals and address to the memory and are connected to the memory input pins.  
 
 \paragraph{Test Address Signals}
-The test address signals (TAS) compose the memory address currently on interest to the test.  They can point to the read address for a comparison or check or the write address to store new data.
+The test address signals (TAS) contain the memory address currently of interest to the test.  They can point to the read address for a comparison or the write address to store new data.
 
 \paragraph{Test Control Signals}
-The test control signals (TCS) are generated from the instruction register's operation field.  The signals are formatted to work with the MUT.  The opcode is translated to the memory control signals such as read/write, reset and enable.  
+The test control signals (TCS) are generated from the operator register.  The signals are formatted to work with the MUT.  The IR operation is translated to memory control signals such as read/write, reset and enable.  
 
 \paragraph{Test Data Signals}
-The test data signals (TDS) contain the data to be stored in memory.  These signals are connected to the MUT's data input pins and the data comparator's input pins.  They are driven from the data register.  When an auxiliary memory is used, the data pins are driven from the outputs of the auxiliary memory.
+The test data signals (TDS) contain the data of interest to the test.  These signals are connected to the MUT's data input pins and the data comparator's input pins.  They are driven from the data register.  If an auxiliary memory is used, the data pins are driven from the outputs of the auxiliary memory.
 
 
