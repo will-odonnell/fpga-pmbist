@@ -1,23 +1,56 @@
 \section{Memory Address Counting Methods}
 \label{sect:bg-counting}
-For any number \textit{N}, there are \textit{N}! ways to count to \textit{N}.  The memory address counting methods (CM) are important because they can directly affect a test's effectiveness at detecting faults.  Running the test with \textit{N}! CM's is not practical with today's memory sizes.  The address generator in this report will focus on those that are common and important.  Each of the CM's included has its own fault detection capability \cite{1347645}, \cite{990255}, \cite{1584048}, \cite{5359299}, \cite{1576336}.
+For any number \textit{N}, there are \textit{N}! ways to count to \textit{N}.  The memory address counting methods are important because they can directly affect a test's effectiveness at detecting faults.  Running the test with all possible CM (\textit{N}!) is not practical with today's memory sizes, so designers must use innovative CM that reduce test time while achieving maximum test coverage.  The address generator in this report will focus on CM that are common and important.  Each of the CM included has its own fault detection capability \cite{1347645}, \cite{990255}, \cite{1584048}, \cite{5359299}, \cite{1576336}.  Table \ref{tab:cm} provides an example of each CM for a four-bit address line.
+
+\begin{table}[H]
+  \caption{Address Counting Methods}
+  \centering
+  \begin{tabular}{|c|c|c|c|c|c|}
+  \hline
+  %heading
+  Step & LI & AC   & GC & 2\textsuperscript{\textit{i}}=4 & PR \\
+  \hline\hline
+   0 & 0000 & 0000 & 0000 & 0000 & 0000 \\ 
+   1 & 0001 & 1111 & 0001 & 0100 & 0001 \\ 
+   2 & 0010 & 0001 & 0011 & 1000 & 0011 \\ 
+   3 & 0011 & 1110 & 0010 & 1100 & 0111 \\ 
+   \hline
+   4 & 0100 & 0010 & 0110 & 0001 & 1111 \\ 
+   5 & 0101 & 1101 & 0111 & 0101 & 1110 \\ 
+   6 & 0110 & 0011 & 0101 & 1001 & 1101 \\ 
+   7 & 0111 & 1100 & 0100 & 1101 & 1010 \\ 
+   \hline
+   8 & 1000 & 0100 & 1100 & 0010 & 0101 \\ 
+   9 & 1001 & 1011 & 1101 & 0110 & 1011 \\ 
+  10 & 1010 & 0101 & 1111 & 1010 & 0110 \\ 
+  11 & 1011 & 1010 & 1110 & 1110 & 1100 \\ 
+   \hline
+  12 & 1100 & 0110 & 1010 & 0011 & 1001 \\ 
+  13 & 1101 & 1001 & 1011 & 0111 & 0010 \\ 
+  14 & 1110 & 0111 & 1001 & 1011 & 0100 \\ 
+  15 & 1111 & 1000 & 1000 & 1111 & 1000 \\ 
+   \hline
+   \end{tabular}
+   \footnotetext{Note: LI=Linear; AC=Address Complement; GC=Gray Code; PR=Pseudo-Random}
+   \label{tab:cm}
+\end{table}
 
 \subsection{Linear Sequence}
-The linear sequence CM is the standard numerical sequence.  Adjacent addresses differ by one numerical value.  The up `$\Uparrow$` sequence is 0, 1, 2, 3, \ldots, 2\textsuperscript{\textit{N}}-1 while the down `$\Downarrow$` sequence is 2\textsuperscript{\textit{N}}-1, \ldots, 3, 2, 1, 0.  Single-cell and coupling faults can be detected with this CM \cite{5941430}.
+The linear (LI) sequence CM is the standard numerical sequence.  Adjacent addresses differ by one numerical value.  The up `$\Uparrow$` sequence is 0, 1, 2, 3, \ldots, 2\textsuperscript{\textit{N}}-1 while the down `$\Downarrow$` sequence is 2\textsuperscript{\textit{N}}-1, \ldots, 3, 2, 1, 0.  Single-cell and coupling faults can be detected with this CM \cite{5941430}.
 
 \subsection{Address Complement}
-Address complement counting method (ACCM) specifies an address sequence where pairs of addresses are formed using the address and its one's complement.  A four-bit address sequence would be: 0000, \textbf{1111}, 0001, \textbf{1110}, 0010, \textbf{1101}, etc \cite{VanDeGoor1991}.  In this series, the \textit{even steps} form a linear sequence while the \textit{odd steps} (in \textbf{bold}) are formed with the one's complement of its corresponding even pair.  This CM forces all bits to change in a transition between pairs and causes large amounts of noise, large power surges and maximum delay; it is ideal for detecting speed-related faults.
+Address complement (AC) CM specifies an address sequence where pairs of addresses are formed using the address and its one's complement.  A four-bit address sequence would be: 0000, \textbf{1111}, 0001, \textbf{1110}, 0010, \textbf{1101}, etc \cite{VanDeGoor1991}.  In this series, the \textit{even steps} form a linear sequence while the \textit{odd steps} (in \textbf{bold}) are formed with the one's complement of its corresponding even pair.  This CM forces all bits to change in a transition between pairs and causes large amounts of noise, large power surges and maximum delay; it is ideal for detecting speed-related faults \cite{5941430}.
 
 \subsection{Gray Code}
-Gray code is a binary numbering system where successive values differ by only one bit \cite{VanDeGoor1991}.  In the context of memory addressing, the address transitions will differ only in one bit (i.e., they have a \textit{Hamming distance} of 1).  This CM produces minimal noise, power and delay and is used for the minimal stress tests \cite{5941430}.
+Gray code (GC) is a binary numbering system where successive values differ by only one bit \cite{VanDeGoor1991}.  In the context of memory addressing, the address transitions will differ only in one bit (i.e., they have a \textit{Hamming distance} of 1).  This CM produces minimal noise, power and delay and is used for the minimal stress tests \cite{5941430}.
 
-\subsection{Worst Case Gate Delay}
-Speed related faults can be detected with the worst case gate delay counting method (WCGDCM).  For every address, the WCGDCM creates \textit{N} address-triplets consisting of the original address, the original address with a single bit inverted, and the original address again.  The address-triplets in WCGDCM have a Hamming distance of 1 \cite{5359299}.
+\subsection{Worst-Case Gate Delay}
+Speed related faults can be detected with the worst case gate delay (WCGD) CM.  For every address, the WCGD CM creates \textit{N} address-triplets consisting of the original address, the original address with a single bit inverted, and the original address again.  The address-triplets in WCGD CM have a \textit{Hamming} distance of 1 \cite{5359299}.  The WCGD CM is not implemented in the proposed design, but it described here for reference.
 
-\subsection{2\textsuperscript{i} Sequence}
-2\textsuperscript{i} counting method uses address pairs that differ in \textit{one} bit.  The \textit{i} specifies the numerical difference between two pairs of numbers and also the bit that will be incremented or decremented.  For example, when \textit{i} = 3, 2\textsuperscript{3} = 8, so all address pairs in this sequence will vary by the bit 3, or by a value of 8.  This is a popular CM used to detect speed-related faults, especially in the MOVing Inverions (MOVI) test \cite{5941430}.
+\subsection{2\textsuperscript{\textit{i}} Sequence}
+2\textsuperscript{\textit{i}} CM uses address pairs that differ in \textit{one} bit.  The \textit{i} value specifies the numerical difference between two pairs of numbers and \textit{i} also specifies the bit that will be incremented or decremented.  For example, when \textit{i} = 3, 2\textsuperscript{3} = 8, so all address pairs in this sequence will vary by the bit 3, or by a value of 8.  This is a popular CM used to detect speed-related faults, especially in the Moving Inverions (MOVI) test \cite{5941430}.
 
 \subsection{Pseudo-Random}
-A pseudo-random CM generates a sequence of addresses that appear to be random, but are deterministic and can be reproduced.  These sequences are commonly generated using LFSR's which implement at characteristic polynomial function \cite{VanDeGoor1991}.
+A pseudo-random (PR) CM generates a sequence of addresses that appear to be random, but are deterministic and can be reproduced.  These sequences are commonly generated using an LFSR which implements a characteristic polynomial function \cite{VanDeGoor1991}.  
 
 
