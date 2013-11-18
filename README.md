@@ -1,4 +1,7 @@
 fpga-pmbist
 ===========
 
-Fall 2013 Master's Project - Programmable Memory BIST
+Fall 2013 Masters Project - Programmable Memory BIST
+
+Contains the Verilog source files and masters project in LaTex
+
